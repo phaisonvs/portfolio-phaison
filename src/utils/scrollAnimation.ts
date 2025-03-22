@@ -11,10 +11,15 @@ export const scrollToElement = (elementId: string) => {
 };
 
 export const setupScrollAnimations = () => {
+  // Use a more efficient selector
+  const animateElements = document.querySelectorAll('.animate-on-scroll');
+  
+  // Create the observer with options optimized for performance
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          // Add the animation class
           entry.target.classList.add('animate');
           // Once animated, we no longer need to observe
           observer.unobserve(entry.target);
@@ -27,15 +32,50 @@ export const setupScrollAnimations = () => {
     }
   );
 
-  // Get all elements with the animate-on-scroll class
-  const animateElements = document.querySelectorAll('.animate-on-scroll');
-  animateElements.forEach((element) => {
-    observer.observe(element);
+  // Batch DOM operations
+  const elementsArray = Array.from(animateElements);
+  requestAnimationFrame(() => {
+    elementsArray.forEach((element) => {
+      observer.observe(element);
+    });
   });
 
   return () => {
-    animateElements.forEach((element) => {
+    elementsArray.forEach((element) => {
       observer.unobserve(element);
     });
+  };
+};
+
+// Optimize DOM animations by using requestAnimationFrame
+export const animateWithRaf = (callback: FrameRequestCallback) => {
+  let rafId: number;
+  
+  const animate = (time: number) => {
+    callback(time);
+    rafId = requestAnimationFrame(animate);
+  };
+  
+  rafId = requestAnimationFrame(animate);
+  
+  return () => {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+    }
+  };
+};
+
+// Efficiently debounce function for scroll and resize events
+export const debounce = (func: Function, wait: number) => {
+  let timeout: number;
+  
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    
+    clearTimeout(timeout);
+    timeout = window.setTimeout(later, wait);
   };
 };
