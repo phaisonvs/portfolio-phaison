@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,13 +5,12 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Calendar, Github, LinkedIn, Mail, Twitter } from "lucide-react";
+import { Calendar, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
 
 const Index = () => {
-  // Animation for hero section
   const heroVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -34,7 +32,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    // Initialize scroll animation observer
     const setupScrollAnimation = () => {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -58,7 +55,6 @@ const Index = () => {
 
     setupScrollAnimation();
 
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", function (e) {
         e.preventDefault();
@@ -89,7 +85,6 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Hero Section */}
       <motion.section 
         className="pt-32 pb-16 md:pt-40 md:pb-24"
         variants={heroVariants}
@@ -144,7 +139,7 @@ const Index = () => {
                   className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                   aria-label="LinkedIn"
                 >
-                  <LinkedIn className="h-5 w-5" />
+                  <Linkedin className="h-5 w-5" />
                 </a>
                 <a 
                   href="https://twitter.com" 
@@ -168,7 +163,6 @@ const Index = () => {
         </div>
       </motion.section>
       
-      {/* Featured Projects Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-4 md:px-6">
           <div className="flex justify-between items-center mb-8">
@@ -209,7 +203,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Need a Document Section */}
       <section className="py-16">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
@@ -236,7 +229,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Experience Section */}
       <section id="experience" className="py-16 bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-4 md:px-6">
           <ScrollAnimator>
@@ -281,7 +273,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Testimonials Section */}
       <section id="testimonials" className="py-16">
         <div className="container px-4 md:px-6">
           <ScrollAnimator>
@@ -321,7 +312,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Contact Section */}
       <section id="contact" className="py-16 bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -350,7 +340,7 @@ const Index = () => {
                   className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                   aria-label="LinkedIn"
                 >
-                  <LinkedIn className="h-6 w-6" />
+                  <Linkedin className="h-6 w-6" />
                 </a>
                 <a 
                   href="https://twitter.com" 
