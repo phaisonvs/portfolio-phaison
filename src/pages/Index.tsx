@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -9,6 +10,7 @@ import { Calendar, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
+import { BeamsBackground } from "@/components/ui/beams-background";
 
 const Index = () => {
   const heroVariants = {
@@ -85,83 +87,85 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <motion.section 
-        className="pt-32 pb-16 md:pt-40 md:pb-24"
-        variants={heroVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <motion.div 
-              className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-800 shrink-0"
-              variants={heroItemVariants}
-            >
-              <img 
-                src="/lovable-uploads/1d1a30fb-6f2d-4525-94d3-9dd652079284.png" 
-                alt="Profile"
-                className="w-full h-full object-cover" 
-              />
-            </motion.div>
-            
-            <div className="flex flex-col">
-              <motion.p 
-                className="text-sm text-gray-600 dark:text-gray-400 mb-2"
-                variants={heroItemVariants}
-              >
-                Milton Ivan • Desenvolvedor Javascript Profissional
-              </motion.p>
-              
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance"
-                variants={heroItemVariants}
-              >
-                Criando valor para o crescimento dos negócios através do código.
-              </motion.h1>
-              
+      <BeamsBackground intensity="medium" className="relative">
+        <motion.section 
+          className="pt-32 pb-16 md:pt-40 md:pb-24"
+          variants={heroVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <motion.div 
-                className="flex gap-4 mt-6"
+                className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-800 shrink-0"
                 variants={heroItemVariants}
               >
-                <a 
-                  href="https://github.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="GitHub"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-                <a 
-                  href="https://twitter.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="h-5 w-5" />
-                </a>
-                <a 
-                  href="mailto:example@example.com" 
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="Email"
-                >
-                  <Mail className="h-5 w-5" />
-                </a>
+                <img 
+                  src="/lovable-uploads/1d1a30fb-6f2d-4525-94d3-9dd652079284.png" 
+                  alt="Profile"
+                  className="w-full h-full object-cover" 
+                />
               </motion.div>
+              
+              <div className="flex flex-col">
+                <motion.p 
+                  className="text-sm text-gray-600 dark:text-gray-400 mb-2"
+                  variants={heroItemVariants}
+                >
+                  Milton Ivan • Desenvolvedor Javascript Profissional
+                </motion.p>
+                
+                <motion.h1 
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance"
+                  variants={heroItemVariants}
+                >
+                  Criando valor para o crescimento dos negócios através do código.
+                </motion.h1>
+                
+                <motion.div 
+                  className="flex gap-4 mt-6"
+                  variants={heroItemVariants}
+                >
+                  <a 
+                    href="https://github.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="GitHub"
+                  >
+                    <Github className="h-5 w-5" />
+                  </a>
+                  <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                  <a 
+                    href="https://twitter.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="Twitter"
+                  >
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                  <a 
+                    href="mailto:example@example.com" 
+                    className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="Email"
+                  >
+                    <Mail className="h-5 w-5" />
+                  </a>
+                </motion.div>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.section>
+      </BeamsBackground>
       
       <section className="py-16 bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-4 md:px-6">
@@ -229,49 +233,51 @@ const Index = () => {
         </div>
       </section>
       
-      <section id="experience" className="py-16 bg-gray-50 dark:bg-gray-900/30">
-        <div className="container px-4 md:px-6">
-          <ScrollAnimator>
-            <div className="mb-12 flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-gray-100 dark:bg-gray-800">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 6H16V4C16 2.89 15.11 2 14 2H10C8.89 2 8 2.89 8 4V6H4C2.89 6 2 6.89 2 8V19C2 20.11 2.89 21 4 21H20C21.11 21 22 20.11 22 19V8C22 6.89 21.11 6 20 6ZM10 4H14V6H10V4ZM20 19H4V8H20V19Z" fill="currentColor"/>
-                </svg>
+      <BeamsBackground intensity="subtle" className="relative">
+        <section id="experience" className="py-16">
+          <div className="container px-4 md:px-6">
+            <ScrollAnimator>
+              <div className="mb-12 flex items-center gap-4">
+                <div className="p-3 rounded-lg bg-gray-100 dark:bg-gray-800">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6H16V4C16 2.89 15.11 2 14 2H10C8.89 2 8 2.89 8 4V6H4C2.89 6 2 6.89 2 8V19C2 20.11 2.89 21 4 21H20C21.11 21 22 20.11 22 19V8C22 6.89 21.11 6 20 6ZM10 4H14V6H10V4ZM20 19H4V8H20V19Z" fill="currentColor"/>
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold">Experiência</h2>
               </div>
-              <h2 className="text-2xl font-bold">Experiência</h2>
-            </div>
-          </ScrollAnimator>
-          
-          <div className="space-y-12">
-            {experiences.map((experience, index) => (
-              <ScrollAnimator key={experience.id} delay={index * 150}>
-                <div className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-300 dark:before:bg-gray-700">
-                  <div className="absolute left-0 top-1 w-px h-full">
-                    <div className="absolute left-0 top-1 w-2 h-2 -ml-1 rounded-full bg-gray-400 dark:bg-gray-600"></div>
-                  </div>
-                  
-                  <div>
-                    <h3 className="text-lg font-semibold">{experience.role} <span className="text-gray-500 dark:text-gray-400">@ {experience.company}</span></h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-3">{experience.period}</p>
-                    <p className="text-gray-700 dark:text-gray-300 mb-4">{experience.description}</p>
+            </ScrollAnimator>
+            
+            <div className="space-y-12">
+              {experiences.map((experience, index) => (
+                <ScrollAnimator key={experience.id} delay={index * 150}>
+                  <div className="relative pl-8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gray-300 dark:before:bg-gray-700">
+                    <div className="absolute left-0 top-1 w-px h-full">
+                      <div className="absolute left-0 top-1 w-2 h-2 -ml-1 rounded-full bg-gray-400 dark:bg-gray-600"></div>
+                    </div>
                     
-                    <div className="flex flex-wrap gap-2">
-                      {experience.technologies.map((tech) => (
-                        <span 
-                          key={tech} 
-                          className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
+                    <div>
+                      <h3 className="text-lg font-semibold">{experience.role} <span className="text-gray-500 dark:text-gray-400">@ {experience.company}</span></h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 mb-3">{experience.period}</p>
+                      <p className="text-gray-700 dark:text-gray-300 mb-4">{experience.description}</p>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {experience.technologies.map((tech) => (
+                          <span 
+                            key={tech} 
+                            className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ScrollAnimator>
-            ))}
+                </ScrollAnimator>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </BeamsBackground>
       
       <section id="testimonials" className="py-16">
         <div className="container px-4 md:px-6">
@@ -312,66 +318,68 @@ const Index = () => {
         </div>
       </section>
       
-      <section id="contact" className="py-16 bg-gray-50 dark:bg-gray-900/30">
-        <div className="container px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <ScrollAnimator>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Vamos conversar sobre seu projeto?</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-8">
-                Envie um email ou me encontre nas redes sociais
-              </p>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={150}>
-              <div className="flex justify-center gap-6 mb-10">
+      <BeamsBackground intensity="medium" className="relative">
+        <section id="contact" className="py-16">
+          <div className="container px-4 md:px-6">
+            <div className="max-w-3xl mx-auto text-center">
+              <ScrollAnimator>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Vamos conversar sobre seu projeto?</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-8">
+                  Envie um email ou me encontre nas redes sociais
+                </p>
+              </ScrollAnimator>
+              
+              <ScrollAnimator delay={150}>
+                <div className="flex justify-center gap-6 mb-10">
+                  <a 
+                    href="https://github.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="GitHub"
+                  >
+                    <Github className="h-6 w-6" />
+                  </a>
+                  <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="h-6 w-6" />
+                  </a>
+                  <a 
+                    href="https://twitter.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="Twitter"
+                  >
+                    <Twitter className="h-6 w-6" />
+                  </a>
+                  <a 
+                    href="mailto:example@example.com" 
+                    className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                    aria-label="Email"
+                  >
+                    <Mail className="h-6 w-6" />
+                  </a>
+                </div>
+              </ScrollAnimator>
+              
+              <ScrollAnimator delay={300}>
                 <a 
-                  href="https://github.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="GitHub"
+                  href="mailto:example@example.com"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black font-medium hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors"
                 >
-                  <Github className="h-6 w-6" />
+                  Enviar email
                 </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-6 w-6" />
-                </a>
-                <a 
-                  href="https://twitter.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="h-6 w-6" />
-                </a>
-                <a 
-                  href="mailto:example@example.com" 
-                  className="p-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                  aria-label="Email"
-                >
-                  <Mail className="h-6 w-6" />
-                </a>
-              </div>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={300}>
-              <a 
-                href="mailto:example@example.com"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black font-medium hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors"
-              >
-                Enviar email
-              </a>
-            </ScrollAnimator>
+              </ScrollAnimator>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </BeamsBackground>
       
       <Footer />
     </div>
