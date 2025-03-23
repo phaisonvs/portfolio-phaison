@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -48,36 +48,13 @@ export function BeamsBackground({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const beamsRef = useRef<Beam[]>([]);
     const animationFrameRef = useRef<number>(0);
-    const [isVisible, setIsVisible] = useState(false);
-    const MINIMUM_BEAMS = 12; // Reduced from 20 to 12
+    const MINIMUM_BEAMS = 20;
 
     const opacityMap = {
         subtle: 0.7,
         medium: 0.85,
         strong: 1,
     };
-
-    useEffect(() => {
-        // Create an intersection observer to only animate when visible
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    setIsVisible(entry.isIntersecting);
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        if (canvasRef.current) {
-            observer.observe(canvasRef.current);
-        }
-
-        return () => {
-            if (canvasRef.current) {
-                observer.unobserve(canvasRef.current);
-            }
-        };
-    }, []);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -87,29 +64,21 @@ export function BeamsBackground({
         if (!ctx) return;
 
         const updateCanvasSize = () => {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap DPR at 2 for performance
+            const dpr = window.devicePixelRatio || 1;
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
             ctx.scale(dpr, dpr);
 
-            const totalBeams = MINIMUM_BEAMS;
+            const totalBeams = MINIMUM_BEAMS * 1.5;
             beamsRef.current = Array.from({ length: totalBeams }, () =>
                 createBeam(canvas.width, canvas.height)
             );
         };
 
         updateCanvasSize();
-        
-        // Throttle resize event
-        let resizeTimeout: number;
-        const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = window.setTimeout(updateCanvasSize, 200);
-        };
-        
-        window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", updateCanvasSize);
 
         function resetBeam(beam: Beam, index: number, totalBeams: number) {
             if (!canvas) return beam;
@@ -142,18 +111,22 @@ export function BeamsBackground({
 
             const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
 
-            // Simplified gradient with fewer color stops
+            // Enhanced gradient with multiple color stops
             gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`);
             gradient.addColorStop(
-                0.2,
+                0.1,
                 `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
             );
             gradient.addColorStop(
-                0.5,
+                0.4,
                 `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
             );
             gradient.addColorStop(
-                0.8,
+                0.6,
+                `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity})`
+            );
+            gradient.addColorStop(
+                0.9,
                 `hsla(${beam.hue}, 85%, 65%, ${pulsingOpacity * 0.5})`
             );
             gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`);
@@ -163,54 +136,37 @@ export function BeamsBackground({
             ctx.restore();
         }
 
-        let lastTimestamp = 0;
-        const targetFPS = 30; // Lower FPS for better performance
-        const frameInterval = 1000 / targetFPS;
-
-        function animate(timestamp: number) {
+        function animate() {
             if (!canvas || !ctx) return;
-            
-            // Skip frames to maintain target FPS
-            const elapsed = timestamp - lastTimestamp;
-            if (elapsed < frameInterval) {
-                animationFrameRef.current = requestAnimationFrame(animate);
-                return;
-            }
-            
-            lastTimestamp = timestamp - (elapsed % frameInterval);
-            
-            // Only animate when visible
-            if (isVisible) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.filter = "blur(35px)";
 
-                const totalBeams = beamsRef.current.length;
-                beamsRef.current.forEach((beam, index) => {
-                    beam.y -= beam.speed;
-                    beam.pulse += beam.pulseSpeed;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.filter = "blur(35px)";
 
-                    // Reset beam when it goes off screen
-                    if (beam.y + beam.length < -100) {
-                        resetBeam(beam, index, totalBeams);
-                    }
+            const totalBeams = beamsRef.current.length;
+            beamsRef.current.forEach((beam, index) => {
+                beam.y -= beam.speed;
+                beam.pulse += beam.pulseSpeed;
 
-                    drawBeam(ctx, beam);
-                });
-            }
+                // Reset beam when it goes off screen
+                if (beam.y + beam.length < -100) {
+                    resetBeam(beam, index, totalBeams);
+                }
+
+                drawBeam(ctx, beam);
+            });
 
             animationFrameRef.current = requestAnimationFrame(animate);
         }
 
-        animate(0);
+        animate();
 
         return () => {
-            window.removeEventListener("resize", handleResize);
-            clearTimeout(resizeTimeout);
+            window.removeEventListener("resize", updateCanvasSize);
             if (animationFrameRef.current) {
                 cancelAnimationFrame(animationFrameRef.current);
             }
         };
-    }, [intensity, isVisible]);
+    }, [intensity]);
 
     return (
         <div

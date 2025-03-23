@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface ScrollAnimatorProps {
   children: React.ReactNode;
@@ -15,14 +15,20 @@ export function ScrollAnimator({
   delay = 0 
 }: ScrollAnimatorProps) {
   const elementRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true);
+            // Add a delay if specified
+            if (delay) {
+              setTimeout(() => {
+                entry.target.classList.add('animate');
+              }, delay);
+            } else {
+              entry.target.classList.add('animate');
+            }
             // Once animated, we can stop observing
             observer.unobserve(entry.target);
           }
@@ -43,28 +49,7 @@ export function ScrollAnimator({
         observer.unobserve(elementRef.current);
       }
     };
-  }, [threshold]);
-
-  useEffect(() => {
-    let timeoutId: number;
-    if (isVisible && delay > 0) {
-      timeoutId = window.setTimeout(() => {
-        if (elementRef.current) {
-          elementRef.current.classList.add('animate');
-        }
-      }, delay);
-    } else if (isVisible) {
-      if (elementRef.current) {
-        elementRef.current.classList.add('animate');
-      }
-    }
-
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isVisible, delay]);
+  }, [threshold, delay]);
 
   return (
     <div 
