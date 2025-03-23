@@ -24,7 +24,7 @@ export function ScrollAnimator({
     
     // Configurar o atributo data-observe-once para controle no IntersectionObserver
     if (once) {
-      element.dataset.observeOnce = 'true';
+      element.setAttribute('data-observe-once', 'true');
     }
     
     // Aplicar delay como um estilo inline para performance

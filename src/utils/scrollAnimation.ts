@@ -16,17 +16,18 @@ export const setupScrollAnimations = () => {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        const element = entry.target as HTMLElement;
         if (entry.isIntersecting) {
           // Aplicar a classe de animação quando o elemento estiver visível
-          entry.target.classList.add('animate');
+          element.classList.add('animate');
           
           // Opcionalmente, parar de observar depois da animação
-          if (entry.target.dataset.observeOnce === 'true') {
-            observer.unobserve(entry.target);
+          if (element.getAttribute('data-observe-once') === 'true') {
+            observer.unobserve(element);
           }
-        } else if (entry.target.dataset.observeOnce !== 'true') {
+        } else if (element.getAttribute('data-observe-once') !== 'true') {
           // Remover a classe se o elemento sair da tela (apenas para elementos de animação contínua)
-          entry.target.classList.remove('animate');
+          element.classList.remove('animate');
         }
       });
     },

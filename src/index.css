@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
@@ -28,6 +27,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --tile: rgba(0, 0, 0, 0.04);
   }
 
   .dark {
@@ -50,29 +50,28 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 10% 83.9%;
+    --tile: rgba(255, 255, 255, 0.1);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border selection:bg-black/10 selection:text-black dark:selection:bg-white/10 dark:selection:text-white;
-  }
+* {
+  @apply border-border selection:bg-black/10 selection:text-black dark:selection:bg-white/10 dark:selection:text-white;
+}
 
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    @apply bg-background text-foreground antialiased font-sans;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight;
-  }
+body {
+  @apply bg-background text-foreground antialiased font-sans;
+}
 
-  ::selection {
-    @apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
-  }
+h1, h2, h3, h4, h5, h6 {
+  @apply font-medium tracking-tight;
+}
+
+::selection {
+  @apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
 }
 
 @layer utilities {
@@ -130,7 +129,43 @@
   transition-delay: 500ms;
 }
 
-/* Circuit Lines CSS */
+/* Tiles Component CSS */
+.tiles-container {
+  position: absolute;
+  overflow: hidden;
+  inset: 0;
+  z-index: 0;
+}
+
+.dark .tiles-container {
+  opacity: 1;
+}
+
+.light .tiles-container {
+  opacity: 0.04;
+}
+
+/* Transition for mode switch */
+.tiles-container {
+  transition: opacity 0.3s ease;
+}
+
+.tiles-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .tiles-overlay {
+  opacity: 0.4;
+}
+
+.light .tiles-overlay {
+  opacity: 0;
+}
+
 .circuit-lines-container {
   position: absolute;
   overflow: hidden;
