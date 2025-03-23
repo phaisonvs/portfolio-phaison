@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
@@ -12,8 +12,15 @@ import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
 import { setupScrollAnimations } from "@/utils/scrollAnimation";
 import { Tiles } from "@/components/ui/tiles";
+import { TypeAnimation } from "@/components/ui/type-animation";
+import { AboutMe } from "@/components/AboutMe";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
+import ActionButton from "@/components/ui/action-button";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 
 const Index = () => {
+  const [isPending, setIsPending] = useState(false);
+  
   // Animation for hero section
   const heroVariants = {
     hidden: { opacity: 0 },
@@ -69,6 +76,30 @@ const Index = () => {
     (project) => project.featured && project.visible
   ).slice(0, 4);
 
+  // Dados para AnimatedTooltip
+  const testimonialPersons = testimonials.map((testimonial, index) => ({
+    id: index + 1,
+    name: testimonial.name,
+    designation: testimonial.position,
+    image: testimonial.avatar
+  }));
+  
+  // Função para simular download do currículo com loading
+  const handleDownloadCV = () => {
+    setIsPending(true);
+    setTimeout(() => {
+      setIsPending(false);
+      
+      // Criar um link temporário para download
+      const link = document.createElement('a');
+      link.href = '/resume.pdf';
+      link.setAttribute('download', 'milton_ivan_cv.pdf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 1500);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -118,7 +149,10 @@ const Index = () => {
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance"
                 variants={heroItemVariants}
               >
-                Criando valor para o crescimento dos negócios através do código.
+                <TypeAnimation 
+                  text="Criando valor para o crescimento dos negócios através do código."
+                  speed={30}
+                />
               </motion.h1>
               
               <motion.div 
@@ -206,20 +240,26 @@ const Index = () => {
         </div>
       </section>
       
+      {/* About Me Section */}
+      <AboutMe />
+      
       {/* Need a Document Section */}
       <section className="py-16 relative overflow-hidden">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
             <ScrollAnimator className="w-full md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Precisa de um documento impresso?</h2>
-              <a 
-                href="/resume.pdf" 
-                download
-                className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors gap-2"
+              
+              <ActionButton 
+                onClick={handleDownloadCV}
+                isPending={isPending}
+                variant="default"
+                size="lg"
+                className="mt-4"
               >
                 <Calendar className="h-4 w-4" />
                 Baixe meu currículo
-              </a>
+              </ActionButton>
             </ScrollAnimator>
             
             <ScrollAnimator className="w-full md:w-1/2" delay={200}>
@@ -297,10 +337,16 @@ const Index = () => {
       <section id="testimonials" className="py-16 relative overflow-hidden">
         <div className="container px-4 md:px-6 relative z-10">
           <ScrollAnimator>
-            <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <span className="inline-block w-6 h-0.5 bg-gray-400 dark:bg-gray-600"></span>
               O que dizem sobre mim
             </h2>
+          </ScrollAnimator>
+          
+          <ScrollAnimator delay={100}>
+            <div className="flex justify-center my-8">
+              <AnimatedTooltip items={testimonialPersons} />
+            </div>
           </ScrollAnimator>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -397,13 +443,19 @@ const Index = () => {
               </div>
             </ScrollAnimator>
             
-            <ScrollAnimator delay={300}>
+            <ScrollAnimator delay={300} className="flex flex-col sm:flex-row gap-4 items-center justify-center">
               <a 
                 href="mailto:example@example.com"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black font-medium hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors relative overflow-hidden group"
               >
                 <span className="relative z-10">Enviar email</span>
               </a>
+              
+              <WhatsAppButton 
+                phoneNumber="+5511999999999"
+                message="Olá Milton! Vi seu portfólio e gostaria de conversar sobre um projeto."
+                size="lg"
+              />
             </ScrollAnimator>
           </div>
         </div>

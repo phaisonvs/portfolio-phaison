@@ -7,6 +7,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { Project, projects } from "@/data/projects";
+import { Feature } from "@/components/ui/feature-with-image-carousel";
+import { Tiles } from "@/components/ui/tiles";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -58,12 +60,24 @@ const ProjectDetail = () => {
       
       {/* Project Header */}
       <motion.section 
-        className="pt-32 pb-8"
+        className="pt-32 pb-8 relative"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="container">
+        <div className="absolute inset-0 z-0">
+          <div className="tiles-container">
+            <Tiles 
+              rows={20} 
+              cols={10} 
+              tileSize="md"
+              className="h-full"
+            />
+            <div className="tiles-overlay"></div>
+          </div>
+        </div>
+        
+        <div className="container relative z-10">
           <Link
             to="/projects"
             className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white mb-6 transition-colors"
@@ -118,7 +132,7 @@ const ProjectDetail = () => {
       </motion.section>
       
       {/* Project Image */}
-      <section className="pb-16">
+      <section className="pb-8">
         <div className="container">
           <ScrollAnimator>
             <div className="rounded-lg overflow-hidden shadow-lg">
@@ -132,9 +146,24 @@ const ProjectDetail = () => {
         </div>
       </section>
       
+      {/* Feature Section */}
+      <Feature />
+      
       {/* Related Projects */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900/30">
-        <div className="container">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900/30 relative">
+        <div className="absolute inset-0 z-0">
+          <div className="tiles-container">
+            <Tiles 
+              rows={20} 
+              cols={10} 
+              tileSize="sm"
+              className="h-full"
+            />
+            <div className="tiles-overlay"></div>
+          </div>
+        </div>
+        
+        <div className="container relative z-10">
           <ScrollAnimator>
             <h2 className="text-2xl font-bold mb-8">Projetos Relacionados</h2>
           </ScrollAnimator>

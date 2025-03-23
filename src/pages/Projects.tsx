@@ -6,6 +6,8 @@ import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { projects } from "@/data/projects";
+import { Gallery6 } from "@/components/ui/gallery6";
+import { Tiles } from "@/components/ui/tiles";
 
 const Projects = () => {
   const [filteredProjects, setFilteredProjects] = useState(projects.filter(p => p.visible));
@@ -52,13 +54,34 @@ const Projects = () => {
     }
   };
 
+  // Transformar projetos em formato adequado para o Gallery6
+  const galleryItems = filteredProjects.slice(0, 5).map(project => ({
+    id: project.id,
+    title: project.title,
+    summary: project.description,
+    url: `/projects/${project.id}`,
+    image: project.image || "https://placehold.co/600x400",
+  }));
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Header */}
-      <section className="pt-32 pb-16">
-        <div className="container">
+      <section className="pt-32 pb-16 relative">
+        <div className="absolute inset-0 z-0">
+          <div className="tiles-container">
+            <Tiles 
+              rows={20} 
+              cols={10} 
+              tileSize="md"
+              className="h-full"
+            />
+            <div className="tiles-overlay"></div>
+          </div>
+        </div>
+        
+        <div className="container relative z-10">
           <ScrollAnimator>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Projetos</h1>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
@@ -67,6 +90,13 @@ const Projects = () => {
           </ScrollAnimator>
         </div>
       </section>
+      
+      {/* Gallery Carousel */}
+      <Gallery6 
+        heading="Projetos em Destaque" 
+        demoUrl="javascript:void(0)" 
+        items={galleryItems}
+      />
       
       {/* Filters */}
       <section className="pb-12">

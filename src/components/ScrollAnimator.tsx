@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ScrollAnimatorProps {
   children: React.ReactNode;
@@ -17,15 +17,14 @@ export function ScrollAnimator({
   once = true
 }: ScrollAnimatorProps) {
   const elementRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
     
-    // Configurar o atributo data-observe-once para controle no IntersectionObserver
-    if (once) {
-      element.setAttribute('data-observe-once', 'true');
-    }
+    // Configurar observer apenas se o elemento não estiver já visível (para performance)
+    if (isVisible && once) return;
     
     // Aplicar delay como um estilo inline para performance
     if (delay) {
@@ -36,6 +35,8 @@ export function ScrollAnimator({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            setIsVisible(true);
+            
             // Adicionar classe de animação quando visível
             element.classList.add('animate');
             
@@ -46,6 +47,7 @@ export function ScrollAnimator({
           } else if (!once) {
             // Remover classe se elemento sair da tela (apenas se once=false)
             element.classList.remove('animate');
+            setIsVisible(false);
           }
         });
       },
@@ -55,12 +57,22 @@ export function ScrollAnimator({
       }
     );
 
+    // Verificar se o elemento já está visível na viewport (para animações imediatas)
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    if (rect.top <= windowHeight) {
+      setIsVisible(true);
+      element.classList.add('animate');
+      if (once) return; // Não criar observer se elemento já está visível e once=true
+    }
+
     observer.observe(element);
 
     return () => {
       observer.unobserve(element);
     };
-  }, [threshold, delay, once]);
+  }, [threshold, delay, once, isVisible]);
 
   return (
     <div 
