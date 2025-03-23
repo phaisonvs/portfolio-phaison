@@ -4,24 +4,26 @@
 import * as React from "react"
 import { ChevronLeft, Github, Twitter } from "lucide-react"
 import { motion } from "framer-motion"
+import { useTheme } from "next-themes"
 import { useNavigate } from "react-router-dom"
 
 const AuthForm: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("admin@example.com");
   const [password, setPassword] = React.useState("admin123");
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulando autenticação bem-sucedida
     if (email === "admin@example.com" && password === "admin123") {
-      localStorage.setItem("isAuthenticated", "true");
-      navigate("/admin");
+      localStorage.setItem('isAuthenticated', 'true');
+      navigate('/admin');
+    } else {
+      alert("Credenciais inválidas. Use admin@example.com / admin123");
     }
-  };
-
+  }
+  
   return (
-    <div className="bg-white dark:bg-zinc-950 min-h-screen py-20 text-zinc-800 dark:text-zinc-200 selection:bg-zinc-300 dark:selection:bg-zinc-600">
+    <div className="bg-white dark:bg-zinc-950 py-20 text-zinc-800 dark:text-zinc-200 selection:bg-zinc-300 dark:selection:bg-zinc-600">
       <BackButton />
       <motion.div
         initial={{ opacity: 0, y: 25 }}
@@ -38,7 +40,7 @@ const AuthForm: React.FC = () => {
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
-          handleSubmit={handleSubmit}
+          onSubmit={handleSubmit}
         />
         <TermsAndConditions />
       </motion.div>
@@ -50,10 +52,19 @@ const AuthForm: React.FC = () => {
 const BackButton: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <SocialButton icon={<ChevronLeft size={16} />} onClick={() => navigate("/")}>
-      Voltar
-    </SocialButton>
-  );
+    <button 
+      onClick={() => navigate('/')}
+      className="relative z-0 ml-4 flex items-center justify-center gap-2 overflow-hidden rounded-md 
+      border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 
+      px-4 py-2 font-semibold text-zinc-800 dark:text-zinc-200 transition-all duration-500
+      before:absolute before:inset-0 before:-z-10 before:translate-x-[150%] before:translate-y-[150%] before:scale-[2.5]
+      before:rounded-[100%] before:bg-zinc-800 dark:before:bg-zinc-200 before:transition-transform before:duration-1000 before:content-[\"\"]
+      hover:scale-105 hover:text-zinc-100 dark:hover:text-zinc-900 hover:before:translate-x-[0%] hover:before:translate-y-[0%] active:scale-95"
+    >
+      <ChevronLeft size={16} />
+      <span>Voltar</span>
+    </button>
+  )
 }
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -78,18 +89,15 @@ const Logo: React.FC = () => (
       alt="Logoipsum"
       className="h-8 w-8"
     />
-    <span className="ml-2 text-xl font-bold">Milton Ivan</span>
+    <span className="ml-2 text-xl font-bold">Área Restrita</span>
   </div>
 )
 
 const Header: React.FC = () => (
   <div className="mb-6 text-center">
-    <h1 className="text-2xl font-semibold">Entrar na sua conta</h1>
+    <h1 className="text-2xl font-semibold">Entre na sua conta</h1>
     <p className="mt-2 text-zinc-500 dark:text-zinc-400">
-      Não tem uma conta?{" "}
-      <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
-        Crie uma.
-      </a>
+      Este é o acesso administrativo do portfólio
     </p>
   </div>
 )
@@ -108,10 +116,8 @@ const SocialButton: React.FC<{
   icon?: React.ReactNode
   fullWidth?: boolean
   children?: React.ReactNode
-  onClick?: () => void
-}> = ({ icon, fullWidth, children, onClick }) => (
+}> = ({ icon, fullWidth, children }) => (
   <button
-    onClick={onClick}
     className={`relative z-0 flex items-center justify-center gap-2 overflow-hidden rounded-md 
     border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 
     px-4 py-2 font-semibold text-zinc-800 dark:text-zinc-200 transition-all duration-500
@@ -138,12 +144,12 @@ interface LoginFormProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  handleSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword, handleSubmit }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword, onSubmit }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
       <div className="mb-3">
         <label
           htmlFor="email-input"
@@ -202,12 +208,16 @@ const TermsAndConditions: React.FC = () => (
     </a>{" "}
     e{" "}
     <a href="#" className="text-blue-600 dark:text-blue-400">
-      Política de Privacidade.
+      Política de Privacidade
     </a>
+    .
   </p>
 )
 
 const BackgroundDecoration: React.FC = () => {
+  const { theme } = useTheme();
+  const isDarkTheme = theme === "dark";
+
   return (
     <div
       className="absolute right-0 top-0 z-0 size-[50vw]"
@@ -218,7 +228,9 @@ const BackgroundDecoration: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "radial-gradient(100% 100% at 100% 0%, rgba(9,9,11,0), rgba(9,9,11,1))",
+          backgroundImage: isDarkTheme
+            ? "radial-gradient(100% 100% at 100% 0%, rgba(9,9,11,0), rgba(9,9,11,1))"
+            : "radial-gradient(100% 100% at 100% 0%, rgba(255,255,255,0), rgba(255,255,255,1))",
         }}
       />
     </div>

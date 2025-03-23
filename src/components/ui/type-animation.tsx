@@ -1,63 +1,93 @@
 
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 interface TypeAnimationProps {
   text: string;
-  speed?: number;
   className?: string;
+  speed?: number;
   delay?: number;
+  repeat?: boolean;
+  cursor?: boolean;
 }
 
-export function TypeAnimation({ 
-  text, 
-  speed = 50, 
-  className = "", 
-  delay = 500 
-}: TypeAnimationProps) {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
+export const TypeAnimation: React.FC<TypeAnimationProps> = ({
+  text,
+  className,
+  speed = 50,
+  delay = 1000,
+  repeat = false,
+  cursor = true,
+}) => {
+  const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+  
   useEffect(() => {
-    // Limpar timeout anterior se existir
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    // Delay inicial antes de começar a digitar
-    timeoutRef.current = setTimeout(() => {
+    const startTyping = () => {
       setIsTyping(true);
-    }, delay);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      setIsDeleting(false);
+      setDisplayText("");
     };
+    
+    const timeoutId = setTimeout(startTyping, delay);
+    return () => clearTimeout(timeoutId);
   }, [delay]);
-
+  
   useEffect(() => {
     if (!isTyping) return;
-
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(text.substring(0, currentIndex + 1));
-        setCurrentIndex(currentIndex + 1);
-      }, speed);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text, speed, isTyping]);
-
+    
+    const typeNextChar = () => {
+      if (isDeleting) {
+        // Deleting mode
+        if (displayText.length === 0) {
+          setIsDeleting(false);
+          if (repeat) {
+            timeoutRef.current = setTimeout(() => {
+              setIsTyping(true);
+            }, delay);
+          } else {
+            setIsTyping(false);
+          }
+          return;
+        }
+        
+        setDisplayText((prev) => prev.slice(0, -1));
+      } else {
+        // Typing mode
+        if (displayText.length === text.length) {
+          if (repeat) {
+            setIsDeleting(true);
+            timeoutRef.current = setTimeout(typeNextChar, delay);
+            return;
+          } else {
+            setIsTyping(false);
+            return;
+          }
+        }
+        
+        setDisplayText((prev) => text.slice(0, prev.length + 1));
+      }
+      
+      const nextSpeed = isDeleting ? speed / 1.5 : speed;
+      timeoutRef.current = setTimeout(typeNextChar, nextSpeed);
+    };
+    
+    timeoutRef.current = setTimeout(typeNextChar, speed);
+    
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [isTyping, isDeleting, displayText, text, speed, delay, repeat]);
+  
   return (
     <span className={className}>
       {displayText}
-      {isTyping && currentIndex < text.length && (
-        <span className="inline-block w-1 h-5 ml-1 bg-current animate-pulse" />
-      )}
+      {cursor && isTyping && <span className="animate-blink">|</span>}
     </span>
   );
-}
+};
+

@@ -184,3 +184,4 @@ export function Gallery6({
     </section>
   );
 }
+
