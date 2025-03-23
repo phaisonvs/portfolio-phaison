@@ -1,51 +1,30 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ScrollAnimatorProps {
   children: React.ReactNode;
   className?: string;
   threshold?: number;
   delay?: number;
-  once?: boolean;
 }
 
 export function ScrollAnimator({ 
   children, 
   className = "", 
   threshold = 0.1,
-  delay = 0,
-  once = true
+  delay = 0 
 }: ScrollAnimatorProps) {
   const elementRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
-    
-    // Configurar o atributo data-observe-once para controle no IntersectionObserver
-    if (once) {
-      element.dataset.observeOnce = 'true';
-    }
-    
-    // Aplicar delay como um estilo inline para performance
-    if (delay) {
-      element.style.transitionDelay = `${delay}ms`;
-    }
-    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Adicionar classe de animação quando visível
-            element.classList.add('animate');
-            
-            // Se once=true, parar de observar após animação
-            if (once) {
-              observer.unobserve(element);
-            }
-          } else if (!once) {
-            // Remover classe se elemento sair da tela (apenas se once=false)
-            element.classList.remove('animate');
+            setIsVisible(true);
+            // Once animated, we can stop observing
+            observer.unobserve(entry.target);
           }
         });
       },
@@ -55,12 +34,37 @@ export function ScrollAnimator({
       }
     );
 
-    observer.observe(element);
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
 
     return () => {
-      observer.unobserve(element);
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
     };
-  }, [threshold, delay, once]);
+  }, [threshold]);
+
+  useEffect(() => {
+    let timeoutId: number;
+    if (isVisible && delay > 0) {
+      timeoutId = window.setTimeout(() => {
+        if (elementRef.current) {
+          elementRef.current.classList.add('animate');
+        }
+      }, delay);
+    } else if (isVisible) {
+      if (elementRef.current) {
+        elementRef.current.classList.add('animate');
+      }
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isVisible, delay]);
 
   return (
     <div 

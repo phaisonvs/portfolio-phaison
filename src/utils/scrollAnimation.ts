@@ -10,105 +10,72 @@ export const scrollToElement = (elementId: string) => {
   }
 };
 
-// Configuração otimizada para o IntersectionObserver
 export const setupScrollAnimations = () => {
-  // Use uma única instância do IntersectionObserver para melhor performance
+  // Use a more efficient selector
+  const animateElements = document.querySelectorAll('.animate-on-scroll');
+  
+  // Create the observer with options optimized for performance
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // Aplicar a classe de animação quando o elemento estiver visível
+          // Add the animation class
           entry.target.classList.add('animate');
-          
-          // Opcionalmente, parar de observar depois da animação
-          if (entry.target.dataset.observeOnce === 'true') {
-            observer.unobserve(entry.target);
-          }
-        } else if (entry.target.dataset.observeOnce !== 'true') {
-          // Remover a classe se o elemento sair da tela (apenas para elementos de animação contínua)
-          entry.target.classList.remove('animate');
+          // Once animated, we no longer need to observe
+          observer.unobserve(entry.target);
         }
       });
     },
     {
-      threshold: 0.1, // Iniciar a animação quando 10% do elemento estiver visível
-      rootMargin: '0px 0px -100px 0px', // Margem negativa inferior para iniciar a animação um pouco antes
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px',
     }
   );
 
-  // Selecionar todos os elementos com a classe animate-on-scroll
-  const animateElements = document.querySelectorAll('.animate-on-scroll');
-  
-  // Observar cada elemento
-  animateElements.forEach((element) => {
-    observer.observe(element);
+  // Batch DOM operations
+  const elementsArray = Array.from(animateElements);
+  requestAnimationFrame(() => {
+    elementsArray.forEach((element) => {
+      observer.observe(element);
+    });
   });
 
-  // Função para limpar o observador quando necessário
   return () => {
-    animateElements.forEach((element) => {
+    elementsArray.forEach((element) => {
       observer.unobserve(element);
     });
   };
 };
 
-// Função para animar elementos com base na posição de rolagem
-export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2, endOffset: number = 0.8) => {
-  if (!element) return;
-
-  const handleScroll = () => {
-    const rect = element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    
-    // Calcular a visibilidade do elemento na tela
-    const visiblePortion = 1 - (rect.bottom / windowHeight);
-    
-    // Normalizar valor entre startOffset e endOffset
-    const scrollProgress = Math.max(0, Math.min(1, (visiblePortion - startOffset) / (endOffset - startOffset)));
-    
-    // Aplicar o valor como propriedade CSS personalizada
-    element.style.setProperty('--scroll-progress', scrollProgress.toString());
-    
-    // Adicionar classe quando o elemento é visível
-    if (scrollProgress > 0 && scrollProgress < 1) {
-      element.classList.add('in-view');
-    } else {
-      element.classList.remove('in-view');
-    }
-  };
-
-  // Configuração inicial
-  handleScroll();
+// Optimize DOM animations by using requestAnimationFrame
+export const animateWithRaf = (callback: FrameRequestCallback) => {
+  let rafId: number;
   
-  // Otimizar performance com throttling
-  let ticking = false;
-  
-  const onScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
+  const animate = (time: number) => {
+    callback(time);
+    rafId = requestAnimationFrame(animate);
   };
   
-  // Adicionar evento de rolagem
-  window.addEventListener('scroll', onScroll, { passive: true });
+  rafId = requestAnimationFrame(animate);
   
-  // Retornar função para limpar o evento
   return () => {
-    window.removeEventListener('scroll', onScroll);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+    }
   };
 };
 
-// Configurar animações para elementos de circuito
-export const setupCircuitAnimations = () => {
-  const circuitElements = document.querySelectorAll('.circuit-lines-container');
+// Efficiently debounce function for scroll and resize events
+export const debounce = (func: Function, wait: number) => {
+  let timeout: number;
   
-  circuitElements.forEach((element) => {
-    if (element instanceof HTMLElement) {
-      animateOnScroll(element, 0.1, 0.7);
-    }
-  });
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    
+    clearTimeout(timeout);
+    timeout = window.setTimeout(later, wait);
+  };
 };
