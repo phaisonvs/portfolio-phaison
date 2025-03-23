@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { TypeAnimation } from 'react-type-animation';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -115,10 +116,23 @@ const Index = () => {
               </motion.p>
               
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance min-h-[4rem]"
                 variants={heroItemVariants}
               >
-                Criando valor para o crescimento dos negócios através do código.
+                <TypeAnimation
+                  sequence={[
+                    'Criando valor para o crescimento dos negócios através do código.',
+                    1000,
+                    'Soluções digitais para o mundo real.',
+                    1000,
+                    'Transformando ideias em código.',
+                    1000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  repeat={Infinity}
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold"
+                />
               </motion.h1>
               
               <motion.div 
