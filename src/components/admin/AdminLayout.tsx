@@ -4,11 +4,7 @@ import { Outlet } from "react-router-dom";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
 
-interface AdminLayoutProps {
-  onLogout?: () => void;
-}
-
-export function AdminLayout({ onLogout }: AdminLayoutProps) {
+export function AdminLayout() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const toggleSidebar = () => {
@@ -17,7 +13,7 @@ export function AdminLayout({ onLogout }: AdminLayoutProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <AdminSidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} onLogout={onLogout} />
+      <AdminSidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
       <AdminHeader isCollapsed={isSidebarCollapsed} />
       <main
         className={`transition-all duration-300 pt-16 min-h-screen ${

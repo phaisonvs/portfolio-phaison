@@ -6,25 +6,13 @@ import { ChevronLeft, Github, Twitter } from "lucide-react"
 import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
 
-interface AuthFormProps {
-  onBackClick?: () => void;
-  onLogin?: (email: string, password: string) => void;
-  defaultEmail?: string;
-  defaultPassword?: string;
-}
-
-const AuthForm: React.FC<AuthFormProps> = ({ 
-  onBackClick, 
-  onLogin,
-  defaultEmail = "admin@example.com", 
-  defaultPassword = "admin123" 
-}) => {
-  const [email, setEmail] = React.useState(defaultEmail)
-  const [password, setPassword] = React.useState(defaultPassword)
+const AuthForm: React.FC = () => {
+  const [email, setEmail] = React.useState("admin@example.com")
+  const [password, setPassword] = React.useState("admin123")
   
   return (
     <div className="bg-white dark:bg-zinc-950 py-20 text-zinc-800 dark:text-zinc-200 selection:bg-zinc-300 dark:selection:bg-zinc-600">
-      <BackButton onClick={onBackClick} />
+      <BackButton />
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,7 +23,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <Header />
         <SocialButtons />
         <Divider />
-        <LoginForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} onLogin={onLogin} />
+        <LoginForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} />
         <TermsAndConditions />
       </motion.div>
       <BackgroundDecoration />
@@ -43,12 +31,8 @@ const AuthForm: React.FC<AuthFormProps> = ({
   )
 }
 
-interface BackButtonProps {
-  onClick?: () => void;
-}
-
-const BackButton: React.FC<BackButtonProps> = ({ onClick }) => (
-  <SocialButton icon={<ChevronLeft size={16} />} onClick={onClick}>Go back</SocialButton>
+const BackButton: React.FC = () => (
+  <SocialButton icon={<ChevronLeft size={16} />}>Go back</SocialButton>
 )
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -81,7 +65,7 @@ const Header: React.FC = () => (
   <div className="mb-6 text-center">
     <h1 className="text-2xl font-semibold">Sign in to your account</h1>
     <p className="mt-2 text-zinc-500 dark:text-zinc-400">
-      Don't have an account?{" "}
+      Don&#39;t have an account?{" "}
       <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">
         Create one.
       </a>
@@ -103,12 +87,10 @@ interface SocialButtonProps {
   icon?: React.ReactNode
   fullWidth?: boolean
   children?: React.ReactNode
-  onClick?: () => void
 }
 
-const SocialButton: React.FC<SocialButtonProps> = ({ icon, fullWidth, children, onClick }) => (
+const SocialButton: React.FC<SocialButtonProps> = ({ icon, fullWidth, children }) => (
   <button
-    onClick={onClick}
     className={`relative z-0 flex items-center justify-center gap-2 overflow-hidden rounded-md 
     border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 
     px-4 py-2 font-semibold text-zinc-800 dark:text-zinc-200 transition-all duration-500
@@ -135,14 +117,16 @@ interface LoginFormProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>
   password: string
   setPassword: React.Dispatch<React.SetStateAction<string>>
-  onLogin?: (email: string, password: string) => void
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword, onLogin }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (onLogin) {
-      onLogin(email, password)
+    // Handle login logic here
+    console.log("Login with", email, password)
+    // Redirect to admin dashboard
+    if (email === "admin@example.com" && password === "admin123") {
+      window.location.href = "/admin"
     }
   }
 

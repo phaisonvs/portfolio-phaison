@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -130,7 +131,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Hero Section with fixed height to prevent jumping */}
+      {/* Hero Section */}
       <motion.section 
         className="pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden bg-gray-50 dark:bg-gray-900/30"
         variants={heroVariants}
@@ -171,8 +172,8 @@ const Index = () => {
                 Milton Ivan • Desenvolvedor Javascript Profissional
               </motion.p>
               
-              <motion.div 
-                className="h-32 md:h-24" // Fixed height to prevent jumping
+              <motion.h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance min-h-[4rem]"
                 variants={heroItemVariants}
               >
                 <TypeAnimation
@@ -184,12 +185,12 @@ const Index = () => {
                     'Transformando ideias em código.',
                     1000,
                   ]}
-                  wrapper="div"
+                  wrapper="span"
                   speed={50}
                   repeat={Infinity}
                   className="text-4xl md:text-5xl lg:text-6xl font-bold"
                 />
-              </motion.div>
+              </motion.h1>
               
               <motion.div 
                 className="flex gap-4 mt-6"
@@ -276,7 +277,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Need a Document Section with new ActionButton */}
+      {/* Need a Document Section */}
       <section className="py-16 relative overflow-hidden">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
@@ -494,7 +495,3 @@ const Index = () => {
 };
 
 export default Index;
-
-
-
-
