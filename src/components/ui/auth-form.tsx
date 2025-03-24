@@ -5,16 +5,17 @@ import * as React from "react"
 import { ChevronLeft, Github, Twitter } from "lucide-react"
 import { motion } from "framer-motion"
 import { useTheme } from "next-themes"
-import { useNavigate } from "react-router-dom"
 
 interface AuthFormProps {
   onBackClick?: () => void;
+  onLogin?: (email: string, password: string) => void;
   defaultEmail?: string;
   defaultPassword?: string;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ 
   onBackClick, 
+  onLogin,
   defaultEmail = "admin@example.com", 
   defaultPassword = "admin123" 
 }) => {
@@ -34,7 +35,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
         <Header />
         <SocialButtons />
         <Divider />
-        <LoginForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} />
+        <LoginForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} onLogin={onLogin} />
         <TermsAndConditions />
       </motion.div>
       <BackgroundDecoration />
@@ -134,18 +135,14 @@ interface LoginFormProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>
   password: string
   setPassword: React.Dispatch<React.SetStateAction<string>>
+  onLogin?: (email: string, password: string) => void
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword }) => {
-  const navigate = useNavigate()
-
+const LoginForm: React.FC<LoginFormProps> = ({ email, setEmail, password, setPassword, onLogin }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle login logic here
-    console.log("Login with", email, password)
-    // Redirect to admin dashboard
-    if (email === "admin@example.com" && password === "admin123") {
-      navigate("/admin")
+    if (onLogin) {
+      onLogin(email, password)
     }
   }
 
