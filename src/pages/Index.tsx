@@ -173,7 +173,7 @@ const Index = () => {
               </motion.p>
               
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance min-h-[4rem]"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance h-24 md:h-32 lg:h-40 flex items-center"
                 variants={heroItemVariants}
               >
                 <TypeAnimation
