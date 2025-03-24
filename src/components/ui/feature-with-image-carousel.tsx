@@ -15,12 +15,12 @@ interface FeatureProps {
   images?: string[];
 }
 
-function Feature({
-  title = "This is the start of something new",
+function Feature({ 
+  title = "This is the start of something new", 
   description = "Managing a small business today is already tough. Avoid further complications by ditching outdated, tedious trade methods. Our goal is to streamline SMB trade, making it easier and faster than ever.",
   badgeText = "Platform",
   images = Array(5).fill("https://placehold.co/800x450/png")
-}: FeatureProps = {}) {
+}: FeatureProps) {
   return (
     <div className="w-full py-20 lg:py-40">
       <div className="container mx-auto">
@@ -43,10 +43,10 @@ function Feature({
               <CarouselContent>
                 {images.map((image, index) => (
                   <CarouselItem key={index}>
-                    <div className="flex rounded-md aspect-video bg-muted items-center justify-center p-6 overflow-hidden">
+                    <div className="flex rounded-md overflow-hidden aspect-video bg-muted items-center justify-center p-0">
                       <img 
                         src={image} 
-                        alt={`Platform Screenshot ${index + 1}`}
+                        alt={`Project screenshot ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
                     </div>

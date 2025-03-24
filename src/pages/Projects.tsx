@@ -78,13 +78,6 @@ const Projects = () => {
         </div>
       </section>
       
-      {/* Featured Projects Carousel */}
-      <Gallery6 
-        heading="Projetos Destacados"
-        demoUrl="/projects"
-        items={galleryItems}
-      />
-      
       {/* Filters */}
       <section className="pb-12">
         <div className="container">
@@ -183,6 +176,13 @@ const Projects = () => {
           )}
         </div>
       </section>
+      
+      {/* Featured Projects Carousel */}
+      <Gallery6 
+        heading="Projetos Destacados"
+        demoUrl="/projects"
+        items={galleryItems}
+      />
       
       <Footer />
     </div>

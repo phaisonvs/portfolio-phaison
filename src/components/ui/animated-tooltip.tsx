@@ -10,7 +10,10 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface AnimatedTooltipProps {
+export const AnimatedTooltip = ({
+  items,
+  className,
+}: {
   items: {
     id: number;
     name: string;
@@ -18,12 +21,7 @@ interface AnimatedTooltipProps {
     image: string;
   }[];
   className?: string;
-}
-
-export const AnimatedTooltip = ({
-  items,
-  className,
-}: AnimatedTooltipProps) => {
+}) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0);
@@ -35,8 +33,8 @@ export const AnimatedTooltip = ({
     useTransform(x, [-100, 100], [-50, 50]),
     springConfig
   );
-  const handleMouseMove = (event: React.MouseEvent) => {
-    const halfWidth = event.currentTarget.offsetWidth / 2;
+  const handleMouseMove = (event: React.MouseEvent<HTMLImageElement>) => {
+    const halfWidth = event.currentTarget.clientWidth / 2;
     x.set(event.nativeEvent.offsetX - halfWidth);
   };
 
@@ -49,7 +47,7 @@ export const AnimatedTooltip = ({
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {hoveredIndex === item.id && (
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.6 }}

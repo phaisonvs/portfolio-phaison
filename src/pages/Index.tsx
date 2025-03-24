@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { TypeAnimation } from 'react-type-animation';
@@ -13,6 +13,8 @@ import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
 import { setupScrollAnimations } from "@/utils/scrollAnimation";
 import { Tiles } from "@/components/ui/tiles";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
+import ActionButton from "@/components/ui/action-button";
 
 const Index = () => {
   // Animation for hero section
@@ -34,6 +36,27 @@ const Index = () => {
       y: 0,
       transition: { duration: 0.8 }
     }
+  };
+
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = () => {
+    setIsDownloading(true);
+    
+    // Simulate download process
+    setTimeout(() => {
+      setIsDownloading(false);
+      
+      // Create a link element
+      const link = document.createElement('a');
+      link.href = '/resume.pdf'; // The path to your PDF file
+      link.download = 'resume.pdf';
+      
+      // Trigger the download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -69,6 +92,40 @@ const Index = () => {
   const featuredProjects = projects.filter(
     (project) => project.featured && project.visible
   ).slice(0, 4);
+
+  // People data for AnimatedTooltip
+  const people = [
+    {
+      id: 1,
+      name: "John Doe",
+      designation: "CEO, TechCorp",
+      image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 2,
+      name: "Robert Johnson",
+      designation: "CTO, Innovate Inc",
+      image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 3,
+      name: "Jane Smith",
+      designation: "Lead Designer, CreativeX",
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      designation: "Project Manager, ProManage",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 5,
+      name: "Tyler Durden",
+      designation: "Marketing Director, Pulse",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -226,14 +283,17 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
             <ScrollAnimator className="w-full md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Precisa de um documento impresso?</h2>
-              <a 
-                href="/resume.pdf" 
-                download
-                className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors gap-2"
-              >
-                <Calendar className="h-4 w-4" />
-                Baixe meu currículo
-              </a>
+              <div className="mt-4">
+                <ActionButton 
+                  onClick={handleDownload} 
+                  isPending={isDownloading}
+                  variant="outline"
+                  className="flex items-center gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Baixe meu currículo
+                </ActionButton>
+              </div>
             </ScrollAnimator>
             
             <ScrollAnimator className="w-full md:w-1/2" delay={200}>
@@ -311,10 +371,16 @@ const Index = () => {
       <section id="testimonials" className="py-16 relative overflow-hidden">
         <div className="container px-4 md:px-6 relative z-10">
           <ScrollAnimator>
-            <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <span className="inline-block w-6 h-0.5 bg-gray-400 dark:bg-gray-600"></span>
               O que dizem sobre mim
             </h2>
+          </ScrollAnimator>
+          
+          <ScrollAnimator delay={150} className="mb-12">
+            <div className="flex justify-center">
+              <AnimatedTooltip items={people} />
+            </div>
           </ScrollAnimator>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
