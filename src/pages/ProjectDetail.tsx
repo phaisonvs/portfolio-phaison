@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { Project, projects } from "@/data/projects";
+import { Feature } from "@/components/ui/feature-with-image-carousel";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -131,6 +132,14 @@ const ProjectDetail = () => {
           </ScrollAnimator>
         </div>
       </section>
+      
+      {/* Feature Section with Image Carousel */}
+      <Feature 
+        title={`Detalhes do projeto ${project.title}`}
+        description={project.fullDescription || project.description}
+        badgeText={project.tags[0] || "Projeto"}
+        images={[project.image, ...Array(4).fill("https://placehold.co/800x450/png")]}
+      />
       
       {/* Related Projects */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900/30">
