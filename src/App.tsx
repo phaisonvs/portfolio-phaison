@@ -17,6 +17,21 @@ import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
+// Simple auth check function
+const isAuthenticated = () => {
+  // In a real app, you would check for a token or session
+  // For this example, we'll just return true if we're in development
+  return process.env.NODE_ENV === "development";
+};
+
+// Protected route component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -29,8 +44,15 @@ const App = () => (
           <Route path="/projects/:id" element={<ProjectDetail />} />
           <Route path="/login" element={<Login />} />
           
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          {/* Protected Admin Routes */}
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<AdminDashboard />} />
             <Route path="projects" element={<AdminProjects />} />
             <Route path="analytics" element={<AdminAnalytics />} />
