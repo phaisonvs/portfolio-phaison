@@ -1,4 +1,3 @@
-
 export interface Project {
   id: string;
   title: string;
@@ -16,10 +15,11 @@ export interface Project {
 
 // Lista predefinida de tags para autocompletar e sincronizar em toda a aplicação
 export const availableTags = [
-  "React", "Vue.js", "Frontend", "Backend", "Fullstack", 
-  "Design", "UI/UX", "Mobile", "Web", "API", 
-  "Node.js", "TypeScript", "JavaScript", "CSS", "HTML",
-  "Database", "Docker", "DevOps", "Cloud", "E-commerce"
+  "React", "Vue.js", "Angular", "Frontend", "Backend", "Fullstack", 
+  "Design", "UI/UX", "Mobile", "Web", "API", "WordPress",
+  "Node.js", "TypeScript", "JavaScript", "CSS", "HTML", "PHP",
+  "Database", "Docker", "DevOps", "Cloud", "E-commerce", "Landing Page",
+  "Portfolio", "Blog", "Marketing", "SEO", "Analytics", "Animation"
 ];
 
 export const projects: Project[] = [

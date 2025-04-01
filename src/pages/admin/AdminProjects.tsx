@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import ActionButton from "@/components/ui/action-button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState<Project[]>(projectsData);
@@ -28,28 +30,24 @@ const AdminProjects = () => {
     visible: true,
     views: 0,
   });
-  const [newTag, setNewTag] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [tagSuggestions, setTagSuggestions] = useState<string[]>([]);
   const [errors, setErrors] = useState<{
     title?: string;
     description?: string;
     image?: string;
   }>({});
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  // Filtrar projetos por busca
   const filteredProjects = projects.filter(
     (project) =>
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-  
-  // Toggle visibilidade do projeto
+
   const toggleVisibility = (id: string) => {
     const updatedProjects = projects.map((project) => {
       if (project.id === id) {
@@ -66,15 +64,13 @@ const AdminProjects = () => {
     setProjects(updatedProjects);
     updateGlobalProjects(updatedProjects);
   };
-  
-  // Função para atualizar os projetos globais (simulando sincronização com backend)
+
   const updateGlobalProjects = (updatedProjects: Project[]) => {
     Object.assign(projectsData, updatedProjects);
     localStorage.setItem('projects', JSON.stringify(updatedProjects));
     console.log('Projetos atualizados globalmente:', updatedProjects);
   };
-  
-  // Abrir modal de adicionar
+
   const openAddModal = () => {
     setNewProject({
       title: "",
@@ -89,8 +85,7 @@ const AdminProjects = () => {
     setErrors({});
     setShowAddModal(true);
   };
-  
-  // Abrir modal de editar
+
   const openEditModal = (project: Project) => {
     setCurrentProject(project);
     setNewProject({...project});
@@ -98,57 +93,26 @@ const AdminProjects = () => {
     setErrors({});
     setShowEditModal(true);
   };
-  
-  // Abrir modal de excluir
+
   const openDeleteModal = (project: Project) => {
     setCurrentProject(project);
     setShowDeleteModal(true);
   };
-  
-  // Filtrar tags sugeridas com base no input
-  useEffect(() => {
-    if (newTag.trim()) {
-      const filtered = availableTags.filter(tag => 
-        tag.toLowerCase().includes(newTag.toLowerCase()) &&
-        !newProject.tags?.includes(tag)
-      );
-      setTagSuggestions(filtered);
-    } else {
-      setTagSuggestions([]);
-    }
-  }, [newTag, newProject.tags]);
-  
-  // Adicionar tag ao projeto
-  const addTag = () => {
-    if (newTag.trim() && !newProject.tags?.includes(newTag.trim())) {
+
+  const toggleTag = (tag: string) => {
+    if (newProject.tags?.includes(tag)) {
       setNewProject({
         ...newProject,
-        tags: [...(newProject.tags || []), newTag.trim()],
+        tags: newProject.tags.filter((t) => t !== tag),
       });
-      setNewTag("");
-    }
-  };
-  
-  // Remover tag do projeto
-  const removeTag = (tag: string) => {
-    setNewProject({
-      ...newProject,
-      tags: newProject.tags?.filter((t) => t !== tag),
-    });
-  };
-  
-  // Selecionar uma sugestão de tag
-  const selectTagSuggestion = (tag: string) => {
-    if (!newProject.tags?.includes(tag)) {
+    } else {
       setNewProject({
         ...newProject,
         tags: [...(newProject.tags || []), tag],
       });
-      setNewTag("");
     }
   };
-  
-  // Lidar com upload de imagem
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -173,8 +137,7 @@ const AdminProjects = () => {
     };
     reader.readAsDataURL(file);
   };
-  
-  // Validar formulário
+
   const validateForm = (): boolean => {
     const newErrors: {
       title?: string;
@@ -197,8 +160,7 @@ const AdminProjects = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
-  // Adicionar novo projeto
+
   const addProject = async () => {
     if (!validateForm()) return;
     
@@ -249,8 +211,7 @@ const AdminProjects = () => {
       setIsSubmitting(false);
     }
   };
-  
-  // Atualizar projeto
+
   const updateProject = async () => {
     if (!currentProject || !validateForm()) return;
     
@@ -298,8 +259,7 @@ const AdminProjects = () => {
       setIsSubmitting(false);
     }
   };
-  
-  // Excluir projeto
+
   const deleteProject = async () => {
     if (!currentProject) return;
     
@@ -330,7 +290,7 @@ const AdminProjects = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   useEffect(() => {
     const savedProjects = localStorage.getItem('projects');
     if (savedProjects) {
@@ -358,7 +318,6 @@ const AdminProjects = () => {
         </div>
       </ScrollAnimator>
       
-      {/* Search Bar */}
       <ScrollAnimator className="mb-6">
         <div className="relative">
           <input
@@ -372,7 +331,6 @@ const AdminProjects = () => {
         </div>
       </ScrollAnimator>
       
-      {/* Projects Table */}
       <ScrollAnimator>
         <div className="bg-white dark:bg-gray-950 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
           <div className="overflow-x-auto">
@@ -481,7 +439,6 @@ const AdminProjects = () => {
         </div>
       </ScrollAnimator>
       
-      {/* Add Project Modal */}
       <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -602,67 +559,44 @@ const AdminProjects = () => {
               </div>
             </div>
             <div className="grid grid-cols-4 items-start gap-4">
-              <Label htmlFor="newTag" className="text-right mt-2">
+              <Label className="text-right mt-2">
                 Tags
               </Label>
               <div className="col-span-3">
-                <div className="flex flex-col gap-2">
-                  <div className="relative">
-                    <Input
-                      id="newTag"
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      placeholder="Adicionar tag"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          addTag();
-                        }
-                      }}
-                      className="pr-20"
-                    />
-                    <Button 
-                      type="button" 
-                      onClick={addTag} 
-                      className="absolute right-0 top-0 rounded-l-none h-full"
-                      size="sm"
-                    >
-                      Adicionar
-                    </Button>
-                    
-                    {/* Tag suggestions */}
-                    {tagSuggestions.length > 0 && (
-                      <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
-                        {tagSuggestions.map((tag) => (
-                          <div
-                            key={tag}
-                            onClick={() => selectTagSuggestion(tag)}
-                            className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                          >
-                            {tag}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Tags display */}
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {newProject.tags?.map((tag) => (
-                      <div
-                        key={tag}
-                        className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 text-xs"
-                      >
-                        {tag}
-                        <button
-                          onClick={() => removeTag(tag)}
-                          className="hover:text-red-500"
+                <ScrollArea className="h-[200px] border rounded-md p-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    {availableTags.map((tag) => (
+                      <div key={tag} className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={`tag-${tag}`} 
+                          checked={newProject.tags?.includes(tag)}
+                          onCheckedChange={() => toggleTag(tag)}
+                        />
+                        <Label
+                          htmlFor={`tag-${tag}`}
+                          className="cursor-pointer text-sm"
                         >
-                          <X className="h-3 w-3" />
-                        </button>
+                          {tag}
+                        </Label>
                       </div>
                     ))}
                   </div>
+                </ScrollArea>
+                <div className="flex flex-wrap gap-1 mt-3">
+                  {newProject.tags?.map((tag) => (
+                    <div
+                      key={tag}
+                      className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 text-xs"
+                    >
+                      {tag}
+                      <button
+                        onClick={() => toggleTag(tag)}
+                        className="hover:text-red-500"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -699,7 +633,6 @@ const AdminProjects = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Edit Project Modal */}
       <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -819,67 +752,44 @@ const AdminProjects = () => {
                 </div>
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="edit-newTag" className="text-right mt-2">
+                <Label className="text-right mt-2">
                   Tags
                 </Label>
                 <div className="col-span-3">
-                  <div className="flex flex-col gap-2">
-                    <div className="relative">
-                      <Input
-                        id="edit-newTag"
-                        value={newTag}
-                        onChange={(e) => setNewTag(e.target.value)}
-                        placeholder="Adicionar tag"
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            addTag();
-                          }
-                        }}
-                        className="pr-20"
-                      />
-                      <Button 
-                        type="button" 
-                        onClick={addTag} 
-                        className="absolute right-0 top-0 rounded-l-none h-full"
-                        size="sm"
-                      >
-                        Adicionar
-                      </Button>
-                      
-                      {/* Tag suggestions */}
-                      {tagSuggestions.length > 0 && (
-                        <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto">
-                          {tagSuggestions.map((tag) => (
-                            <div
-                              key={tag}
-                              onClick={() => selectTagSuggestion(tag)}
-                              className="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                            >
-                              {tag}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Tags display */}
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {newProject.tags?.map((tag) => (
-                        <div
-                          key={tag}
-                          className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 text-xs"
-                        >
-                          {tag}
-                          <button
-                            onClick={() => removeTag(tag)}
-                            className="hover:text-red-500"
+                  <ScrollArea className="h-[200px] border rounded-md p-4">
+                    <div className="grid grid-cols-2 gap-2">
+                      {availableTags.map((tag) => (
+                        <div key={tag} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`edit-tag-${tag}`} 
+                            checked={newProject.tags?.includes(tag)}
+                            onCheckedChange={() => toggleTag(tag)}
+                          />
+                          <Label
+                            htmlFor={`edit-tag-${tag}`}
+                            className="cursor-pointer text-sm"
                           >
-                            <X className="h-3 w-3" />
-                          </button>
+                            {tag}
+                          </Label>
                         </div>
                       ))}
                     </div>
+                  </ScrollArea>
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {newProject.tags?.map((tag) => (
+                      <div
+                        key={tag}
+                        className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 text-xs"
+                      >
+                        {tag}
+                        <button
+                          onClick={() => toggleTag(tag)}
+                          className="hover:text-red-500"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -934,7 +844,6 @@ const AdminProjects = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Delete Modal */}
       <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
