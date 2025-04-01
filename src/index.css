@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
@@ -31,25 +32,25 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 225 15% 8%; /* Slightly lighter bluish-black */
+    --foreground: 210 20% 98%;
+    --card: 224 16% 10%; /* Slightly lighter bluish-black for cards */
+    --card-foreground: 210 20% 98%;
+    --popover: 224 16% 10%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220 12% 10%;
+    --secondary: 220 12% 18%; /* Slightly lighter secondary */
+    --secondary-foreground: 210 20% 98%;
+    --muted: 220 12% 18%;
+    --muted-foreground: 220 12% 70%;
+    --accent: 220 12% 18%;
+    --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 10% 83.9%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 12% 18%;
+    --input: 220 12% 18%;
+    --ring: 224 16% 80%;
     --tile: rgba(255, 255, 255, 0.1);
   }
 }
