@@ -1,12 +1,14 @@
 
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface AdminHeaderProps {
   isCollapsed: boolean;
+  onLogout: () => void;
 }
 
-export function AdminHeader({ isCollapsed }: AdminHeaderProps) {
+export function AdminHeader({ isCollapsed, onLogout }: AdminHeaderProps) {
   return (
     <header
       className={`fixed top-0 right-0 h-16 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 z-10 transition-all duration-300 ${
@@ -44,6 +46,15 @@ export function AdminHeader({ isCollapsed }: AdminHeaderProps) {
               <div className="text-sm font-medium">Admin</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">admin@example.com</div>
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onLogout}
+              className="ml-2"
+              aria-label="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
