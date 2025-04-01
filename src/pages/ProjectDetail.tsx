@@ -13,14 +13,33 @@ const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [allProjects, setAllProjects] = useState<Project[]>(projects);
 
   useEffect(() => {
-    const foundProject = projects.find((p) => p.id === id && p.visible);
+    // Verificar se há projetos no localStorage (atualizados pelo painel admin)
+    const savedProjects = localStorage.getItem('projects');
+    const projectsToUse = savedProjects ? JSON.parse(savedProjects) : projects;
     
-    // Simulate a loading delay
+    setAllProjects(projectsToUse);
+    
+    const foundProject = projectsToUse.find((p) => p.id === id && p.visible);
+    
+    // Simular um atraso de carregamento
     setTimeout(() => {
       setProject(foundProject || null);
       setIsLoading(false);
+      
+      // Incrementar contador de visualizações (em situação real, seria via API)
+      if (foundProject) {
+        const updatedProjects = projectsToUse.map(p => {
+          if (p.id === foundProject.id) {
+            return {...p, views: p.views + 1};
+          }
+          return p;
+        });
+        
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+      }
     }, 300);
   }, [id]);
 
@@ -149,12 +168,12 @@ const ProjectDetail = () => {
           </ScrollAnimator>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {projects
+            {allProjects
               .filter(
                 (p) => 
-                  p.id !== project.id && 
+                  p.id !== project?.id && 
                   p.visible && 
-                  p.tags.some((tag) => project.tags.includes(tag))
+                  p.tags.some((tag) => project?.tags.includes(tag))
               )
               .slice(0, 3)
               .map((relatedProject, index) => (

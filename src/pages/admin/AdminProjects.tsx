@@ -1,9 +1,8 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Eye, EyeOff, Edit, Trash, Plus, Search, X, Check, Upload, Loader } from "lucide-react";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Project, projects as projectsData } from "@/data/projects";
+import { Project, projects as projectsData, availableTags } from "@/data/projects";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -12,14 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import ActionButton from "@/components/ui/action-button";
-
-// Lista predefinida de tags para autocompletar
-const predefinedTags = [
-  "React", "Vue.js", "Frontend", "Backend", "Fullstack", 
-  "Design", "UI/UX", "Mobile", "Web", "API", 
-  "Node.js", "TypeScript", "JavaScript", "CSS", "HTML",
-  "Database", "Docker", "DevOps", "Cloud", "E-commerce"
-];
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState<Project[]>(projectsData);
@@ -60,19 +51,27 @@ const AdminProjects = () => {
   
   // Toggle visibilidade do projeto
   const toggleVisibility = (id: string) => {
-    setProjects(
-      projects.map((project) => {
-        if (project.id === id) {
-          const updatedProject = { ...project, visible: !project.visible };
-          toast({
-            title: updatedProject.visible ? "Projeto visível" : "Projeto oculto",
-            description: `O projeto "${project.title}" foi ${updatedProject.visible ? "tornado visível" : "ocultado"}.`,
-          });
-          return updatedProject;
-        }
-        return project;
-      })
-    );
+    const updatedProjects = projects.map((project) => {
+      if (project.id === id) {
+        const updatedProject = { ...project, visible: !project.visible };
+        toast({
+          title: updatedProject.visible ? "Projeto visível" : "Projeto oculto",
+          description: `O projeto "${project.title}" foi ${updatedProject.visible ? "tornado visível" : "ocultado"}.`,
+        });
+        return updatedProject;
+      }
+      return project;
+    });
+    
+    setProjects(updatedProjects);
+    updateGlobalProjects(updatedProjects);
+  };
+  
+  // Função para atualizar os projetos globais (simulando sincronização com backend)
+  const updateGlobalProjects = (updatedProjects: Project[]) => {
+    Object.assign(projectsData, updatedProjects);
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+    console.log('Projetos atualizados globalmente:', updatedProjects);
   };
   
   // Abrir modal de adicionar
@@ -109,7 +108,7 @@ const AdminProjects = () => {
   // Filtrar tags sugeridas com base no input
   useEffect(() => {
     if (newTag.trim()) {
-      const filtered = predefinedTags.filter(tag => 
+      const filtered = availableTags.filter(tag => 
         tag.toLowerCase().includes(newTag.toLowerCase()) &&
         !newProject.tags?.includes(tag)
       );
@@ -154,22 +153,18 @@ const AdminProjects = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     
-    // Validar tamanho do arquivo (10MB)
     if (file.size > 10 * 1024 * 1024) {
       setErrors({...errors, image: "A imagem deve ter no máximo 10MB"});
       return;
     }
     
-    // Validar tipo do arquivo
     if (!file.type.match('image.*')) {
       setErrors({...errors, image: "O arquivo deve ser uma imagem"});
       return;
     }
     
-    // Limpar erro existente
     setErrors({...errors, image: undefined});
     
-    // Criar URL para pré-visualização
     const reader = new FileReader();
     reader.onload = (e) => {
       const result = e.target?.result as string;
@@ -210,7 +205,6 @@ const AdminProjects = () => {
     try {
       setIsSubmitting(true);
       
-      // Simular delay de rede
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const id = newProject.title
@@ -224,15 +218,21 @@ const AdminProjects = () => {
         id,
         title: newProject.title || "",
         description: newProject.description || "",
+        fullDescription: newProject.description || "",
         image: newProject.image || imagePreview || "https://placehold.co/600x400/png",
         date,
         tags: newProject.tags || [],
         featured: newProject.featured || false,
         visible: newProject.visible || true,
         views: 0,
+        liveUrl: newProject.liveUrl,
+        gitUrl: newProject.gitUrl
       };
       
-      setProjects([projectToAdd, ...projects]);
+      const updatedProjects = [projectToAdd, ...projects];
+      setProjects(updatedProjects);
+      updateGlobalProjects(updatedProjects);
+      
       setShowAddModal(false);
       
       toast({
@@ -257,26 +257,29 @@ const AdminProjects = () => {
     try {
       setIsSubmitting(true);
       
-      // Simular delay de rede
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setProjects(
-        projects.map((project) => {
-          if (project.id === currentProject.id) {
-            const updatedProject = {
-              ...project,
-              title: newProject.title || project.title,
-              description: newProject.description || project.description,
-              image: newProject.image || imagePreview || project.image,
-              tags: newProject.tags || project.tags,
-              featured: newProject.featured ?? project.featured,
-              visible: newProject.visible ?? project.visible,
-            };
-            return updatedProject;
-          }
-          return project;
-        })
-      );
+      const updatedProjects = projects.map((project) => {
+        if (project.id === currentProject.id) {
+          const updatedProject = {
+            ...project,
+            title: newProject.title || project.title,
+            description: newProject.description || project.description,
+            fullDescription: newProject.fullDescription || newProject.description || project.fullDescription,
+            image: newProject.image || imagePreview || project.image,
+            tags: newProject.tags || project.tags,
+            featured: newProject.featured ?? project.featured,
+            visible: newProject.visible ?? project.visible,
+            liveUrl: newProject.liveUrl || project.liveUrl,
+            gitUrl: newProject.gitUrl || project.gitUrl
+          };
+          return updatedProject;
+        }
+        return project;
+      });
+      
+      setProjects(updatedProjects);
+      updateGlobalProjects(updatedProjects);
       
       setShowEditModal(false);
       setCurrentProject(null);
@@ -303,10 +306,12 @@ const AdminProjects = () => {
     try {
       setIsSubmitting(true);
       
-      // Simular delay de rede
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setProjects(projects.filter((project) => project.id !== currentProject.id));
+      const updatedProjects = projects.filter((project) => project.id !== currentProject.id);
+      setProjects(updatedProjects);
+      updateGlobalProjects(updatedProjects);
+      
       setShowDeleteModal(false);
       setCurrentProject(null);
       
@@ -326,6 +331,18 @@ const AdminProjects = () => {
     }
   };
   
+  useEffect(() => {
+    const savedProjects = localStorage.getItem('projects');
+    if (savedProjects) {
+      try {
+        const parsedProjects = JSON.parse(savedProjects);
+        setProjects(parsedProjects);
+      } catch (error) {
+        console.error('Erro ao carregar projetos do localStorage:', error);
+      }
+    }
+  }, []);
+
   return (
     <div>
       <ScrollAnimator>

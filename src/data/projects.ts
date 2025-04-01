@@ -14,6 +14,14 @@ export interface Project {
   views: number;
 }
 
+// Lista predefinida de tags para autocompletar e sincronizar em toda a aplicação
+export const availableTags = [
+  "React", "Vue.js", "Frontend", "Backend", "Fullstack", 
+  "Design", "UI/UX", "Mobile", "Web", "API", 
+  "Node.js", "TypeScript", "JavaScript", "CSS", "HTML",
+  "Database", "Docker", "DevOps", "Cloud", "E-commerce"
+];
+
 export const projects: Project[] = [
   {
     id: "replidshop",
