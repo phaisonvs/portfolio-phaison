@@ -27,7 +27,7 @@ export function ProjectCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 hover:shadow-lg transition-all duration-300"
+      className="group relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 hover:shadow-lg transition-all duration-300 h-full flex flex-col"
     >
       <div className="relative aspect-video overflow-hidden">
         <img 
@@ -59,7 +59,7 @@ export function ProjectCard({
           </div>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 flex-grow flex flex-col">
         <div className="flex flex-wrap gap-2 mb-3">
           {tags.slice(0, 3).map((tag) => (
             <span 
