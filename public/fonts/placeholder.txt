@@ -1,0 +1,2 @@
+
+Este arquivo existe apenas para garantir que a pasta /fonts/ seja criada. Você deve substituí-lo pelos arquivos de fonte reais (FinalSix-Regular.woff2, FinalSix-Medium.woff2, FinalSix-Bold.woff2, etc).
