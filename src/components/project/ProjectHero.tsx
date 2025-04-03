@@ -25,11 +25,11 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
       const titleElement = heroRef.current.querySelector('h1');
       const accentLine = heroRef.current.querySelector('.accent-line');
       
-      if (titleElement) {
+      if (titleElement && titleElement instanceof HTMLElement) {
         titleElement.style.transform = `translate(${(x - 0.5) * 10}px, ${(y - 0.5) * 10}px)`;
       }
       
-      if (accentLine) {
+      if (accentLine && accentLine instanceof HTMLElement) {
         accentLine.style.transform = `translate(${(x - 0.5) * 15}px, ${(y - 0.5) * 5}px) scaleX(${0.8 + y * 0.4})`;
       }
     };
@@ -50,11 +50,11 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
       const titleElement = heroRef.current.querySelector('h1');
       const accentLine = heroRef.current.querySelector('.accent-line');
       
-      if (titleElement) {
+      if (titleElement && titleElement instanceof HTMLElement) {
         titleElement.style.transform = '';
       }
       
-      if (accentLine) {
+      if (accentLine && accentLine instanceof HTMLElement) {
         accentLine.style.transform = '';
       }
       

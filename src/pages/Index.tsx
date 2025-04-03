@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,7 +7,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { BeamsBackground } from "@/components/ui/beams-background";
 import { Download, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
@@ -14,6 +14,7 @@ import { testimonials } from "@/data/testimonials";
 import { setupScrollAnimations } from "@/utils/scrollAnimation";
 import { Tiles } from "@/components/ui/tiles";
 import ActionButton from "@/components/ui/action-button";
+import { HeroSectionDemo } from "@/components/ui/hero-section-demo";
 
 const Index = () => {
   const heroVariants = {
@@ -95,105 +96,10 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Hero Section with BeamsBackground */}
-      <motion.section 
-        className="pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden bg-navy-900/30 dark:bg-navy-900"
-        variants={heroVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* BeamsBackground no fundo do hero */}
-        <div className="absolute inset-0 z-0">
-          <BeamsBackground intensity="subtle" />
-        </div>
-        
-        <div className="container px-4 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <motion.div 
-              className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-gray-100 dark:border-navy-800 shrink-0 shadow-lg"
-              variants={heroItemVariants}
-            >
-              <img 
-                src="/lovable-uploads/1d1a30fb-6f2d-4525-94d3-9dd652079284.png" 
-                alt="Profile"
-                className="w-full h-full object-cover" 
-              />
-            </motion.div>
-            
-            <div className="flex flex-col">
-              <motion.p 
-                className="text-sm text-gray-200 dark:text-gray-300 mb-2"
-                variants={heroItemVariants}
-              >
-                Milton Ivan • Desenvolvedor Javascript Profissional
-              </motion.p>
-              
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance h-24 md:h-32 lg:h-40 flex items-center text-white"
-                variants={heroItemVariants}
-              >
-                <TypeAnimation
-                  sequence={[
-                    'Criando valor para o crescimento dos negócios através do código.',
-                    4000,
-                    'Soluções digitais para o mundo real.',
-                    4000,
-                    'Transformando ideias em código.',
-                    4000,
-                  ]}
-                  wrapper="span"
-                  speed={25}
-                  cursor={true}
-                  repeat={Infinity}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold"
-                  cursorStyle="|"
-                  cursorClassName="text-sky-400 opacity-70"
-                />
-              </motion.h1>
-              
-              <motion.div 
-                className="flex gap-4 mt-6"
-                variants={heroItemVariants}
-              >
-                <a 
-                  href="https://github.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-navy-700 hover:bg-navy-800/50 dark:hover:bg-navy-700 transition-all text-white"
-                  aria-label="GitHub"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-navy-700 hover:bg-navy-800/50 dark:hover:bg-navy-700 transition-all text-white"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-                <a 
-                  href="https://twitter.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-navy-700 hover:bg-navy-800/50 dark:hover:bg-navy-700 transition-all text-white"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="h-5 w-5" />
-                </a>
-                <a 
-                  href="mailto:example@example.com" 
-                  className="p-2 rounded-full border border-gray-200 dark:border-navy-700 hover:bg-navy-800/50 dark:hover:bg-navy-700 transition-all text-white"
-                  aria-label="Email"
-                >
-                  <Mail className="h-5 w-5" />
-                </a>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </motion.section>
+      {/* Hero Section com nosso novo componente */}
+      <section className="pt-16 md:pt-20 relative overflow-hidden">
+        <HeroSectionDemo />
+      </section>
       
       {/* Featured Projects Section */}
       <section className="py-16 bg-gray-50 dark:bg-navy-900/30 relative overflow-hidden">
@@ -236,10 +142,10 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Need a Document Section with BeamsBackground */}
+      {/* Need a Document Section */}
       <section className="py-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <BeamsBackground intensity="subtle" />
+          <Tiles className="bg-navy-900/30" />
         </div>
         
         <div className="container px-4 md:px-6 relative z-10">
@@ -272,11 +178,10 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Experience Section with BeamsBackground */}
+      {/* Experience Section */}
       <section id="experience" className="py-16 bg-gray-50 dark:bg-navy-900/30 relative overflow-hidden">
-        {/* BeamsBackground em vez de Tiles no fundo da seção de experiência */}
         <div className="absolute inset-0 z-0">
-          <BeamsBackground intensity="subtle" />
+          <Tiles className="bg-navy-900/30" />
         </div>
         
         <div className="container px-4 md:px-6 relative z-10">
@@ -325,7 +230,7 @@ const Index = () => {
       {/* Testimonials Section */}
       <section id="testimonials" className="py-16 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <BeamsBackground intensity="subtle" />
+          <Tiles className="bg-navy-900/30" />
         </div>
         
         <div className="container px-4 md:px-6 relative z-10">
@@ -367,9 +272,8 @@ const Index = () => {
       
       {/* Contact Section */}
       <section id="contact" className="py-16 bg-gray-50 dark:bg-navy-900/30 relative overflow-hidden">
-        {/* BeamsBackground em vez de Tiles no fundo da seção de contato */}
         <div className="absolute inset-0 z-0">
-          <BeamsBackground intensity="strong" />
+          <Tiles className="bg-navy-900/30" />
         </div>
         
         <div className="container px-4 md:px-6 relative z-10">
