@@ -41,7 +41,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className={`rounded-full ${className} btn-press`}
+      className={`rounded-full ${className}`}
       aria-label="Toggle theme"
     >
       {isDarkMode ? (

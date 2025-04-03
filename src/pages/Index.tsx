@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,15 +7,17 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Download, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Calendar, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
 import { setupScrollAnimations } from "@/utils/scrollAnimation";
 import { Tiles } from "@/components/ui/tiles";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import ActionButton from "@/components/ui/action-button";
 
 const Index = () => {
+  // Animation for hero section
   const heroVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -89,6 +92,40 @@ const Index = () => {
   const featuredProjects = projects.filter(
     (project) => project.featured && project.visible
   ).slice(0, 4);
+
+  // People data for AnimatedTooltip
+  const people = [
+    {
+      id: 1,
+      name: "John Doe",
+      designation: "CEO, TechCorp",
+      image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 2,
+      name: "Robert Johnson",
+      designation: "CTO, Innovate Inc",
+      image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 3,
+      name: "Jane Smith",
+      designation: "Lead Designer, CreativeX",
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      designation: "Project Manager, ProManage",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+    {
+      id: 5,
+      name: "Tyler Durden",
+      designation: "Marketing Director, Pulse",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -251,9 +288,9 @@ const Index = () => {
                   onClick={handleDownload} 
                   isPending={isDownloading}
                   variant="outline"
-                  className="flex items-center gap-2 group hover:border-gray-400 dark:hover:border-gray-600"
+                  className="flex items-center gap-2"
                 >
-                  <Download className="h-4 w-4 group-hover:animate-bounce" />
+                  <Calendar className="h-4 w-4" />
                   Baixe meu currículo
                 </ActionButton>
               </div>
@@ -338,6 +375,12 @@ const Index = () => {
               <span className="inline-block w-6 h-0.5 bg-gray-400 dark:bg-gray-600"></span>
               O que dizem sobre mim
             </h2>
+          </ScrollAnimator>
+          
+          <ScrollAnimator delay={150} className="mb-12">
+            <div className="flex justify-center">
+              <AnimatedTooltip items={people} />
+            </div>
           </ScrollAnimator>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
