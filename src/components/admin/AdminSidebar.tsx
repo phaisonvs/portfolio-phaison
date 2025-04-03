@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Layers, BarChart, Settings, LogOut } from "lucide-react";
+import { Home, Layers, BarChart, Settings, ArrowLeft } from "lucide-react";
 
 interface SidebarLink {
   icon: React.ElementType;
@@ -127,7 +127,7 @@ export function AdminSidebar({ isCollapsed, toggleSidebar }: AdminSidebarProps) 
           to="/"
           className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-300 transition-colors"
         >
-          <LogOut className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+          <ArrowLeft className="h-5 w-5 text-gray-500 dark:text-gray-400" />
           {!isCollapsed && (
             <motion.span
               initial={{ opacity: 0 }}
@@ -135,7 +135,7 @@ export function AdminSidebar({ isCollapsed, toggleSidebar }: AdminSidebarProps) 
               exit={{ opacity: 0 }}
               className="font-medium"
             >
-              Sair
+              Voltar para o site
             </motion.span>
           )}
         </Link>
