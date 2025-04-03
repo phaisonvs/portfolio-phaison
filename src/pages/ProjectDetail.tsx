@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Code, Database, Server, Globe, LayoutGrid } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { Project, projects } from "@/data/projects";
 import { Feature } from "@/components/ui/feature-with-image-carousel";
+import { ProjectHero } from "@/components/project/ProjectHero";
+import { ProjectImageGrid } from "@/components/project/ProjectImageGrid";
+import { ProjectParallax } from "@/components/project/ProjectParallax";
+import { ProjectFeatures } from "@/components/project/ProjectFeatures";
+import { ProjectTimeline } from "@/components/project/ProjectTimeline";
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,13 +77,86 @@ const ProjectDetail = () => {
     );
   }
 
+  // Dados para as novas seções
+  const projectFeatures = [
+    {
+      icon: <Code className="w-6 h-6" />,
+      title: "Frontend",
+      description: "Desenvolvimento de interfaces modernas e responsivas utilizando as mais recentes tecnologias web."
+    },
+    {
+      icon: <Server className="w-6 h-6" />,
+      title: "Backend",
+      description: "Implementação de APIs robustas e escaláveis para suportar as funcionalidades do sistema."
+    },
+    {
+      icon: <Database className="w-6 h-6" />,
+      title: "Banco de Dados",
+      description: "Modelagem e estruturação otimizada de dados para garantir performance e segurança."
+    },
+    {
+      icon: <LayoutGrid className="w-6 h-6" />,
+      title: "UI/UX Design",
+      description: "Design centrado no usuário com foco em usabilidade e experiência agradável."
+    },
+    {
+      icon: <Globe className="w-6 h-6" />,
+      title: "Implantação",
+      description: "Publicação do projeto em ambiente de produção com configuração de CI/CD."
+    }
+  ];
+
+  const timelineItems = [
+    {
+      title: "Planejamento",
+      date: "Janeiro 2023",
+      description: "Definição de requisitos, escopo e arquitetura do projeto."
+    },
+    {
+      title: "Design",
+      date: "Fevereiro 2023",
+      description: "Criação de wireframes, protótipos e definição da identidade visual."
+    },
+    {
+      title: "Desenvolvimento",
+      date: "Março - Maio 2023",
+      description: "Implementação do frontend e backend, integrações com APIs externas."
+    },
+    {
+      title: "Testes",
+      date: "Junho 2023",
+      description: "Testes de usabilidade, performance e segurança para garantir qualidade."
+    },
+    {
+      title: "Lançamento",
+      date: "Julho 2023",
+      description: "Publicação do projeto e início do monitoramento em produção."
+    }
+  ];
+
+  // Imagens de exemplo para o grid (em um cenário real, viriam do projeto)
+  const projectImages = [
+    project.image,
+    "https://placehold.co/800x450/png",
+    "https://placehold.co/800x450/png", 
+    "https://placehold.co/800x450/png",
+    "https://placehold.co/800x450/png",
+    "https://placehold.co/800x450/png"
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Project Header */}
+      {/* Nova Hero Section com efeito parallax */}
+      <ProjectHero 
+        image={project.image} 
+        title={project.title} 
+      />
+      
+      {/* Botões e informações principais */}
       <motion.section 
-        className="pt-32 pb-8"
+        className="pt-12 pb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -92,20 +170,18 @@ const ProjectDetail = () => {
             Voltar para projetos
           </Link>
           
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{project.title}</h1>
-          
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300"
+                className="text-xs px-3 py-1 bg-sky-100 dark:bg-navy-800 rounded-full text-sky-700 dark:text-sky-300"
               >
                 {tag}
               </span>
             ))}
           </div>
           
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-4xl text-lg">
             {project.fullDescription || project.description}
           </p>
           
@@ -115,7 +191,7 @@ const ProjectDetail = () => {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-black dark:bg-blue-600 text-white dark:text-white font-medium hover:bg-gray-900 dark:hover:bg-blue-700 transition-colors btn-press"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-sky-500 dark:bg-blue-600 text-white font-medium hover:bg-sky-600 dark:hover:bg-blue-700 transition-colors btn-press"
               >
                 <ExternalLink className="w-4 h-4" />
                 Ver projeto
@@ -127,7 +203,7 @@ const ProjectDetail = () => {
                 href={project.gitUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-transparent text-black dark:text-white font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors btn-press"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent text-black dark:text-white font-medium hover:bg-gray-50 dark:hover:bg-navy-800 transition-colors btn-press"
               >
                 <Github className="w-4 h-4" />
                 Ver código
@@ -137,22 +213,7 @@ const ProjectDetail = () => {
         </div>
       </motion.section>
       
-      {/* Project Image */}
-      <section className="pb-16">
-        <div className="container">
-          <ScrollAnimator>
-            <div className="rounded-lg overflow-hidden shadow-lg">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          </ScrollAnimator>
-        </div>
-      </section>
-      
-      {/* Feature Section with Image Carousel */}
+      {/* Feature Section with Image Carousel (Mantida) */}
       <Feature 
         title={`Detalhes do projeto ${project.title}`}
         description={project.fullDescription || project.description}
@@ -160,8 +221,21 @@ const ProjectDetail = () => {
         images={[project.image, ...Array(4).fill("https://placehold.co/800x450/png")]}
       />
       
-      {/* Nova Seção 1: Visão Geral do Projeto */}
-      <section className="py-16 bg-gray-50 dark:bg-navy-800/20">
+      {/* Nova seção de Grid de Imagens */}
+      <ProjectImageGrid 
+        images={projectImages}
+        title="Galeria do Projeto"
+      />
+      
+      {/* Nova seção com efeito Parallax */}
+      <ProjectParallax 
+        image={project.image}
+        title="Sobre o Projeto"
+        description="Este projeto foi desenvolvido com o objetivo de criar uma solução inovadora para os desafios enfrentados pelos usuários. Utilizando tecnologias modernas e metodologias ágeis, conseguimos entregar uma plataforma robusta e escalável que atende às necessidades específicas do mercado."
+      />
+      
+      {/* Nova seção 1: Visão Geral do Projeto (Mantida) */}
+      <section className="py-16 bg-gradient-to-b from-sky-50/50 to-white dark:from-navy-800/20 dark:to-navy-900">
         <div className="container">
           <ScrollAnimator>
             <h2 className="text-3xl font-bold mb-10 text-center">Visão Geral do Projeto</h2>
@@ -210,166 +284,20 @@ const ProjectDetail = () => {
         </div>
       </section>
       
-      {/* Nova Seção 2: Tecnologias Utilizadas */}
-      <section className="py-16">
-        <div className="container">
-          <ScrollAnimator>
-            <h2 className="text-3xl font-bold mb-10 text-center">Tecnologias Utilizadas</h2>
-          </ScrollAnimator>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <ScrollAnimator>
-              <div className="rounded-xl overflow-hidden">
-                <img 
-                  src="https://placehold.co/800x600/png" 
-                  alt="Tecnologias"
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={200}>
-              <div className="flex flex-col justify-center h-full">
-                <div className="space-y-6">
-                  <div className="bg-gray-50 dark:bg-navy-700/30 p-4 rounded-lg flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-md bg-blue-500 dark:bg-blue-600 flex items-center justify-center text-white">
-                      <span className="font-bold">1</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{project.tags[0] || "Frontend"}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Desenvolvimento de interfaces modernas e responsivas.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gray-50 dark:bg-navy-700/30 p-4 rounded-lg flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-md bg-purple-500 dark:bg-purple-600 flex items-center justify-center text-white">
-                      <span className="font-bold">2</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{project.tags[1] || "Backend"}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Implementação de APIs e lógica de negócio.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gray-50 dark:bg-navy-700/30 p-4 rounded-lg flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-md bg-green-500 dark:bg-green-600 flex items-center justify-center text-white">
-                      <span className="font-bold">3</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{project.tags[2] || "Database"}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Armazenamento e gerenciamento de dados.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gray-50 dark:bg-navy-700/30 p-4 rounded-lg flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-md bg-yellow-500 dark:bg-yellow-600 flex items-center justify-center text-white">
-                      <span className="font-bold">4</span>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{project.tags[3] || "DevOps"}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Infraestrutura, CI/CD e monitoramento.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ScrollAnimator>
-          </div>
-        </div>
-      </section>
+      {/* Nova seção de Features */}
+      <ProjectFeatures 
+        features={projectFeatures}
+        title="Tecnologias e Funcionalidades"
+      />
       
-      {/* Nova Seção 3: Fases do Projeto */}
-      <section className="py-16 bg-gray-50 dark:bg-navy-800/20">
-        <div className="container">
-          <ScrollAnimator>
-            <h2 className="text-3xl font-bold mb-10 text-center">Fases do Projeto</h2>
-          </ScrollAnimator>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <ScrollAnimator delay={100}>
-              <div className="rounded-xl bg-white dark:bg-navy-700/30 overflow-hidden shadow-sm">
-                <div className="h-48 bg-blue-100 dark:bg-blue-900/20 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white dark:bg-navy-600 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">1</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2">Pesquisa</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Análise de requisitos e pesquisa de mercado para fundamentar o desenvolvimento.
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={200}>
-              <div className="rounded-xl bg-white dark:bg-navy-700/30 overflow-hidden shadow-sm">
-                <div className="h-48 bg-purple-100 dark:bg-purple-900/20 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white dark:bg-navy-600 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">2</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2">Design</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Criação do design de interface e experiência do usuário.
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={300}>
-              <div className="rounded-xl bg-white dark:bg-navy-700/30 overflow-hidden shadow-sm">
-                <div className="h-48 bg-green-100 dark:bg-green-900/20 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white dark:bg-navy-600 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-green-600 dark:text-green-400">3</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2">Desenvolvimento</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Implementação do código e funcionalidades do sistema.
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimator>
-            
-            <ScrollAnimator delay={400}>
-              <div className="rounded-xl bg-white dark:bg-navy-700/30 overflow-hidden shadow-sm">
-                <div className="h-48 bg-yellow-100 dark:bg-yellow-900/20 relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white dark:bg-navy-600 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">4</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold mb-2">Lançamento</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Publicação e monitoramento do projeto em produção.
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimator>
-          </div>
-        </div>
-      </section>
+      {/* Nova seção de Timeline */}
+      <ProjectTimeline 
+        items={timelineItems}
+        title="Linha do Tempo do Projeto"
+      />
       
-      {/* Related Projects */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900/30">
+      {/* Related Projects (Mantida) */}
+      <section className="py-16 bg-gradient-to-b from-sky-50/30 to-white dark:from-navy-800/50 dark:to-navy-900">
         <div className="container">
           <ScrollAnimator>
             <h2 className="text-2xl font-bold mb-8">Projetos Relacionados</h2>
@@ -387,7 +315,7 @@ const ProjectDetail = () => {
               .map((relatedProject, index) => (
                 <ScrollAnimator key={relatedProject.id} delay={index * 100}>
                   <Link to={`/projects/${relatedProject.id}`} className="block h-full">
-                    <div className="h-full rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-hidden hover:shadow-md transition-all">
+                    <div className="h-full rounded-lg border border-gray-200 dark:border-navy-700 bg-white dark:bg-navy-800 overflow-hidden hover:shadow-md transition-all">
                       <div className="aspect-video overflow-hidden">
                         <img
                           src={relatedProject.image}
@@ -397,7 +325,7 @@ const ProjectDetail = () => {
                       </div>
                       <div className="p-4">
                         <h3 className="font-medium mb-2">{relatedProject.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
                           {relatedProject.description}
                         </p>
                       </div>

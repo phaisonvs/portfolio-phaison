@@ -76,6 +76,43 @@ export default {
 					800: "#072657",
 					900: "#031A3F",
 				},
+				// Novas cores para melhorar o modo light
+				sky: {
+					50: "#F0F7FF",
+					100: "#E0F0FF",
+					200: "#BDE0FF",
+					300: "#91C8FF",
+					400: "#61ABFF",
+					500: "#3B8BF6",
+					600: "#2E6FD9",
+					700: "#1E54B7",
+					800: "#153C8C",
+					900: "#0C2D6F",
+				},
+				teal: {
+					50: "#EFFCF6",
+					100: "#DCF7EC",
+					200: "#B8EED9",
+					300: "#88E0C3",
+					400: "#5BCCA7",
+					500: "#3EB489",
+					600: "#2E9B72",
+					700: "#20785A",
+					800: "#175C45",
+					900: "#0F4635",
+				},
+				amber: {
+					50: "#FFFAEB",
+					100: "#FFF3C7",
+					200: "#FFE483",
+					300: "#FFD54F",
+					400: "#FFC929",
+					500: "#FFC107",
+					600: "#E0A800",
+					700: "#BB8A00",
+					800: "#956C00",
+					900: "#7A5900",
+				},
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -115,6 +152,20 @@ export default {
 					"0%": { transform: "scale(1)" },
 					"50%": { transform: "scale(0.97)" },
 					"100%": { transform: "scale(1)" }
+				},
+				"grid-pulse": {
+					"0%": { opacity: "0.3" },
+					"50%": { opacity: "0.8" },
+					"100%": { opacity: "0.3" }
+				},
+				"float": {
+					"0%": { transform: "translateY(0px)" },
+					"50%": { transform: "translateY(-10px)" },
+					"100%": { transform: "translateY(0px)" }
+				},
+				"parallax-scroll": {
+					"0%": { transform: "translateY(0)" },
+					"100%": { transform: "translateY(-50%)" }
 				}
 			},
 			animation: {
@@ -125,7 +176,10 @@ export default {
 				"fade-in-left": "fade-in-left 0.7s ease-out",
 				"scale-in": "scale-in 0.6s ease-out",
 				"slow-spin": "slow-spin 15s linear infinite",
-				"btn-press": "btn-press 0.3s ease-in-out"
+				"btn-press": "btn-press 0.3s ease-in-out",
+				"grid-pulse": "grid-pulse 3s ease-in-out infinite",
+				"float": "float 5s ease-in-out infinite",
+				"parallax-scroll": "parallax-scroll 15s linear infinite alternate"
 			},
 			backdropBlur: {
 				xs: '2px',

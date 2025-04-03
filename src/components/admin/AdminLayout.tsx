@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminHeader } from "./AdminHeader";
 import { useToast } from "@/hooks/use-toast";
+import { LogoutDialog } from "./LogoutDialog";
 
 interface AdminLayoutProps {
   setIsAuthenticated: (value: boolean) => void;
@@ -11,6 +12,7 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ setIsAuthenticated }: AdminLayoutProps) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -18,7 +20,11 @@ export function AdminLayout({ setIsAuthenticated }: AdminLayoutProps) {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleConfirmLogout = () => {
     // Remover autenticação
     localStorage.removeItem("adminAuth");
     setIsAuthenticated(false);
@@ -29,16 +35,16 @@ export function AdminLayout({ setIsAuthenticated }: AdminLayoutProps) {
       description: "Você foi desconectado do painel administrativo.",
     });
     
-    // Redirecionar para login
-    navigate("/admin/login");
+    // Redirecionar para homepage
+    navigate("/");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-navy-900">
       <AdminSidebar isCollapsed={isSidebarCollapsed} toggleSidebar={toggleSidebar} />
       <AdminHeader 
         isCollapsed={isSidebarCollapsed} 
-        onLogout={handleLogout}
+        onLogout={handleLogoutClick}
       />
       <main
         className={`transition-all duration-300 pt-16 min-h-screen ${
@@ -49,6 +55,12 @@ export function AdminLayout({ setIsAuthenticated }: AdminLayoutProps) {
           <Outlet />
         </div>
       </main>
+
+      <LogoutDialog 
+        open={showLogoutDialog} 
+        onOpenChange={setShowLogoutDialog} 
+        onConfirm={handleConfirmLogout} 
+      />
     </div>
   );
 }
