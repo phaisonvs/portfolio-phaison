@@ -42,7 +42,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       size="icon"
       onClick={toggleTheme}
       className={`rounded-full ${className} btn-press`}
-      aria-label="Alternar tema"
+      aria-label="Toggle theme"
     >
       {isDarkMode ? (
         <Sun className="h-5 w-5 transition-all text-yellow-300" />
