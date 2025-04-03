@@ -40,19 +40,19 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 210 100% 50%;
+    --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 210 95% 95%;
-    --accent-foreground: 210 100% 40%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 210 100% 50%;
+    --ring: 240 5.9% 10%;
     --radius: 0.75rem;
   }
 
@@ -93,35 +93,6 @@
   .btn-press {
     @apply active:animate-btn-press;
   }
-  
-  .grid-hover-effect {
-    @apply relative overflow-hidden;
-  }
-  
-  .grid-hover-effect::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-sky-500/10 to-teal-500/10 opacity-0 transition-opacity duration-300 pointer-events-none;
-  }
-  
-  .grid-hover-effect:hover::before {
-    @apply opacity-100;
-  }
-  
-  .grid-hover-effect .grid-dot {
-    @apply absolute h-1 w-1 rounded-full bg-sky-400/50 dark:bg-sky-400/30 transition-all duration-300 opacity-0;
-  }
-  
-  .grid-hover-effect:hover .grid-dot {
-    @apply opacity-100 animate-grid-pulse;
-  }
-  
-  .parallax-section {
-    @apply relative overflow-hidden;
-  }
-  
-  .parallax-bg {
-    @apply absolute top-0 left-0 w-full h-[200%] bg-repeat bg-center transition-transform duration-300;
-  }
 }
 
 /* Custom Scrollbar */
@@ -131,40 +102,20 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-sky-50 dark:bg-navy-800;
+  @apply bg-gray-100 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-sky-200 dark:bg-navy-600 rounded-full;
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-sky-300 dark:bg-navy-500;
+  @apply bg-gray-400 dark:bg-gray-600;
 }
 
 /* Ajuste para botões no dark mode */
 .dark .btn-primary {
   @apply bg-blue-600 hover:bg-blue-700 text-white;
-}
-
-/* Background interativo */
-.interactive-bg {
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(91, 104, 235, 0.05) 0%, rgba(0, 0, 0, 0) 20%),
-    radial-gradient(circle at 90% 30%, rgba(63, 200, 235, 0.05) 0%, rgba(0, 0, 0, 0) 25%),
-    radial-gradient(circle at 50% 80%, rgba(91, 146, 235, 0.05) 0%, rgba(0, 0, 0, 0) 30%);
-  @apply relative overflow-hidden;
-}
-
-.interactive-bg::after {
-  content: '';
-  @apply absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-background;
-  opacity: 0.7;
-}
-
-/* Floating Animation for Hero Section */
-.floating-element {
-  @apply animate-float;
 }
