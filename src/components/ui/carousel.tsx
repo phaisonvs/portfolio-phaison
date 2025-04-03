@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
@@ -61,8 +60,6 @@ const Carousel = React.forwardRef<
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
-        dragFree: true,
-        containScroll: "trimSnaps",
       },
       plugins
     )
@@ -185,7 +182,7 @@ const CarouselItem = React.forwardRef<
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full transition-opacity duration-300",
+        "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
@@ -207,11 +204,10 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity",
+        "absolute  h-8 w-8 rounded-full",
         orientation === "horizontal"
-          ? "left-2 top-1/2 -translate-y-1/2"
+          ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        !canScrollPrev && "opacity-0 pointer-events-none",
         className
       )}
       disabled={!canScrollPrev}
@@ -219,7 +215,7 @@ const CarouselPrevious = React.forwardRef<
       {...props}
     >
       <ArrowLeft className="h-4 w-4" />
-      <span className="sr-only">Anterior</span>
+      <span className="sr-only">Previous slide</span>
     </Button>
   )
 })
@@ -237,11 +233,10 @@ const CarouselNext = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-8 w-8 rounded-full opacity-70 hover:opacity-100 transition-opacity",
+        "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
-          ? "right-2 top-1/2 -translate-y-1/2"
+          ? "-right-12 top-1/2 -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        !canScrollNext && "opacity-0 pointer-events-none",
         className
       )}
       disabled={!canScrollNext}
@@ -249,7 +244,7 @@ const CarouselNext = React.forwardRef<
       {...props}
     >
       <ArrowRight className="h-4 w-4" />
-      <span className="sr-only">Próximo</span>
+      <span className="sr-only">Next slide</span>
     </Button>
   )
 })

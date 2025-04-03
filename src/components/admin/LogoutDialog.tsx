@@ -1,6 +1,5 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,14 +19,6 @@ interface LogoutDialogProps {
 }
 
 export function LogoutDialog({ open, onOpenChange, onConfirm }: LogoutDialogProps) {
-  const navigate = useNavigate();
-  
-  const handleLogout = () => {
-    onConfirm();
-    // Redirecionar para a homepage
-    navigate("/");
-  };
-  
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="bg-white dark:bg-navy-800 border border-gray-200 dark:border-navy-700">
@@ -42,11 +33,11 @@ export function LogoutDialog({ open, onOpenChange, onConfirm }: LogoutDialogProp
             Permanecer
           </AlertDialogCancel>
           <AlertDialogAction 
-            onClick={handleLogout}
+            onClick={onConfirm}
             className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-600 dark:hover:bg-blue-700 btn-press"
           >
-            <Home className="w-4 h-4 mr-2" />
-            Voltar para o site
+            <LogOut className="w-4 h-4 mr-2" />
+            Sair
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
