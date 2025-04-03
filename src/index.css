@@ -1,6 +1,32 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+@font-face {
+  font-family: 'FinalSix';
+  src: url('/fonts/FinalSix-Regular.woff2') format('woff2'),
+       url('/fonts/FinalSix-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FinalSix';
+  src: url('/fonts/FinalSix-Medium.woff2') format('woff2'),
+       url('/fonts/FinalSix-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FinalSix';
+  src: url('/fonts/FinalSix-Bold.woff2') format('woff2'),
+       url('/fonts/FinalSix-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -14,237 +40,131 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
+    --primary: 210 100% 50%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 210 95% 95%;
+    --accent-foreground: 210 100% 40%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
-    --tile: rgba(0, 0, 0, 0.04);
+    --ring: 210 100% 50%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 225 15% 8%; /* Slightly lighter bluish-black */
-    --foreground: 210 20% 98%;
-    --card: 224 16% 10%; /* Slightly lighter bluish-black for cards */
-    --card-foreground: 210 20% 98%;
-    --popover: 224 16% 10%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 210 20% 98%;
-    --primary-foreground: 220 12% 10%;
-    --secondary: 220 12% 18%; /* Slightly lighter secondary */
-    --secondary-foreground: 210 20% 98%;
-    --muted: 220 12% 18%;
-    --muted-foreground: 220 12% 70%;
-    --accent: 220 12% 18%;
-    --accent-foreground: 210 20% 98%;
+    --background: 218 42% 12%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 32% 17%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 12% 18%;
-    --input: 220 12% 18%;
-    --ring: 224 16% 80%;
-    --tile: rgba(255, 255, 255, 0.1);
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 224 76% 48%;
   }
 }
 
-* {
-  @apply border-border selection:bg-black/10 selection:text-black dark:selection:bg-white/10 dark:selection:text-white;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  @apply bg-background text-foreground antialiased font-sans;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  @apply font-medium tracking-tight;
-}
-
-::selection {
-  @apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .btn-press {
+    @apply active:animate-btn-press;
   }
-
-  .glass-panel {
-    @apply bg-white/70 dark:bg-black/50 backdrop-blur-sm border border-white/20 dark:border-black/20;
+  
+  .grid-hover-effect {
+    @apply relative overflow-hidden;
   }
-
-  .text-gradient {
-    @apply bg-gradient-to-br from-black to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent;
+  
+  .grid-hover-effect::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-sky-500/10 to-teal-500/10 opacity-0 transition-opacity duration-300 pointer-events-none;
   }
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Animation classes */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.animate-on-scroll.animate {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.animate-on-scroll-delay-100 {
-  transition-delay: 100ms;
-}
-
-.animate-on-scroll-delay-200 {
-  transition-delay: 200ms;
-}
-
-.animate-on-scroll-delay-300 {
-  transition-delay: 300ms;
-}
-
-.animate-on-scroll-delay-400 {
-  transition-delay: 400ms;
-}
-
-.animate-on-scroll-delay-500 {
-  transition-delay: 500ms;
-}
-
-/* Tiles Component CSS */
-.tiles-container {
-  position: absolute;
-  overflow: hidden;
-  inset: 0;
-  z-index: 0;
-}
-
-.dark .tiles-container {
-  opacity: 1;
-}
-
-.light .tiles-container {
-  opacity: 0.04;
-}
-
-/* Transition for mode switch */
-.tiles-container {
-  transition: opacity 0.3s ease;
-}
-
-.tiles-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.dark .tiles-overlay {
-  opacity: 0.4;
-}
-
-.light .tiles-overlay {
-  opacity: 0;
-}
-
-.circuit-lines-container {
-  position: absolute;
-  overflow: hidden;
-  opacity: 0.6;
-  --color: rgba(255, 255, 255, 0.2);
-  transition: opacity 0.5s ease;
-}
-
-.circuit-lines-container:hover {
-  opacity: 0.8;
-}
-
-.circuit-lines-container.in-view .circuit-path {
-  stroke-dashoffset: 0;
-}
-
-.circuit-lines-container .circuit-path {
-  stroke-dashoffset: 200;
-  transition: stroke-dashoffset 1.5s ease;
-}
-
-.circuit-lines-container.animated .circuit-node {
-  animation: circuit-pulse 3s infinite alternate;
-  transform-origin: center;
-}
-
-.circuit-lines-container.interact-on-scroll .circuit-path {
-  stroke-dasharray: 200;
-  animation: circuit-draw calc(1s + var(--scroll-progress, 0) * 2s) ease forwards;
-}
-
-.variant-horizontal .circuit-path {
-  animation-duration: 2s;
-}
-
-.variant-vertical .circuit-path {
-  animation-duration: 2.5s;
-}
-
-.variant-diagonal .circuit-path {
-  animation-duration: 3s;
-}
-
-.variant-grid .circuit-path {
-  animation: circuit-grid-animate 3s infinite alternate;
-}
-
-@keyframes circuit-pulse {
-  0% {
-    r: 1.5;
-    opacity: 0.4;
+  
+  .grid-hover-effect:hover::before {
+    @apply opacity-100;
   }
-  50% {
-    r: 2.5;
-    opacity: 1;
+  
+  .grid-hover-effect .grid-dot {
+    @apply absolute h-1 w-1 rounded-full bg-sky-400/50 dark:bg-sky-400/30 transition-all duration-300 opacity-0;
   }
-  100% {
-    r: 1.5;
-    opacity: 0.4;
+  
+  .grid-hover-effect:hover .grid-dot {
+    @apply opacity-100 animate-grid-pulse;
+  }
+  
+  .parallax-section {
+    @apply relative overflow-hidden;
+  }
+  
+  .parallax-bg {
+    @apply absolute top-0 left-0 w-full h-[200%] bg-repeat bg-center transition-transform duration-300;
   }
 }
 
-@keyframes circuit-draw {
-  0% {
-    stroke-dashoffset: 200;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-@keyframes circuit-grid-animate {
-  0% {
-    opacity: 0.3;
-    stroke-width: 0.5;
-  }
-  100% {
-    opacity: 0.8;
-    stroke-width: 1;
-  }
+::-webkit-scrollbar-track {
+  @apply bg-sky-50 dark:bg-navy-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-sky-200 dark:bg-navy-600 rounded-full;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-sky-300 dark:bg-navy-500;
+}
+
+/* Ajuste para botões no dark mode */
+.dark .btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+}
+
+/* Background interativo */
+.interactive-bg {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(91, 104, 235, 0.05) 0%, rgba(0, 0, 0, 0) 20%),
+    radial-gradient(circle at 90% 30%, rgba(63, 200, 235, 0.05) 0%, rgba(0, 0, 0, 0) 25%),
+    radial-gradient(circle at 50% 80%, rgba(91, 146, 235, 0.05) 0%, rgba(0, 0, 0, 0) 30%);
+  @apply relative overflow-hidden;
+}
+
+.interactive-bg::after {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-background;
+  opacity: 0.7;
+}
+
+/* Floating Animation for Hero Section */
+.floating-element {
+  @apply animate-float;
 }

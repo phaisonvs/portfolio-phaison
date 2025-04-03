@@ -27,7 +27,7 @@ export function ProjectCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 hover:shadow-lg transition-all duration-300"
+      className="group relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 hover:shadow-lg transition-all duration-300 h-full flex flex-col"
     >
       <div className="relative aspect-video overflow-hidden">
         <img 
@@ -44,7 +44,7 @@ export function ProjectCard({
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-                aria-label="View live site"
+                aria-label="Ver site ao vivo"
               >
                 <ExternalLink className="w-4 h-4 text-white" />
               </a>
@@ -52,14 +52,14 @@ export function ProjectCard({
             <Link
               to={`/projects/${id}`}
               className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Project details"
+              aria-label="Detalhes do projeto"
             >
               <Play className="w-4 h-4 text-white" />
             </Link>
           </div>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 flex-grow flex flex-col">
         <div className="flex flex-wrap gap-2 mb-3">
           {tags.slice(0, 3).map((tag) => (
             <span 
