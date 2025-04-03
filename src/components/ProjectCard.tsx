@@ -44,7 +44,7 @@ export function ProjectCard({
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-                aria-label="View live site"
+                aria-label="Ver site ao vivo"
               >
                 <ExternalLink className="w-4 h-4 text-white" />
               </a>
@@ -52,7 +52,7 @@ export function ProjectCard({
             <Link
               to={`/projects/${id}`}
               className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Project details"
+              aria-label="Detalhes do projeto"
             >
               <Play className="w-4 h-4 text-white" />
             </Link>

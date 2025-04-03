@@ -26,7 +26,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
+				sans: ['FinalSix', 'Inter', 'sans-serif'],
 				mono: ['Fira Code', 'monospace'],
 			},
 			colors: {
@@ -63,6 +63,19 @@ export default {
 					DEFAULT: "hsl(var(--card))",
 					foreground: "hsl(var(--card-foreground))",
 				},
+				// Cores personalizadas para o tema azul marinho
+				navy: {
+					50: "#E7ECF2",
+					100: "#C0D1E2",
+					200: "#96B3D0",
+					300: "#6C95BD",
+					400: "#4D7FAE",
+					500: "#2D699F",
+					600: "#1E5187",
+					700: "#0F3A6F",
+					800: "#072657",
+					900: "#031A3F",
+				},
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -97,6 +110,11 @@ export default {
 				"slow-spin": {
 					"0%": { transform: "rotate(0deg)" },
 					"100%": { transform: "rotate(360deg)" }
+				},
+				"btn-press": {
+					"0%": { transform: "scale(1)" },
+					"50%": { transform: "scale(0.97)" },
+					"100%": { transform: "scale(1)" }
 				}
 			},
 			animation: {
@@ -106,7 +124,8 @@ export default {
 				"fade-in-right": "fade-in-right 0.7s ease-out",
 				"fade-in-left": "fade-in-left 0.7s ease-out",
 				"scale-in": "scale-in 0.6s ease-out",
-				"slow-spin": "slow-spin 15s linear infinite"
+				"slow-spin": "slow-spin 15s linear infinite",
+				"btn-press": "btn-press 0.3s ease-in-out"
 			},
 			backdropBlur: {
 				xs: '2px',
