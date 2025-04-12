@@ -12,20 +12,22 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
   const isMobile = useIsMobile();
   
   useEffect(() => {
+    if (isMobile || !heroRef.current) return;
+    
+    // Use pointer events for better performance instead of mousemove
     const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current || isMobile) return;
-      
-      const { left, top, width, height } = heroRef.current.getBoundingClientRect();
+      const { left, top, width, height } = heroRef.current!.getBoundingClientRect();
       const x = (e.clientX - left) / width;
       const y = (e.clientY - top) / height;
       
-      heroRef.current.style.setProperty('--mouse-x', `${x}`);
-      heroRef.current.style.setProperty('--mouse-y', `${y}`);
+      // Use requestAnimationFrame for smoother animation
+      requestAnimationFrame(() => {
+        heroRef.current!.style.setProperty('--mouse-x', `${x}`);
+        heroRef.current!.style.setProperty('--mouse-y', `${y}`);
+      });
     };
     
-    if (heroRef.current) {
-      heroRef.current.addEventListener('mousemove', handleMouseMove);
-    }
+    heroRef.current.addEventListener('mousemove', handleMouseMove, { passive: true });
     
     return () => {
       if (heroRef.current) {
@@ -37,11 +39,12 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
   return (
     <div 
       ref={heroRef}
-      className="w-full h-[70vh] bg-cover bg-center relative overflow-hidden"
+      className="w-full h-[70vh] relative overflow-hidden will-change-auto"
       style={{
         backgroundImage: `url(${image})`,
+        backgroundSize: 'cover',
         backgroundPosition: isMobile ? 'center center' : 'calc(50% + calc(var(--mouse-x, 0.5) - 0.5) * 20px) calc(50% + calc(var(--mouse-y, 0.5) - 0.5) * 20px)',
-        transition: 'background-position 0.2s ease-out',
+        transition: 'background-position 0.3s cubic-bezier(0.2, 0, 0.1, 1)',
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 md:p-12">

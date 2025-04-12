@@ -17,23 +17,35 @@ export const setupScrollAnimations = () => {
     (entries) => {
       entries.forEach((entry) => {
         const element = entry.target as HTMLElement;
+        
         if (entry.isIntersecting) {
-          // Aplicar a classe de animação quando o elemento estiver visível
-          element.classList.add('animate');
+          // Use requestAnimationFrame for smoother animation
+          requestAnimationFrame(() => {
+            element.classList.add('animate');
+            // Set will-change for better GPU acceleration
+            element.style.willChange = 'opacity, transform';
+            
+            // Add a timeout to remove will-change after animation completes
+            setTimeout(() => {
+              element.style.willChange = 'auto';
+            }, 500); // Animation duration
+          });
           
           // Opcionalmente, parar de observar depois da animação
           if (element.getAttribute('data-observe-once') === 'true') {
             observer.unobserve(element);
           }
         } else if (element.getAttribute('data-observe-once') !== 'true') {
-          // Remover a classe se o elemento sair da tela (apenas para elementos de animação contínua)
-          element.classList.remove('animate');
+          // Remover a classe com requestAnimationFrame
+          requestAnimationFrame(() => {
+            element.classList.remove('animate');
+          });
         }
       });
     },
     {
       threshold: 0.1, // Iniciar a animação quando 10% do elemento estiver visível
-      rootMargin: '0px 0px -100px 0px', // Margem negativa inferior para iniciar a animação um pouco antes
+      rootMargin: '0px 0px -50px 0px', // Margem negativa inferior para iniciar a animação um pouco antes
     }
   );
 
@@ -53,53 +65,59 @@ export const setupScrollAnimations = () => {
   };
 };
 
-// Função para animar elementos com base na posição de rolagem
+// Função para animar elementos com base na posição de rolagem com melhor performance
 export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2, endOffset: number = 0.8) => {
   if (!element) return;
 
+  // Use requestAnimationFrame for better performance
+  let ticking = false;
+  let rafId: number | null = null;
+  
   const handleScroll = () => {
-    const rect = element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+    if (ticking) return;
     
-    // Calcular a visibilidade do elemento na tela
-    const visiblePortion = 1 - (rect.bottom / windowHeight);
-    
-    // Normalizar valor entre startOffset e endOffset
-    const scrollProgress = Math.max(0, Math.min(1, (visiblePortion - startOffset) / (endOffset - startOffset)));
-    
-    // Aplicar o valor como propriedade CSS personalizada
-    element.style.setProperty('--scroll-progress', scrollProgress.toString());
-    
-    // Adicionar classe quando o elemento é visível
-    if (scrollProgress > 0 && scrollProgress < 1) {
-      element.classList.add('in-view');
-    } else {
-      element.classList.remove('in-view');
-    }
+    ticking = true;
+    rafId = requestAnimationFrame(() => {
+      const rect = element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calcular a visibilidade do elemento na tela
+      const visiblePortion = 1 - (rect.bottom / windowHeight);
+      
+      // Normalizar valor entre startOffset e endOffset
+      const scrollProgress = Math.max(0, Math.min(1, (visiblePortion - startOffset) / (endOffset - startOffset)));
+      
+      // Aplicar o valor como propriedade CSS personalizada
+      element.style.setProperty('--scroll-progress', scrollProgress.toString());
+      element.style.willChange = 'transform, opacity';
+      
+      // Adicionar classe quando o elemento é visível
+      if (scrollProgress > 0 && scrollProgress < 1) {
+        element.classList.add('in-view');
+      } else {
+        element.classList.remove('in-view');
+        // Reset will-change when not in view
+        if (scrollProgress <= 0 || scrollProgress >= 1) {
+          element.style.willChange = 'auto';
+        }
+      }
+      
+      ticking = false;
+    });
   };
 
   // Configuração inicial
   handleScroll();
   
-  // Otimizar performance com throttling
-  let ticking = false;
-  
-  const onScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
-  
-  // Adicionar evento de rolagem
-  window.addEventListener('scroll', onScroll, { passive: true });
+  // Adicionar evento de rolagem com passive flag for better performance
+  window.addEventListener('scroll', handleScroll, { passive: true });
   
   // Retornar função para limpar o evento
   return () => {
-    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('scroll', handleScroll);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+    }
   };
 };
 

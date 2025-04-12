@@ -34,48 +34,49 @@
 
 @layer base {
   :root {
+    /* Supabase-inspired color palette */
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 217 33% 17%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 217 33% 17%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 170 100% 45%;
+    --popover-foreground: 217 33% 17%;
+    --primary: 162 100% 35%;      /* #00C07F - Supabase green */
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 160 84% 39%;
-    --accent-foreground: 160 83% 30%;
+    --muted-foreground: 217 33% 17%; 
+    --accent: 162 100% 35%;        /* Match primary */
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 170 100% 45%;
+    --ring: 162 100% 35%;          /* Match primary */
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 195 54% 5%;
+    --background: 229 22% 10%;     /* #1C202F - Supabase dark background */
     --foreground: 210 40% 98%;
-    --card: 196 64% 7%;
+    --card: 229 20% 13%;           /* #1F2536 - Supabase card background */
     --card-foreground: 210 40% 98%;
-    --popover: 196 64% 7%;
+    --popover: 229 20% 13%;        /* Match card */
     --popover-foreground: 210 40% 98%;
-    --primary: 170 100% 45%;
+    --primary: 162 100% 35%;       /* #00C07F - Supabase green */
     --primary-foreground: 0 0% 0%;
-    --secondary: 196 64% 11%;
+    --secondary: 228 22% 17%;      /* #202838 - Supabase secondary background */
     --secondary-foreground: 210 40% 98%;
-    --muted: 196 64% 11%;
+    --muted: 228 22% 17%;          /* Match secondary */
     --muted-foreground: 215 20% 65%;
-    --accent: 160 84% 39%;
-    --accent-foreground: 160 83% 30%;
+    --accent: 162 100% 35%;        /* Match primary */
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 196 64% 11%;
-    --input: 196 64% 11%;
-    --ring: 170 100% 45%;
+    --border: 228 17% 15%;         /* #22273E - Supabase border color */
+    --input: 228 22% 17%;          /* Match secondary */
+    --ring: 162 100% 35%;          /* Match primary */
   }
 }
 
@@ -123,12 +124,13 @@
     @apply absolute top-0 left-0 w-full h-[200%] bg-repeat bg-center transition-transform duration-300;
   }
   
-  /* Cursor style for the typing animation */
+  /* Thinner cursor style for the typing animation */
   .cursor::after {
     content: '|';
     animation: blink 1s step-end infinite;
     font-weight: 300;
     opacity: 0.7;
+    width: 1px;
   }
   
   @keyframes blink {
@@ -162,7 +164,7 @@
   @apply bg-emerald-600 hover:bg-emerald-700 text-white;
 }
 
-/* Background interativo */
+/* Interactive Background Effect */
 .interactive-bg {
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(59, 188, 159, 0.05) 0%, rgba(0, 0, 0, 0) 20%),
@@ -182,7 +184,7 @@
   @apply animate-float;
 }
 
-/* Custom style for TypeAnimation cursor */
+/* Custom style for TypeAnimation cursor - thinner and more elegant */
 .type-animation-cursor {
   display: inline-block;
   width: 1px !important;
@@ -199,4 +201,37 @@
   width: 1px !important;
   opacity: 0.7 !important;
   font-weight: 300 !important;
+}
+
+/* Animation classes for ScrollAnimator */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.animate-on-scroll.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Glowing button effect */
+.glow-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-on-hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s;
+}
+
+.glow-on-hover:hover::after {
+  left: 100%;
 }

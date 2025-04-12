@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { TypeAnimation } from 'react-type-animation';
@@ -137,23 +137,23 @@ const Index = () => {
               </motion.p>
               
               <motion.div 
-                className="mb-4 h-48 md:h-36 lg:h-36 flex items-start"
+                className="mb-4 h-60 md:h-40 lg:h-40 flex items-start"
                 variants={heroItemVariants}
               >
                 <TypeAnimation
                   sequence={[
                     'Criando valor para o crescimento dos negócios através do código.',
-                    4000, // 4 segundos de pausa
+                    5000, // 5 segundos de pausa
                     'Soluções digitais para o mundo real.',
-                    4000, // 4 segundos de pausa
+                    5000, // 5 segundos de pausa
                     'Transformando ideias em código.',
-                    4000, // 4 segundos de pausa
+                    5000, // 5 segundos de pausa
                   ]}
                   wrapper="h1"
-                  speed={75} // Velocidade mais lenta para melhor leitura
+                  speed={40} // Velocidade mais lenta para melhor leitura
                   repeat={Infinity}
                   cursor={true}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance cursor"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance"
                   style={{ 
                     display: 'block', 
                     minHeight: '3em',
@@ -221,7 +221,7 @@ const Index = () => {
               <div className="flex gap-4">
                 <Link 
                   to="/projects"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors whitespace-nowrap"
                 >
                   Ver todos
                 </Link>
@@ -267,7 +267,7 @@ const Index = () => {
             </ScrollAnimator>
             
             <ScrollAnimator className="w-full md:w-1/2" delay={200}>
-              <div className="relative">
+              <div className="relative mx-auto md:mr-0 md:ml-auto">
                 <img 
                   src="https://placehold.co/400x300/png" 
                   alt="Document illustration"
@@ -442,12 +442,13 @@ const Index = () => {
             </ScrollAnimator>
             
             <ScrollAnimator delay={300}>
-              <a 
-                href="mailto:example@example.com"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-black dark:bg-white text-white dark:text-black font-medium hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors relative overflow-hidden group"
+              <button 
+                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-emerald-600 dark:bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-700 text-white font-medium transition-colors relative overflow-hidden group"
+                onClick={() => alert('O formulário de contato será implementado em breve!')}
               >
                 <span className="relative z-10">Enviar email</span>
-              </a>
+                <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[100%] transition-transform duration-500"></span>
+              </button>
             </ScrollAnimator>
           </div>
         </div>

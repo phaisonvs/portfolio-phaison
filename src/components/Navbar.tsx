@@ -10,13 +10,13 @@ import { cn } from "@/lib/utils";
 interface NavItem {
   name: string;
   href: string;
+  highlight?: boolean;
 }
 
 const navItems: NavItem[] = [
   { name: "Experiência", href: "/#experience" },
   { name: "Projetos", href: "/projects" },
-  { name: "Contato", href: "/#contact" },
-  { name: "Blog", href: "/blog" },
+  { name: "Contato", href: "/#contact", highlight: true },
 ];
 
 export function Navbar() {
@@ -31,7 +31,7 @@ export function Navbar() {
       setIsScrolled(scrollPosition > 10);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -43,7 +43,7 @@ export function Navbar() {
   const navbarClasses = cn(
     "fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300",
     isScrolled
-      ? "bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 py-3"
+      ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 py-3"
       : "bg-transparent"
   );
 
@@ -75,6 +75,16 @@ export function Navbar() {
       y: 0,
       height: "auto",
       transition: { duration: 0.3 }
+    }
+  };
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -128,11 +138,15 @@ export function Navbar() {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`text-sm font-medium px-3 py-2 rounded-md transition-colors ${
-                        location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                          ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
-                      }`}
+                      onClick={item.highlight ? handleContactClick : undefined}
+                      className={cn(
+                        "text-sm font-medium px-3 py-2 rounded-md transition-colors",
+                        item.highlight 
+                          ? "bg-emerald-600 hover:bg-emerald-700 text-white" 
+                          : location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
+                            ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+                            : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                      )}
                     >
                       {item.name}
                     </Link>
@@ -158,16 +172,26 @@ export function Navbar() {
                 initial="hidden"
                 animate="visible"
               >
-                <Link
-                  to={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${
-                    location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                      ? "text-black dark:text-white"
-                      : "text-gray-600 dark:text-gray-300"
-                  }`}
-                >
-                  {item.name}
-                </Link>
+                {item.highlight ? (
+                  <button
+                    onClick={handleContactClick}
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all relative overflow-hidden group"
+                  >
+                    <span className="relative z-10">{item.name}</span>
+                    <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[100%] transition-transform duration-500"></span>
+                  </button>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${
+                      location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
+                        ? "text-black dark:text-white"
+                        : "text-gray-600 dark:text-gray-300"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </motion.div>
             ))}
             <Link

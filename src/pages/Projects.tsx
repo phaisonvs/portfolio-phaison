@@ -53,14 +53,27 @@ const Projects = () => {
     }
   };
 
-  // Format projects data for Gallery6
-  const galleryItems = filteredProjects.slice(0, 5).map(project => ({
-    id: project.id,
-    title: project.title,
-    summary: project.description,
-    url: `/projects/${project.id}`,
-    image: project.image || "https://placehold.co/600x400/png",
-  }));
+  const handleTagClick = (tag: string) => {
+    // Toggle the tag if it's already selected
+    if (selectedTag === tag) {
+      setSelectedTag(null);
+    } else {
+      setSelectedTag(tag);
+    }
+  };
+
+  // Get featured projects for the Gallery6 component
+  // Note: This is separate from the filtered projects
+  const featuredProjects = projects
+    .filter(project => project.visible && project.featured)
+    .slice(0, 5)
+    .map(project => ({
+      id: project.id,
+      title: project.title,
+      summary: project.description,
+      url: `/projects/${project.id}`,
+      image: project.image || "https://placehold.co/600x400/png",
+    }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -89,7 +102,7 @@ const Projects = () => {
                   placeholder="Buscar projetos..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 pr-10 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-700 transition-all"
+                  className="w-full px-4 py-2 pr-10 rounded-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 focus:outline-none focus:ring-2 focus:ring-emerald-300 dark:focus:ring-emerald-700 transition-all"
                 />
                 <svg
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -116,7 +129,7 @@ const Projects = () => {
                   onClick={() => setSelectedTag(null)}
                   className={`px-3 py-1 text-sm rounded-full transition-all ${
                     selectedTag === null
-                      ? "bg-black dark:bg-white text-white dark:text-black"
+                      ? "bg-emerald-600 text-white"
                       : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
@@ -126,10 +139,10 @@ const Projects = () => {
                 {allTags.map((tag) => (
                   <button
                     key={tag}
-                    onClick={() => setSelectedTag(tag)}
+                    onClick={() => handleTagClick(tag)}
                     className={`px-3 py-1 text-sm rounded-full transition-all ${
                       selectedTag === tag
-                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        ? "bg-emerald-600 text-white"
                         : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                     }`}
                   >
@@ -177,11 +190,11 @@ const Projects = () => {
         </div>
       </section>
       
-      {/* Featured Projects Carousel */}
+      {/* Featured Projects Carousel - Fixed to show featured projects regardless of filters */}
       <Gallery6 
         heading="Projetos Destacados"
         demoUrl="/projects"
-        items={galleryItems}
+        items={featuredProjects}
       />
       
       <Footer />

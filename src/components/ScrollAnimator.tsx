@@ -7,6 +7,7 @@ interface ScrollAnimatorProps {
   threshold?: number;
   delay?: number;
   once?: boolean;
+  rootMargin?: string;
 }
 
 export function ScrollAnimator({ 
@@ -14,7 +15,8 @@ export function ScrollAnimator({
   className = "", 
   threshold = 0.1,
   delay = 0,
-  once = true
+  once = true,
+  rootMargin = '0px 0px -100px 0px'
 }: ScrollAnimatorProps) {
   const elementRef = useRef<HTMLDivElement>(null);
   
@@ -22,50 +24,49 @@ export function ScrollAnimator({
     const element = elementRef.current;
     if (!element) return;
     
-    // Configurar o atributo data-observe-once para controle no IntersectionObserver
-    if (once) {
-      element.setAttribute('data-observe-once', 'true');
-    }
+    // Style the element for animation
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(20px)';
+    element.style.transition = `opacity 0.4s ease-out, transform 0.4s ease-out${delay ? ` ${delay}ms` : ''}`;
+    element.style.willChange = 'opacity, transform';
     
-    // Aplicar delay como um estilo inline para performance
-    if (delay) {
-      element.style.transitionDelay = `${delay}ms`;
-    }
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Adicionar classe de animação quando visível
-            element.classList.add('animate');
-            
-            // Se once=true, parar de observar após animação
-            if (once) {
-              observer.unobserve(element);
-            }
-          } else if (!once) {
-            // Remover classe se elemento sair da tela (apenas se once=false)
-            element.classList.remove('animate');
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Use requestAnimationFrame for smoother animation
+          requestAnimationFrame(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+          });
+          
+          // Unobserve after animation if once is true
+          if (once) {
+            observer.unobserve(element);
           }
-        });
-      },
-      {
-        threshold: threshold,
-        rootMargin: '0px 0px -100px 0px'
-      }
-    );
+        } else if (!once) {
+          // Reset element if not once
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(20px)';
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold,
+      rootMargin
+    });
 
     observer.observe(element);
 
     return () => {
       observer.unobserve(element);
     };
-  }, [threshold, delay, once]);
+  }, [threshold, delay, once, rootMargin]);
 
   return (
     <div 
       ref={elementRef} 
-      className={`animate-on-scroll ${className}`}
+      className={className}
     >
       {children}
     </div>
