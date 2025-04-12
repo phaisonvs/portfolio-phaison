@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
-
 @font-face {
   font-family: 'FinalSix';
   src: url('/fonts/FinalSix-Regular.woff2') format('woff2'),
@@ -27,6 +25,9 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* Import Google fonts only for fallback, after critical fonts are loaded */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -88,6 +89,10 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer utilities {
@@ -137,31 +142,94 @@
     from, to { opacity: 0.7; }
     50% { opacity: 0; }
   }
+  
+  /* Glow button effect for contact button */
+  .glow-button-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.2), 
+      transparent
+    );
+    transition: left 0.7s ease;
+    z-index: 1;
+  }
+  
+  .glow-button-animation:hover::before {
+    left: 100%;
+  }
+  
+  /* Hide scrollbar for mobile */
+  @media (max-width: 767px) {
+    body {
+      overflow-y: scroll;
+      scrollbar-width: none; /* Firefox */
+    }
+    
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Edge */
+    }
+  }
+  
+  /* Animation for the experience icon */
+  .bounce-animation {
+    animation: bounce-subtle 8s infinite ease-in-out;
+    animation-delay: 2s;
+  }
+  
+  @keyframes bounce-subtle {
+    0%, 10%, 90%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-10px); }
+    60% { transform: translateY(5px); }
+  }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Custom Scrollbar for desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-emerald-50 dark:bg-slate-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-emerald-200 dark:bg-slate-600 rounded-full;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-emerald-300 dark:bg-slate-500;
+  }
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-emerald-50 dark:bg-slate-800;
+/* Padding adjustments for mobile */
+@media (max-width: 767px) {
+  .container {
+    @apply px-6;
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-emerald-200 dark:bg-slate-600 rounded-full;
-  border: 2px solid transparent;
-  background-clip: content-box;
+/* Enhanced version of the typing effect container */
+.typing-container {
+  min-height: 4.5em; /* Set minimum height for 3 lines */
+  height: auto;
+  @apply flex items-start;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-emerald-300 dark:bg-slate-500;
-}
-
-/* Ajuste para botões no dark mode */
-.dark .btn-primary {
-  @apply bg-emerald-600 hover:bg-emerald-700 text-white;
+@media (max-width: 767px) {
+  .typing-container {
+    min-height: 6em; /* Larger for mobile to prevent overlap */
+  }
 }
 
 /* Interactive Background Effect */
@@ -184,54 +252,15 @@
   @apply animate-float;
 }
 
-/* Custom style for TypeAnimation cursor - thinner and more elegant */
-.type-animation-cursor {
-  display: inline-block;
-  width: 1px !important;
-  height: 1em;
-  background-color: currentColor;
-  margin-left: 2px;
-  animation: blink 1s step-end infinite;
-  opacity: 0.7;
-}
-
-/* Override the TypeAnimation default cursor */
-.Typewriter__cursor {
-  display: inline-block;
-  width: 1px !important;
-  opacity: 0.7 !important;
-  font-weight: 300 !important;
-}
-
 /* Animation classes for ScrollAnimator */
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  will-change: opacity, transform;
 }
 
 .animate-on-scroll.animate {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Glowing button effect */
-.glow-on-hover {
-  position: relative;
-  overflow: hidden;
-}
-
-.glow-on-hover::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: all 0.6s;
-}
-
-.glow-on-hover:hover::after {
-  left: 100%;
 }

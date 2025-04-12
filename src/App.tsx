@@ -16,16 +16,30 @@ import AdminSettings from "./pages/admin/AdminSettings";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/admin/AdminLogin";
 import { useEffect, useState } from "react";
+import { LoadingScreen } from "./components/LoadingScreen";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Verificar se o usuário está autenticado ao carregar a aplicação
     const authStatus = localStorage.getItem("adminAuth");
     setIsAuthenticated(authStatus === "true");
+    
+    // Preload critical assets before showing the app
+    const preloadFonts = async () => {
+      // This will allow sufficient time for fonts to load
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setIsLoading(false);
+    };
+    
+    preloadFonts();
+    
+    // Set dark mode by default
+    document.documentElement.classList.add('dark');
   }, []);
 
   // Função para proteger rotas admin
@@ -35,6 +49,10 @@ const App = () => {
     }
     return children;
   };
+
+  if (isLoading) {
+    return <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

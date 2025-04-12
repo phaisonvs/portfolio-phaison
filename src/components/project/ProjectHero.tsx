@@ -14,17 +14,34 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
   useEffect(() => {
     if (isMobile || !heroRef.current) return;
     
+    // Use RAF to limit calculations and improve performance
+    let rafId: number | null = null;
+    let isMoving = false;
+    
     // Use pointer events for better performance instead of mousemove
     const handleMouseMove = (e: MouseEvent) => {
-      const { left, top, width, height } = heroRef.current!.getBoundingClientRect();
-      const x = (e.clientX - left) / width;
-      const y = (e.clientY - top) / height;
-      
-      // Use requestAnimationFrame for smoother animation
-      requestAnimationFrame(() => {
-        heroRef.current!.style.setProperty('--mouse-x', `${x}`);
-        heroRef.current!.style.setProperty('--mouse-y', `${y}`);
-      });
+      if (!isMoving) {
+        isMoving = true;
+        
+        // Cancel any existing animation frame
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+        }
+        
+        // Schedule new calculation
+        rafId = requestAnimationFrame(() => {
+          if (!heroRef.current) return;
+          
+          const { left, top, width, height } = heroRef.current.getBoundingClientRect();
+          const x = (e.clientX - left) / width;
+          const y = (e.clientY - top) / height;
+          
+          heroRef.current.style.setProperty('--mouse-x', `${x}`);
+          heroRef.current.style.setProperty('--mouse-y', `${y}`);
+          
+          isMoving = false;
+        });
+      }
     };
     
     heroRef.current.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -33,13 +50,17 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
       if (heroRef.current) {
         heroRef.current.removeEventListener('mousemove', handleMouseMove);
       }
+      
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [isMobile]);
   
   return (
     <div 
       ref={heroRef}
-      className="w-full h-[70vh] relative overflow-hidden will-change-auto"
+      className="w-full h-[70vh] relative overflow-hidden will-change-transform"
       style={{
         backgroundImage: `url(${image})`,
         backgroundSize: 'cover',

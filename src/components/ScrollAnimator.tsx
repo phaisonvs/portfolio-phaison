@@ -8,6 +8,8 @@ interface ScrollAnimatorProps {
   delay?: number;
   once?: boolean;
   rootMargin?: string;
+  fromDirection?: 'bottom' | 'left' | 'right';
+  distance?: number;
 }
 
 export function ScrollAnimator({ 
@@ -16,7 +18,9 @@ export function ScrollAnimator({
   threshold = 0.1,
   delay = 0,
   once = true,
-  rootMargin = '0px 0px -100px 0px'
+  rootMargin = '0px 0px -100px 0px',
+  fromDirection = 'bottom',
+  distance = 20
 }: ScrollAnimatorProps) {
   const elementRef = useRef<HTMLDivElement>(null);
   
@@ -24,9 +28,24 @@ export function ScrollAnimator({
     const element = elementRef.current;
     if (!element) return;
     
-    // Style the element for animation
+    // Prepare the transforms based on the direction
+    let initialTransform = '';
+    switch (fromDirection) {
+      case 'left':
+        initialTransform = `translateX(-${distance}px)`;
+        break;
+      case 'right':
+        initialTransform = `translateX(${distance}px)`;
+        break;
+      case 'bottom':
+      default:
+        initialTransform = `translateY(${distance}px)`;
+        break;
+    }
+    
+    // Style the element for animation with improved performance
     element.style.opacity = '0';
-    element.style.transform = 'translateY(20px)';
+    element.style.transform = initialTransform;
     element.style.transition = `opacity 0.4s ease-out, transform 0.4s ease-out${delay ? ` ${delay}ms` : ''}`;
     element.style.willChange = 'opacity, transform';
     
@@ -36,7 +55,12 @@ export function ScrollAnimator({
           // Use requestAnimationFrame for smoother animation
           requestAnimationFrame(() => {
             element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
+            element.style.transform = 'translate(0)';
+            
+            // Remove will-change after animation completes to free up resources
+            setTimeout(() => {
+              element.style.willChange = 'auto';
+            }, 400 + (delay || 0)); // match transition duration
           });
           
           // Unobserve after animation if once is true
@@ -46,7 +70,7 @@ export function ScrollAnimator({
         } else if (!once) {
           // Reset element if not once
           element.style.opacity = '0';
-          element.style.transform = 'translateY(20px)';
+          element.style.transform = initialTransform;
         }
       });
     };
@@ -59,9 +83,11 @@ export function ScrollAnimator({
     observer.observe(element);
 
     return () => {
-      observer.unobserve(element);
+      if (element) {
+        observer.unobserve(element);
+      }
     };
-  }, [threshold, delay, once, rootMargin]);
+  }, [threshold, delay, once, rootMargin, fromDirection, distance]);
 
   return (
     <div 

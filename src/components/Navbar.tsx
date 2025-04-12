@@ -11,12 +11,13 @@ interface NavItem {
   name: string;
   href: string;
   highlight?: boolean;
+  isAnchor?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { name: "Experiência", href: "/#experience" },
+  { name: "Experiência", href: "/#experience", isAnchor: true },
   { name: "Projetos", href: "/projects" },
-  { name: "Contato", href: "/#contact", highlight: true },
+  { name: "Contato", href: "/#contact", highlight: true, isAnchor: true },
 ];
 
 export function Navbar() {
@@ -38,6 +39,11 @@ export function Navbar() {
   React.useEffect(() => {
     // Close mobile menu when route changes
     setIsMenuOpen(false);
+    
+    // Reset scroll position when navigating to a new page (not an anchor)
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [location.pathname]);
 
   const navbarClasses = cn(
@@ -78,19 +84,38 @@ export function Navbar() {
     }
   };
 
-  const handleContactClick = (e: React.MouseEvent) => {
-    if (location.pathname === '/') {
-      e.preventDefault();
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+  const handleAnchorClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    
+    // Extract the anchor ID from the href
+    const id = href.split('#')[1];
+    const element = document.getElementById(id);
+    
+    if (element) {
+      // If we're on a different page, navigate to the home page first
+      if (location.pathname !== '/') {
+        window.location.href = href;
+        return;
       }
+      
+      // Calculate offset for fixed header
+      const headerOffset = 100; // Approximate height of header with padding
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      
+      // Close the mobile menu
+      setIsMenuOpen(false);
     }
   };
 
   return (
     <nav className={navbarClasses}>
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container mx-auto px-6 flex justify-between items-center">
         <motion.div 
           variants={logoVariants}
           initial="hidden"
@@ -131,25 +156,39 @@ export function Navbar() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-4 px-4"
+                className="absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-4 px-6"
               >
                 <div className="flex flex-col space-y-4">
                   {navItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={item.highlight ? handleContactClick : undefined}
-                      className={cn(
-                        "text-sm font-medium px-3 py-2 rounded-md transition-colors",
-                        item.highlight 
-                          ? "bg-emerald-600 hover:bg-emerald-700 text-white" 
-                          : location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                            ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                            : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                    <div key={item.name}>
+                      {item.isAnchor ? (
+                        <button
+                          onClick={(e) => handleAnchorClick(e, item.href)}
+                          className={cn(
+                            "text-sm font-medium px-3 py-2 rounded-md transition-colors w-full text-left",
+                            item.highlight 
+                              ? "bg-emerald-600 hover:bg-emerald-700 text-white relative overflow-hidden glow-button-animation" 
+                              : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                          )}
+                        >
+                          {item.name}
+                        </button>
+                      ) : (
+                        <Link
+                          to={item.href}
+                          className={cn(
+                            "text-sm font-medium px-3 py-2 rounded-md transition-colors block",
+                            item.highlight 
+                              ? "bg-emerald-600 hover:bg-emerald-700 text-white relative overflow-hidden glow-button-animation" 
+                              : location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
+                                ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+                                : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                          )}
+                        >
+                          {item.name}
+                        </Link>
                       )}
-                    >
-                      {item.name}
-                    </Link>
+                    </div>
                   ))}
                   <Link
                     to="/admin"
@@ -174,11 +213,17 @@ export function Navbar() {
               >
                 {item.highlight ? (
                   <button
-                    onClick={handleContactClick}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all relative overflow-hidden group"
+                    onClick={(e) => handleAnchorClick(e, item.href)}
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all relative overflow-hidden group glow-button-animation"
                   >
                     <span className="relative z-10">{item.name}</span>
-                    <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[100%] transition-transform duration-500"></span>
+                  </button>
+                ) : item.isAnchor ? (
+                  <button
+                    onClick={(e) => handleAnchorClick(e, item.href)}
+                    className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white text-gray-600 dark:text-gray-300`}
+                  >
+                    {item.name}
                   </button>
                 ) : (
                   <Link

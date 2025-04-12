@@ -3,16 +3,20 @@
 export const scrollToElement = (elementId: string) => {
   const element = document.getElementById(elementId);
   if (element) {
-    element.scrollIntoView({
+    const headerOffset = 100; // Adjust for fixed header
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    window.scrollTo({
       behavior: 'smooth',
-      block: 'start',
+      top: offsetPosition,
     });
   }
 };
 
-// Configuração otimizada para o IntersectionObserver
+// Optimized configuration for IntersectionObserver
 export const setupScrollAnimations = () => {
-  // Use uma única instância do IntersectionObserver para melhor performance
+  // Use a single IntersectionObserver instance for better performance
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -31,12 +35,12 @@ export const setupScrollAnimations = () => {
             }, 500); // Animation duration
           });
           
-          // Opcionalmente, parar de observar depois da animação
+          // Optionally, stop observing after animation
           if (element.getAttribute('data-observe-once') === 'true') {
             observer.unobserve(element);
           }
         } else if (element.getAttribute('data-observe-once') !== 'true') {
-          // Remover a classe com requestAnimationFrame
+          // Remove the class with requestAnimationFrame
           requestAnimationFrame(() => {
             element.classList.remove('animate');
           });
@@ -44,20 +48,20 @@ export const setupScrollAnimations = () => {
       });
     },
     {
-      threshold: 0.1, // Iniciar a animação quando 10% do elemento estiver visível
-      rootMargin: '0px 0px -50px 0px', // Margem negativa inferior para iniciar a animação um pouco antes
+      threshold: 0.1, // Start animation when 10% of the element is visible
+      rootMargin: '0px 0px -50px 0px', // Negative bottom margin to start animation a bit earlier
     }
   );
 
-  // Selecionar todos os elementos com a classe animate-on-scroll
+  // Select all elements with the class animate-on-scroll
   const animateElements = document.querySelectorAll('.animate-on-scroll');
   
-  // Observar cada elemento
+  // Observe each element
   animateElements.forEach((element) => {
     observer.observe(element);
   });
 
-  // Função para limpar o observador quando necessário
+  // Function to clean up the observer when needed
   return () => {
     animateElements.forEach((element) => {
       observer.unobserve(element);
@@ -65,7 +69,7 @@ export const setupScrollAnimations = () => {
   };
 };
 
-// Função para animar elementos com base na posição de rolagem com melhor performance
+// Function to animate elements based on scroll position with better performance
 export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2, endOffset: number = 0.8) => {
   if (!element) return;
 
@@ -81,19 +85,19 @@ export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2,
       const rect = element.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Calcular a visibilidade do elemento na tela
+      // Calculate element visibility on screen
       const visiblePortion = 1 - (rect.bottom / windowHeight);
       
-      // Normalizar valor entre startOffset e endOffset
+      // Normalize value between startOffset and endOffset
       const scrollProgress = Math.max(0, Math.min(1, (visiblePortion - startOffset) / (endOffset - startOffset)));
       
-      // Aplicar o valor como propriedade CSS personalizada
+      // Apply the value as a custom CSS property
       element.style.setProperty('--scroll-progress', scrollProgress.toString());
-      element.style.willChange = 'transform, opacity';
       
-      // Adicionar classe quando o elemento é visível
+      // Only use will-change when the element is entering or leaving the viewport
       if (scrollProgress > 0 && scrollProgress < 1) {
         element.classList.add('in-view');
+        element.style.willChange = 'transform, opacity';
       } else {
         element.classList.remove('in-view');
         // Reset will-change when not in view
@@ -106,13 +110,13 @@ export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2,
     });
   };
 
-  // Configuração inicial
+  // Initial setup
   handleScroll();
   
-  // Adicionar evento de rolagem com passive flag for better performance
+  // Add scroll event with passive flag for better performance
   window.addEventListener('scroll', handleScroll, { passive: true });
   
-  // Retornar função para limpar o evento
+  // Return function to clean up the event
   return () => {
     window.removeEventListener('scroll', handleScroll);
     if (rafId) {
@@ -121,7 +125,7 @@ export const animateOnScroll = (element: HTMLElement, startOffset: number = 0.2,
   };
 };
 
-// Configurar animações para elementos de circuito
+// Setup animations for circuit elements
 export const setupCircuitAnimations = () => {
   const circuitElements = document.querySelectorAll('.circuit-lines-container');
   

@@ -1,8 +1,7 @@
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { TypeAnimation } from 'react-type-animation';
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -14,6 +13,8 @@ import { testimonials } from "@/data/testimonials";
 import { setupScrollAnimations } from "@/utils/scrollAnimation";
 import { Tiles } from "@/components/ui/tiles";
 import ActionButton from "@/components/ui/action-button";
+import { TypeAnimationEnhanced } from "@/components/ui/TypeAnimationEnhanced";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 
 const Index = () => {
   const heroVariants = {
@@ -38,6 +39,9 @@ const Index = () => {
 
   const [isDownloading, setIsDownloading] = useState(false);
 
+  // Use the smooth scroll hook
+  useSmoothScroll();
+
   const handleDownload = () => {
     setIsDownloading(true);
     
@@ -58,32 +62,12 @@ const Index = () => {
   };
 
   useEffect(() => {
-    // Configurar animações de rolagem
+    // Configure scroll animations
     const cleanupScrollAnimations = setupScrollAnimations();
 
-    // Smooth scroll para links de âncora
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
-        e.preventDefault();
-        const href = this.getAttribute("href");
-        if (href) {
-          const targetElement = document.querySelector(href);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-            });
-          }
-        }
-      });
-    });
-
     return () => {
-      // Limpar os observadores quando o componente for desmontado
+      // Clean up the observers when component unmounts
       cleanupScrollAnimations();
-      
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.removeEventListener("click", () => {});
-      });
     };
   }, []);
 
@@ -102,7 +86,7 @@ const Index = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Tiles no fundo do hero */}
+        {/* Tiles for background */}
         <div className="absolute inset-0 z-0">
           <div className="tiles-container">
             <Tiles 
@@ -115,7 +99,7 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container px-6 md:px-6 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <motion.div 
               className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-emerald-50 dark:border-emerald-900/20 shrink-0"
@@ -137,28 +121,22 @@ const Index = () => {
               </motion.p>
               
               <motion.div 
-                className="mb-4 h-60 md:h-40 lg:h-40 flex items-start"
+                className="typing-container mb-4"
                 variants={heroItemVariants}
               >
-                <TypeAnimation
+                <TypeAnimationEnhanced
                   sequence={[
                     'Criando valor para o crescimento dos negócios através do código.',
-                    5000, // 5 segundos de pausa
                     'Soluções digitais para o mundo real.',
-                    5000, // 5 segundos de pausa
                     'Transformando ideias em código.',
-                    5000, // 5 segundos de pausa
                   ]}
                   wrapper="h1"
-                  speed={40} // Velocidade mais lenta para melhor leitura
+                  speed={50} // Slower speed for better readability
+                  deletionSpeed={30}
+                  pauseDuration={4000} // 4 seconds pause when text is complete
                   repeat={Infinity}
                   cursor={true}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance"
-                  style={{ 
-                    display: 'block', 
-                    minHeight: '3em',
-                    lineHeight: '1.2'
-                  }}
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight"
                 />
               </motion.div>
               
@@ -208,7 +186,7 @@ const Index = () => {
       
       {/* Featured Projects Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container px-6 md:px-6 relative z-10">
           <div className="flex justify-between items-center mb-8">
             <ScrollAnimator>
               <h2 className="text-2xl font-bold flex items-center gap-2">
@@ -249,7 +227,7 @@ const Index = () => {
       
       {/* Need a Document Section */}
       <section className="py-16 relative overflow-hidden">
-        <div className="container px-4 md:px-6">
+        <div className="container px-6 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
             <ScrollAnimator className="w-full md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Precisa de um documento impresso?</h2>
@@ -258,7 +236,7 @@ const Index = () => {
                   onClick={handleDownload} 
                   isPending={isDownloading}
                   variant="outline"
-                  className="flex items-center gap-2 group hover:border-gray-400 dark:hover:border-gray-600"
+                  className="flex items-center gap-2 group hover:border-gray-400 dark:hover:border-gray-600 bg-emerald-600 hover:bg-emerald-700 text-white"
                 >
                   <Download className="h-4 w-4 group-hover:animate-bounce" />
                   Baixe meu currículo
@@ -281,7 +259,7 @@ const Index = () => {
       
       {/* Experience Section */}
       <section id="experience" className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
-        {/* Tiles no fundo da seção de experiência */}
+        {/* Tiles in the background of the experience section */}
         <div className="absolute inset-0 z-0">
           <div className="tiles-container">
             <Tiles 
@@ -294,10 +272,10 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container px-6 md:px-6 relative z-10">
           <ScrollAnimator>
             <div className="mb-12 flex items-center gap-4">
-              <div className="p-3 rounded-lg bg-gray-100 dark:bg-gray-800 relative">
+              <div className="p-3 rounded-lg bg-gray-100 dark:bg-gray-800 relative bounce-animation">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
                   <path d="M20 6H16V4C16 2.89 15.11 2 14 2H10C8.89 2 8 2.89 8 4V6H4C2.89 6 2 6.89 2 8V19C2 20.11 2.89 21 4 21H20C21.11 21 22 20.11 22 19V8C22 6.89 21.11 6 20 6ZM10 4H14V6H10V4ZM20 19H4V8H20V19Z" fill="currentColor"/>
                 </svg>
@@ -339,7 +317,7 @@ const Index = () => {
       
       {/* Testimonials Section */}
       <section id="testimonials" className="py-16 relative overflow-hidden">
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container px-6 md:px-6 relative z-10">
           <ScrollAnimator>
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
               <span className="inline-block w-6 h-0.5 bg-gray-400 dark:bg-gray-600"></span>
@@ -380,7 +358,7 @@ const Index = () => {
       
       {/* Contact Section */}
       <section id="contact" className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
-        {/* Tiles no fundo da seção de contato */}
+        {/* Tiles in the background of the contact section */}
         <div className="absolute inset-0 z-0">
           <div className="tiles-container">
             <Tiles 
@@ -393,7 +371,7 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="container px-4 md:px-6 relative z-10">
+        <div className="container px-6 md:px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <ScrollAnimator>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Vamos conversar sobre seu projeto?</h2>
@@ -443,11 +421,10 @@ const Index = () => {
             
             <ScrollAnimator delay={300}>
               <button 
-                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-emerald-600 dark:bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-700 text-white font-medium transition-colors relative overflow-hidden group"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-emerald-600 dark:bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-700 text-white font-medium transition-colors relative overflow-hidden group glow-button-animation"
                 onClick={() => alert('O formulário de contato será implementado em breve!')}
               >
                 <span className="relative z-10">Enviar email</span>
-                <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[100%] transition-transform duration-500"></span>
               </button>
             </ScrollAnimator>
           </div>
