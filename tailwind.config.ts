@@ -63,55 +63,31 @@ export default {
 					DEFAULT: "hsl(var(--card))",
 					foreground: "hsl(var(--card-foreground))",
 				},
-				// Cores personalizadas para o tema azul marinho
-				navy: {
-					50: "#E7ECF2",
-					100: "#C0D1E2",
-					200: "#96B3D0",
-					300: "#6C95BD",
-					400: "#4D7FAE",
-					500: "#2D699F",
-					600: "#1E5187",
-					700: "#0F3A6F",
-					800: "#072657",
-					900: "#031A3F",
+				// Cores personalizadas inspiradas no Supabase
+				emerald: {
+					50: "#F0FDF7",
+					100: "#DCFCE9",
+					200: "#BBF8D9",
+					300: "#86EFBD",
+					400: "#4ADE97",
+					500: "#22C55E",
+					600: "#16A34A",
+					700: "#15803D",
+					800: "#166534",
+					900: "#14532D",
 				},
-				// Novas cores para melhorar o modo light
-				sky: {
-					50: "#F0F7FF",
-					100: "#E0F0FF",
-					200: "#BDE0FF",
-					300: "#91C8FF",
-					400: "#61ABFF",
-					500: "#3B8BF6",
-					600: "#2E6FD9",
-					700: "#1E54B7",
-					800: "#153C8C",
-					900: "#0C2D6F",
-				},
-				teal: {
-					50: "#EFFCF6",
-					100: "#DCF7EC",
-					200: "#B8EED9",
-					300: "#88E0C3",
-					400: "#5BCCA7",
-					500: "#3EB489",
-					600: "#2E9B72",
-					700: "#20785A",
-					800: "#175C45",
-					900: "#0F4635",
-				},
-				amber: {
-					50: "#FFFAEB",
-					100: "#FFF3C7",
-					200: "#FFE483",
-					300: "#FFD54F",
-					400: "#FFC929",
-					500: "#FFC107",
-					600: "#E0A800",
-					700: "#BB8A00",
-					800: "#956C00",
-					900: "#7A5900",
+				slate: {
+					50: "#f8fafc",
+					100: "#f1f5f9",
+					200: "#e2e8f0",
+					300: "#cbd5e1",
+					400: "#94a3b8",
+					500: "#64748b",
+					600: "#475569",
+					700: "#334155",
+					800: "#1e293b",
+					900: "#0f172a",
+					950: "#020617",
 				},
 			},
 			borderRadius: {
@@ -166,6 +142,10 @@ export default {
 				"parallax-scroll": {
 					"0%": { transform: "translateY(0)" },
 					"100%": { transform: "translateY(-50%)" }
+				},
+				"blink": {
+					"0%, 100%": { opacity: "0.7" },
+					"50%": { opacity: "0" }
 				}
 			},
 			animation: {
@@ -179,7 +159,8 @@ export default {
 				"btn-press": "btn-press 0.3s ease-in-out",
 				"grid-pulse": "grid-pulse 3s ease-in-out infinite",
 				"float": "float 5s ease-in-out infinite",
-				"parallax-scroll": "parallax-scroll 15s linear infinite alternate"
+				"parallax-scroll": "parallax-scroll 15s linear infinite alternate",
+				"blink": "blink 1s step-end infinite"
 			},
 			backdropBlur: {
 				xs: '2px',

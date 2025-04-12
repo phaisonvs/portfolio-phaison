@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ProjectHeroProps {
   image: string;
@@ -8,10 +9,11 @@ interface ProjectHeroProps {
 
 export function ProjectHero({ image, title }: ProjectHeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
+      if (!heroRef.current || isMobile) return;
       
       const { left, top, width, height } = heroRef.current.getBoundingClientRect();
       const x = (e.clientX - left) / width;
@@ -30,7 +32,7 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
         heroRef.current.removeEventListener('mousemove', handleMouseMove);
       }
     };
-  }, []);
+  }, [isMobile]);
   
   return (
     <div 
@@ -38,15 +40,15 @@ export function ProjectHero({ image, title }: ProjectHeroProps) {
       className="w-full h-[70vh] bg-cover bg-center relative overflow-hidden"
       style={{
         backgroundImage: `url(${image})`,
-        backgroundPosition: 'calc(50% + calc(var(--mouse-x, 0.5) - 0.5) * 20px) calc(50% + calc(var(--mouse-y, 0.5) - 0.5) * 20px)',
+        backgroundPosition: isMobile ? 'center center' : 'calc(50% + calc(var(--mouse-x, 0.5) - 0.5) * 20px) calc(50% + calc(var(--mouse-y, 0.5) - 0.5) * 20px)',
         transition: 'background-position 0.2s ease-out',
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-12">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white drop-shadow-lg mb-6">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 md:p-12">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg mb-6">
           {title}
         </h1>
-        <div className="w-24 h-1 bg-sky-400 rounded-full mb-8"></div>
+        <div className="w-24 h-1 bg-emerald-400 rounded-full mb-8"></div>
       </div>
     </div>
   );

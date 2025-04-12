@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -96,7 +97,7 @@ const Index = () => {
       
       {/* Hero Section */}
       <motion.section 
-        className="pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden bg-gray-50 dark:bg-gray-900/30"
+        className="pt-28 md:pt-36 pb-16 md:pb-24 relative overflow-hidden bg-gray-50 dark:bg-gray-900/30"
         variants={heroVariants}
         initial="hidden"
         animate="visible"
@@ -117,7 +118,7 @@ const Index = () => {
         <div className="container px-4 md:px-6 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <motion.div 
-              className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-800 shrink-0"
+              className="w-32 h-32 md:w-40 md:h-40 relative rounded-full overflow-hidden border-4 border-emerald-50 dark:border-emerald-900/20 shrink-0"
               variants={heroItemVariants}
             >
               <img 
@@ -129,41 +130,47 @@ const Index = () => {
             
             <div className="flex flex-col">
               <motion.p 
-                className="text-sm text-gray-600 dark:text-gray-400 mb-2"
+                className="text-sm text-emerald-700 dark:text-emerald-400 mb-2"
                 variants={heroItemVariants}
               >
                 Milton Ivan • Desenvolvedor Javascript Profissional
               </motion.p>
               
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-balance h-24 md:h-32 lg:h-40 flex items-center"
+              <motion.div 
+                className="mb-4 h-48 md:h-36 lg:h-36 flex items-start"
                 variants={heroItemVariants}
               >
                 <TypeAnimation
                   sequence={[
                     'Criando valor para o crescimento dos negócios através do código.',
-                    1000,
+                    4000, // 4 segundos de pausa
                     'Soluções digitais para o mundo real.',
-                    1000,
+                    4000, // 4 segundos de pausa
                     'Transformando ideias em código.',
-                    1000,
+                    4000, // 4 segundos de pausa
                   ]}
-                  wrapper="span"
-                  speed={50}
+                  wrapper="h1"
+                  speed={75} // Velocidade mais lenta para melhor leitura
                   repeat={Infinity}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold"
+                  cursor={true}
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance cursor"
+                  style={{ 
+                    display: 'block', 
+                    minHeight: '3em',
+                    lineHeight: '1.2'
+                  }}
                 />
-              </motion.h1>
+              </motion.div>
               
               <motion.div 
-                className="flex gap-4 mt-6"
+                className="flex gap-4 mt-2"
                 variants={heroItemVariants}
               >
                 <a 
                   href="https://github.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="p-2 rounded-full border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all"
                   aria-label="GitHub"
                 >
                   <Github className="h-5 w-5" />
@@ -172,7 +179,7 @@ const Index = () => {
                   href="https://linkedin.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="p-2 rounded-full border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="h-5 w-5" />
@@ -181,14 +188,14 @@ const Index = () => {
                   href="https://twitter.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="p-2 rounded-full border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a 
                   href="mailto:example@example.com" 
-                  className="p-2 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="p-2 rounded-full border border-emerald-100 dark:border-emerald-800/30 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all"
                   aria-label="Email"
                 >
                   <Mail className="h-5 w-5" />
