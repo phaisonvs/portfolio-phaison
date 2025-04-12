@@ -9,13 +9,165 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      experiences: {
+        Row: {
+          company: string
+          created_at: string | null
+          current: boolean
+          description: string
+          display_order: number
+          end_date: string | null
+          id: string
+          logo_url: string | null
+          role: string
+          start_date: string
+          technologies: string[]
+          updated_at: string | null
+        }
+        Insert: {
+          company: string
+          created_at?: string | null
+          current?: boolean
+          description: string
+          display_order?: number
+          end_date?: string | null
+          id?: string
+          logo_url?: string | null
+          role: string
+          start_date: string
+          technologies?: string[]
+          updated_at?: string | null
+        }
+        Update: {
+          company?: string
+          created_at?: string | null
+          current?: boolean
+          description?: string
+          display_order?: number
+          end_date?: string | null
+          id?: string
+          logo_url?: string | null
+          role?: string
+          start_date?: string
+          technologies?: string[]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string | null
+          description: string
+          display_order: number
+          featured: boolean
+          github_url: string | null
+          highlights: string[]
+          id: string
+          image_url: string | null
+          live_url: string | null
+          technologies: string[]
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          display_order?: number
+          featured?: boolean
+          github_url?: string | null
+          highlights?: string[]
+          id?: string
+          image_url?: string | null
+          live_url?: string | null
+          technologies?: string[]
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          display_order?: number
+          featured?: boolean
+          github_url?: string | null
+          highlights?: string[]
+          id?: string
+          image_url?: string | null
+          live_url?: string | null
+          technologies?: string[]
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          created_at: string | null
+          id: string
+          key: string
+          updated_at: string | null
+          value: Json
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: Json
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          avatar_url: string | null
+          company: string
+          created_at: string | null
+          display_order: number
+          id: string
+          name: string
+          role: string
+          testimonial: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          company: string
+          created_at?: string | null
+          display_order?: number
+          id?: string
+          name: string
+          role: string
+          testimonial: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          company?: string
+          created_at?: string | null
+          display_order?: number
+          id?: string
+          name?: string
+          role?: string
+          testimonial?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_project_views: {
+        Args: { project_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
