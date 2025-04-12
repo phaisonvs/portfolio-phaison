@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
-import { Shield } from "lucide-react";
+import { Menu, Shield, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -49,7 +49,7 @@ export function Navbar() {
   const navbarClasses = cn(
     "fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300",
     isScrolled
-      ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 py-3"
+      ? "bg-gray-950/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-gray-800/50 py-3"
       : "bg-transparent"
   );
 
@@ -115,7 +115,7 @@ export function Navbar() {
 
   return (
     <nav className={navbarClasses}>
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
         <motion.div 
           variants={logoVariants}
           initial="hidden"
@@ -123,7 +123,7 @@ export function Navbar() {
           className="flex items-center gap-2"
         >
           <Link to="/" className="text-xl font-medium flex items-center gap-2">
-            <span className="text-2xl font-bold">MJ</span>
+            <span className="text-2xl font-bold tracking-wider">MJ</span>
           </Link>
         </motion.div>
 
@@ -133,21 +133,14 @@ export function Navbar() {
               <ThemeToggle />
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 text-gray-700 dark:text-gray-300 rounded-md focus:outline-none"
+                className="p-2 text-gray-400 dark:text-gray-300 hover:text-white transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-6 w-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  {isMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  )}
-                </svg>
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
             {isMenuOpen && (
@@ -156,19 +149,19 @@ export function Navbar() {
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-                className="absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-4 px-6"
+                className="absolute top-full left-0 right-0 bg-gray-950/95 backdrop-blur-sm border-b border-gray-800/50 py-6 px-6"
               >
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-6">
                   {navItems.map((item) => (
                     <div key={item.name}>
                       {item.isAnchor ? (
                         <button
                           onClick={(e) => handleAnchorClick(e, item.href)}
                           className={cn(
-                            "text-sm font-medium px-3 py-2 rounded-md transition-colors w-full text-left",
+                            "text-base font-medium px-3 py-2 rounded-md transition-colors w-full text-left tracking-wider",
                             item.highlight 
-                              ? "bg-emerald-600 hover:bg-emerald-700 text-white relative overflow-hidden glow-button-animation" 
-                              : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                              ? "bg-emerald-700 hover:bg-emerald-600 text-white relative overflow-hidden glow-button-animation" 
+                              : "text-gray-300 hover:text-white"
                           )}
                         >
                           {item.name}
@@ -177,12 +170,12 @@ export function Navbar() {
                         <Link
                           to={item.href}
                           className={cn(
-                            "text-sm font-medium px-3 py-2 rounded-md transition-colors block",
+                            "text-base font-medium px-3 py-2 rounded-md transition-colors block tracking-wider",
                             item.highlight 
-                              ? "bg-emerald-600 hover:bg-emerald-700 text-white relative overflow-hidden glow-button-animation" 
+                              ? "bg-emerald-700 hover:bg-emerald-600 text-white relative overflow-hidden glow-button-animation" 
                               : location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                                ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                                : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+                                ? "text-emerald-500"
+                                : "text-gray-300 hover:text-white"
                           )}
                         >
                           {item.name}
@@ -192,7 +185,7 @@ export function Navbar() {
                   ))}
                   <Link
                     to="/admin"
-                    className="text-sm font-medium px-3 py-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-2"
+                    className="text-base font-medium px-3 py-2 rounded-md text-gray-300 hover:text-white transition-colors flex items-center gap-2 tracking-wider"
                   >
                     <Shield className="w-4 h-4" />
                     <span>Admin</span>
@@ -202,7 +195,7 @@ export function Navbar() {
             )}
           </>
         ) : (
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-8">
             {navItems.map((item, i) => (
               <motion.div
                 key={item.name}
@@ -214,24 +207,24 @@ export function Navbar() {
                 {item.highlight ? (
                   <button
                     onClick={(e) => handleAnchorClick(e, item.href)}
-                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition-all relative overflow-hidden group glow-button-animation"
+                    className="px-5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-md transition-all relative overflow-hidden group glow-button-animation tracking-wider"
                   >
                     <span className="relative z-10">{item.name}</span>
                   </button>
                 ) : item.isAnchor ? (
                   <button
                     onClick={(e) => handleAnchorClick(e, item.href)}
-                    className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white text-gray-600 dark:text-gray-300`}
+                    className={`text-base font-medium transition-colors hover:text-white text-gray-300 tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-emerald-500 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left`}
                   >
                     {item.name}
                   </button>
                 ) : (
                   <Link
                     to={item.href}
-                    className={`text-sm font-medium transition-colors hover:text-black dark:hover:text-white ${
+                    className={`text-base font-medium transition-colors tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-emerald-500 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
                       location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                        ? "text-black dark:text-white"
-                        : "text-gray-600 dark:text-gray-300"
+                        ? "text-white after:scale-x-100"
+                        : "text-gray-300 hover:text-white"
                     }`}
                   >
                     {item.name}
@@ -241,7 +234,7 @@ export function Navbar() {
             ))}
             <Link
               to="/admin"
-              className="text-sm font-medium transition-colors text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white flex items-center gap-1"
+              className="text-base font-medium transition-colors text-gray-300 hover:text-white flex items-center gap-1 tracking-wider"
             >
               <Shield className="w-4 h-4" />
               <span>Admin</span>

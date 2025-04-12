@@ -3,98 +3,90 @@ import React, { useEffect, useRef, useState } from 'react';
 
 interface TypeAnimationEnhancedProps {
   sequence: string[];
-  wrapper?: keyof JSX.IntrinsicElements;
+  wrapper: keyof JSX.IntrinsicElements;
   speed?: number;
   deletionSpeed?: number;
+  pauseDuration?: number;
   repeat?: number | boolean;
   cursor?: boolean;
   className?: string;
-  preRenderFirstString?: boolean;
-  pauseDuration?: number;
 }
 
 export const TypeAnimationEnhanced: React.FC<TypeAnimationEnhancedProps> = ({
   sequence,
   wrapper = 'span',
   speed = 40,
-  deletionSpeed = 40,
-  repeat = Infinity,
-  cursor = true,
-  className = '',
-  preRenderFirstString = false,
+  deletionSpeed = 30,
   pauseDuration = 4000,
+  repeat = 0,
+  cursor = true,
+  className = ''
 }) => {
-  const [displayText, setDisplayText] = useState(preRenderFirstString ? sequence[0] : '');
+  const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const Wrapper = wrapper as any;
-
+  const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
+  const repeatCountRef = useRef(typeof repeat === 'number' ? repeat : Infinity);
+  const cycleCompleteRef = useRef(0);
+  
+  const WrapperComponent = wrapper as any;
+  
   useEffect(() => {
-    const typeNextCharacter = () => {
-      if (isPaused) {
-        timeoutRef.current = setTimeout(() => {
-          setIsPaused(false);
-        }, pauseDuration);
-        return;
-      }
-
-      const currentText = sequence[currentIndex];
-      
-      if (!isDeleting) {
-        // Typing phase
-        if (displayText.length < currentText.length) {
-          setDisplayText(currentText.substring(0, displayText.length + 1));
-          timeoutRef.current = setTimeout(typeNextCharacter, speed);
-        } else {
-          // Completed typing this string, pause before deleting
-          setIsPaused(true);
-          timeoutRef.current = setTimeout(typeNextCharacter, speed);
-        }
-      } else {
-        // Deletion phase
-        if (displayText.length > 0) {
-          setDisplayText(displayText.substring(0, displayText.length - 1));
-          timeoutRef.current = setTimeout(typeNextCharacter, deletionSpeed);
-        } else {
-          // Move to next string
-          setIsDeleting(false);
-          setCurrentIndex((prevIndex) => {
-            const nextIndex = prevIndex + 1;
-            
-            // Check if we need to reset to beginning
-            if (nextIndex >= sequence.length) {
-              if (repeat === false) {
-                return prevIndex; // Stop at the last string
-              } else if (typeof repeat === 'number' && repeat <= 1) {
-                return prevIndex; // Stop after specified repeats
-              } else {
-                return 0; // Loop back to beginning
+    if (!sequence.length) return;
+    
+    let timeout: NodeJS.Timeout;
+    const currentString = sequence[currentIndex];
+    
+    const handlePhase = () => {
+      switch (phase) {
+        case 'typing':
+          if (displayText.length < currentString.length) {
+            setDisplayText(currentString.substring(0, displayText.length + 1));
+            timeout = setTimeout(handlePhase, speed);
+          } else {
+            // Typing complete, pause before deletion
+            setPhase('pausing');
+            timeout = setTimeout(handlePhase, pauseDuration);
+          }
+          break;
+          
+        case 'pausing':
+          // Pause complete, start deletion
+          setPhase('deleting');
+          timeout = setTimeout(handlePhase, deletionSpeed);
+          break;
+          
+        case 'deleting':
+          if (displayText.length > 0) {
+            setDisplayText(displayText.substring(0, displayText.length - 1));
+            timeout = setTimeout(handlePhase, deletionSpeed);
+          } else {
+            // Deletion complete, move to next string
+            const nextIndex = (currentIndex + 1) % sequence.length;
+            if (nextIndex === 0) {
+              cycleCompleteRef.current += 1;
+              
+              // Check if we've reached the repeat limit
+              if (typeof repeat === 'number' && cycleCompleteRef.current >= repeat) {
+                return; // Stop the animation
               }
             }
             
-            return nextIndex;
-          });
-        }
+            setCurrentIndex(nextIndex);
+            setPhase('typing');
+            timeout = setTimeout(handlePhase, speed);
+          }
+          break;
       }
     };
-
-    // Start the animation
-    timeoutRef.current = setTimeout(typeNextCharacter, speed);
-
-    // Cleanup
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [displayText, currentIndex, isDeleting, isPaused, sequence, speed, deletionSpeed, repeat, pauseDuration]);
-
+    
+    timeout = setTimeout(handlePhase, speed);
+    
+    return () => clearTimeout(timeout);
+  }, [displayText, currentIndex, phase, sequence, speed, deletionSpeed, pauseDuration, repeat]);
+  
   return (
-    <Wrapper className={className}>
+    <WrapperComponent className={`${className} ${cursor ? 'cursor' : ''}`}>
       {displayText}
-      {cursor && <span className="animate-blink">|</span>}
-    </Wrapper>
+    </WrapperComponent>
   );
 };

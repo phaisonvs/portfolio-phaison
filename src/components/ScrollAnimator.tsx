@@ -25,8 +25,18 @@ export function ScrollAnimator({
   const elementRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     const element = elementRef.current;
     if (!element) return;
+    
+    // If user prefers reduced motion, skip animations
+    if (prefersReducedMotion) {
+      element.style.opacity = '1';
+      element.style.transform = 'translate(0)';
+      return;
+    }
     
     // Prepare the transforms based on the direction
     let initialTransform = '';

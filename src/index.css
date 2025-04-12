@@ -1,34 +1,4 @@
 
-@font-face {
-  font-family: 'FinalSix';
-  src: url('/fonts/FinalSix-Regular.woff2') format('woff2'),
-       url('/fonts/FinalSix-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FinalSix';
-  src: url('/fonts/FinalSix-Medium.woff2') format('woff2'),
-       url('/fonts/FinalSix-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'FinalSix';
-  src: url('/fonts/FinalSix-Bold.woff2') format('woff2'),
-       url('/fonts/FinalSix-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Import Google fonts only for fallback, after critical fonts are loaded */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,42 +12,42 @@
     --card-foreground: 217 33% 17%;
     --popover: 0 0% 100%;
     --popover-foreground: 217 33% 17%;
-    --primary: 162 100% 35%;      /* #00C07F - Supabase green */
+    --primary: 160 84% 39%;      /* #00AC7E - Supabase green */
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 217 33% 17%; 
-    --accent: 162 100% 35%;        /* Match primary */
+    --accent: 160 84% 39%;        /* Match primary */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 162 100% 35%;          /* Match primary */
+    --ring: 160 84% 39%;          /* Match primary */
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 229 22% 10%;     /* #1C202F - Supabase dark background */
+    --background: 225 11% 7%;     /* #111317 - Supabase dark background */
     --foreground: 210 40% 98%;
-    --card: 229 20% 13%;           /* #1F2536 - Supabase card background */
+    --card: 228 13% 10%;          /* #171923 - Supabase card background */
     --card-foreground: 210 40% 98%;
-    --popover: 229 20% 13%;        /* Match card */
+    --popover: 228 13% 10%;        /* Match card */
     --popover-foreground: 210 40% 98%;
-    --primary: 162 100% 35%;       /* #00C07F - Supabase green */
+    --primary: 160 84% 39%;       /* #00AC7E - Supabase green */
     --primary-foreground: 0 0% 0%;
-    --secondary: 228 22% 17%;      /* #202838 - Supabase secondary background */
+    --secondary: 228 12% 15%;      /* #1E202C - Supabase secondary background */
     --secondary-foreground: 210 40% 98%;
-    --muted: 228 22% 17%;          /* Match secondary */
+    --muted: 228 12% 15%;          /* Match secondary */
     --muted-foreground: 215 20% 65%;
-    --accent: 162 100% 35%;        /* Match primary */
+    --accent: 160 84% 39%;        /* Match primary */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 228 17% 15%;         /* #22273E - Supabase border color */
-    --input: 228 22% 17%;          /* Match secondary */
-    --ring: 162 100% 35%;          /* Match primary */
+    --border: 228 13% 18%;         /* #1A1D2A - Supabase border color */
+    --input: 228 12% 15%;          /* Match secondary */
+    --ring: 160 84% 39%;          /* Match primary */
   }
 }
 
@@ -184,8 +154,8 @@
   }
   
   @keyframes bounce-subtle {
-    0%, 10%, 90%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-10px); }
+    0%, 20%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
     60% { transform: translateY(5px); }
   }
 }
@@ -198,17 +168,17 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-emerald-50 dark:bg-slate-800;
+    @apply bg-gray-800;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-emerald-200 dark:bg-slate-600 rounded-full;
+    @apply bg-gray-600 rounded-full;
     border: 2px solid transparent;
     background-clip: content-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-emerald-300 dark:bg-slate-500;
+    @apply bg-gray-500;
   }
 }
 
@@ -235,9 +205,9 @@
 /* Interactive Background Effect */
 .interactive-bg {
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(59, 188, 159, 0.05) 0%, rgba(0, 0, 0, 0) 20%),
-    radial-gradient(circle at 90% 30%, rgba(63, 208, 212, 0.05) 0%, rgba(0, 0, 0, 0) 25%),
-    radial-gradient(circle at 50% 80%, rgba(91, 193, 170, 0.05) 0%, rgba(0, 0, 0, 0) 30%);
+    radial-gradient(circle at 10% 20%, rgba(0, 172, 126, 0.05) 0%, rgba(0, 0, 0, 0) 20%),
+    radial-gradient(circle at 90% 30%, rgba(0, 172, 126, 0.05) 0%, rgba(0, 0, 0, 0) 25%),
+    radial-gradient(circle at 50% 80%, rgba(0, 172, 126, 0.05) 0%, rgba(0, 0, 0, 0) 30%);
   @apply relative overflow-hidden;
 }
 
@@ -263,4 +233,34 @@
 .animate-on-scroll.animate {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Button press animation keyframes */
+@keyframes btn-press {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+}
+
+/* Add btn-press animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-btn-press {
+  animation: btn-press 0.2s ease-in-out;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Grid-pulse animation */
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+.animate-grid-pulse {
+  animation: grid-pulse 2s ease-in-out infinite;
 }

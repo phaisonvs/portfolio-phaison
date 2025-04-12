@@ -17,6 +17,7 @@ import Login from "./pages/Login";
 import AdminLogin from "./pages/admin/AdminLogin";
 import { useEffect, useState } from "react";
 import { LoadingScreen } from "./components/LoadingScreen";
+import ProjectSingle from "./pages/ProjectSingle";
 
 const queryClient = new QueryClient();
 
@@ -25,24 +26,16 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se o usuário está autenticado ao carregar a aplicação
+    // Check if user is authenticated when app loads
     const authStatus = localStorage.getItem("adminAuth");
     setIsAuthenticated(authStatus === "true");
     
-    // Preload critical assets before showing the app
-    const preloadFonts = async () => {
-      // This will allow sufficient time for fonts to load
-      await new Promise(resolve => setTimeout(resolve, 800));
-      setIsLoading(false);
-    };
-    
-    preloadFonts();
-    
+    // Always show loading screen for 5 seconds
     // Set dark mode by default
     document.documentElement.classList.add('dark');
   }, []);
 
-  // Função para proteger rotas admin
+  // Function to protect admin routes
   const RequireAuth = ({ children }: { children: JSX.Element }) => {
     if (!isAuthenticated) {
       return <Navigate to="/admin/login" replace />;
@@ -64,6 +57,8 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
+            {/* New modern project route */}
+            <Route path="/project/:id" element={<ProjectSingle />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin/login" element={<AdminLogin setIsAuthenticated={setIsAuthenticated} />} />
             

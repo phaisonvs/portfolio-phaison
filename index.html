@@ -13,10 +13,34 @@
     <link rel="preload" href="/fonts/FinalSix-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/fonts/FinalSix-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     
-    <!-- Preload Inter font from Google (still needed for fallback) -->
+    <!-- Font CSS with display: swap for better performance -->
+    <style>
+      @font-face {
+        font-family: 'FinalSix';
+        src: url('/fonts/FinalSix-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'FinalSix';
+        src: url('/fonts/FinalSix-Medium.woff2') format('woff2');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'FinalSix';
+        src: url('/fonts/FinalSix-Bold.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+    
+    <!-- Fallback Google Fonts (loaded only after critical content is visible) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" media="print" onload="this.media='all'" />
   </head>
   <body class="dark">

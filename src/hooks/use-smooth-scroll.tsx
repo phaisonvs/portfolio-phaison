@@ -1,11 +1,21 @@
 
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 /**
- * Hook to handle smooth scrolling for anchor links
+ * Hook to handle smooth scrolling for anchor links and scroll reset between routes
  * @param offset - The offset to apply when scrolling (to account for fixed headers)
  */
 export function useSmoothScroll(offset: number = 100) {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Reset scroll when the route changes (not anchor)
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname]);
+  
   useEffect(() => {
     // Handle all anchor links on the page
     const handleAnchorClick = (e: MouseEvent) => {
