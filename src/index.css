@@ -58,10 +58,15 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-size: 14px; /* Reduced base font size by 2px */
   }
   
   html {
     scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium;
   }
 }
 
@@ -200,6 +205,31 @@
   .typing-container {
     min-height: 6em; /* Larger for mobile to prevent overlap */
   }
+}
+
+/* Font size adjustments */
+.text-xl {
+  font-size: 1.125rem; /* 18px - reduced by 2px from 20px */
+}
+
+.text-2xl {
+  font-size: 1.375rem; /* 22px - reduced by 2px from 24px */
+}
+
+.text-3xl {
+  font-size: 1.625rem; /* 26px - reduced by 2px from 28px */
+}
+
+.text-4xl {
+  font-size: 1.875rem; /* 30px - reduced by 2px from 32px */
+}
+
+.text-5xl {
+  font-size: 2.875rem; /* 46px - reduced by 2px from 48px */
+}
+
+.text-6xl {
+  font-size: 3.5rem; /* 56px - reduced by 2px from 58px */
 }
 
 /* Interactive Background Effect */

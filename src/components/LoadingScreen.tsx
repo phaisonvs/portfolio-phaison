@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Progress } from './ui/progress';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -8,6 +9,7 @@ interface LoadingScreenProps {
 
 export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
+  const [displayProgress, setDisplayProgress] = useState(0);
   
   useEffect(() => {
     let startTime: number;
@@ -19,11 +21,16 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       
-      // Calculate progress based on elapsed time
+      // Calculate actual progress based on elapsed time
       const elapsed = timestamp - startTime;
       const newProgress = Math.min(elapsed / targetTime, 1);
       
+      // Make the visual progress bar grow more slowly than the percentage
+      // This creates a lag effect where the progress bar is behind the actual percentage
+      const visualProgress = Math.pow(newProgress, 1.25); // Apply a power curve to slow down the bar
+      
       setProgress(newProgress);
+      setDisplayProgress(visualProgress);
       
       if (newProgress < 1) {
         frameId = requestAnimationFrame(animate);
@@ -51,21 +58,14 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
       >
         <div className="w-full max-w-md px-4">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold mb-2 text-white">Milton Ivan</h1>
-            <p className="text-gray-400">Desenvolvedor Javascript</p>
+            <h1 className="text-xl font-medium mb-2 text-white">Milton Ivan</h1>
+            <p className="text-sm text-gray-400">Desenvolvedor Javascript</p>
           </div>
           
-          <div className="relative w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-emerald-600"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress * 100}%` }}
-              transition={{ ease: "easeInOut" }}
-            />
-          </div>
+          <Progress value={displayProgress * 100} className="h-1 bg-gray-800" />
           
           <div className="text-right mt-2">
-            <span className="text-sm text-gray-400">
+            <span className="text-xs text-gray-400">
               {Math.round(progress * 100)}%
             </span>
           </div>
