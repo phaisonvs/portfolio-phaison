@@ -41,9 +41,15 @@ const App = () => {
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    // Always show loading screen for 5 seconds on initial load
     // Set dark mode by default
     document.documentElement.classList.add('dark');
+    
+    // Initial loading screen for 2 seconds
+    const timer = setTimeout(() => {
+      setInitialLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   if (initialLoading) {
@@ -57,7 +63,11 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={
+              <RouteTransition>
+                <Index />
+              </RouteTransition>
+            } />
             <Route path="/projects" element={
               <RouteTransition>
                 <Projects />
