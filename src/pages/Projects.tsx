@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
 import { projects } from "@/data/projects";
-import { Gallery6 } from "@/components/ui/gallery6";
 
 const Projects = () => {
   const [filteredProjects, setFilteredProjects] = useState(projects.filter(p => p.visible));
@@ -61,19 +60,6 @@ const Projects = () => {
       setSelectedTag(tag);
     }
   };
-
-  // Get featured projects for the Gallery6 component
-  // Note: This is separate from the filtered projects
-  const featuredProjects = projects
-    .filter(project => project.visible && project.featured)
-    .slice(0, 5)
-    .map(project => ({
-      id: project.id,
-      title: project.title,
-      summary: project.description,
-      url: `/projects/${project.id}`,
-      image: project.image || "https://placehold.co/600x400/png",
-    }));
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -189,13 +175,6 @@ const Projects = () => {
           )}
         </div>
       </section>
-      
-      {/* Featured Projects Carousel - Fixed to show featured projects regardless of filters */}
-      <Gallery6 
-        heading="Projetos Destacados"
-        demoUrl="/projects"
-        items={featuredProjects}
-      />
       
       <Footer />
     </div>
