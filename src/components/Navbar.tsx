@@ -1,9 +1,8 @@
-
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -15,9 +14,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Projetos & Estudo de Casos", href: "/projects" },
-  { name: "Portfólio", href: "/#experience", isAnchor: true },
-  { name: "Fale Comigo", href: "/#contact", highlight: true, isAnchor: true },
+  { name: "Experiência", href: "/#experience", isAnchor: true },
+  { name: "Projetos", href: "/projects" },
+  { name: "Contato", href: "/#contact", highlight: true, isAnchor: true },
 ];
 
 export function Navbar() {
@@ -48,7 +47,7 @@ export function Navbar() {
     "fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300",
     isScrolled
       ? "bg-gray-950/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-gray-800/50 py-3"
-      : "bg-gray-950"
+      : "bg-transparent"
   );
 
   const logoVariants = {
@@ -117,7 +116,7 @@ export function Navbar() {
           className="flex items-center gap-2"
         >
           <Link to="/" className="text-xl font-medium flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-wider text-white">MJ</span>
+            <span className="text-2xl font-bold tracking-wider">MJ</span>
           </Link>
         </motion.div>
 
@@ -154,12 +153,11 @@ export function Navbar() {
                           className={cn(
                             "text-base font-medium px-3 py-2 rounded-md transition-colors w-full text-left tracking-wider",
                             item.highlight 
-                              ? "bg-blue-500 hover:bg-blue-600 text-white relative overflow-hidden flex items-center justify-center" 
+                              ? "bg-emerald-700 hover:bg-emerald-600 text-white relative overflow-hidden glow-button-animation" 
                               : "text-gray-300 hover:text-white"
                           )}
                         >
                           {item.name}
-                          {item.highlight && <ArrowRight className="ml-1 h-4 w-4" />}
                         </button>
                       ) : (
                         <Link
@@ -167,14 +165,13 @@ export function Navbar() {
                           className={cn(
                             "text-base font-medium px-3 py-2 rounded-md transition-colors block tracking-wider",
                             item.highlight 
-                              ? "bg-blue-500 hover:bg-blue-600 text-white relative overflow-hidden flex items-center justify-center" 
+                              ? "bg-emerald-700 hover:bg-emerald-600 text-white relative overflow-hidden glow-button-animation" 
                               : location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                                ? "text-blue-500"
+                                ? "text-emerald-500"
                                 : "text-gray-300 hover:text-white"
                           )}
                         >
                           {item.name}
-                          {item.highlight && <ArrowRight className="ml-1 h-4 w-4" />}
                         </Link>
                       )}
                     </div>
@@ -196,22 +193,21 @@ export function Navbar() {
                 {item.highlight ? (
                   <button
                     onClick={(e) => handleAnchorClick(e, item.href)}
-                    className="px-5 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-all relative overflow-hidden group flex items-center font-medium"
+                    className="px-5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-md transition-all relative overflow-hidden group glow-button-animation tracking-wider"
                   >
                     <span className="relative z-10">{item.name}</span>
-                    <ArrowRight className="ml-1 h-4 w-4" />
                   </button>
                 ) : item.isAnchor ? (
                   <button
                     onClick={(e) => handleAnchorClick(e, item.href)}
-                    className={`text-base transition-colors hover:text-white text-gray-300 tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left`}
+                    className={`text-base font-medium transition-colors hover:text-white text-gray-300 tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-emerald-500 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left`}
                   >
                     {item.name}
                   </button>
                 ) : (
                   <Link
                     to={item.href}
-                    className={`text-base transition-colors tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
+                    className={`text-base font-medium transition-colors tracking-wider relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-emerald-500 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
                       location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
                         ? "text-white after:scale-x-100"
                         : "text-gray-300 hover:text-white"
@@ -222,9 +218,7 @@ export function Navbar() {
                 )}
               </motion.div>
             ))}
-            <div className="border border-gray-700 rounded-md p-1">
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
           </div>
         )}
       </div>
