@@ -59,6 +59,7 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     font-size: 14px; /* Reduced base font size by 2px */
+    letter-spacing: -0.01em; /* Framer-like letter spacing */
   }
   
   html {
@@ -66,11 +67,57 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium;
+    @apply font-medium tracking-tight; /* Tighter tracking for headings like Framer */
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
+  /* Framer-like utilities */
+  .framer-border {
+    @apply border border-gray-100 dark:border-gray-800 rounded-xl;
+  }
+  
+  .framer-card {
+    @apply framer-border bg-white dark:bg-gray-950 p-6 transition-all duration-300;
+  }
+  
+  .framer-card-hover {
+    @apply hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700;
+  }
+  
+  .framer-section {
+    @apply py-24 relative;
+  }
+  
+  .framer-heading {
+    @apply text-3xl md:text-4xl font-medium tracking-tight;
+  }
+  
+  .framer-text {
+    @apply text-gray-600 dark:text-gray-400 text-lg leading-relaxed;
+  }
+  
+  .framer-container {
+    @apply container px-6 max-w-7xl mx-auto;
+  }
+  
+  .framer-grid {
+    @apply grid gap-8;
+  }
+  
+  .framer-button {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+  
+  .framer-button-primary {
+    @apply framer-button bg-emerald-600 hover:bg-emerald-700 text-white;
+  }
+  
+  .framer-button-secondary {
+    @apply framer-button bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700;
+  }
+
   .btn-press {
     @apply active:animate-btn-press;
   }
@@ -294,3 +341,67 @@
 .animate-grid-pulse {
   animation: grid-pulse 2s ease-in-out infinite;
 }
+
+/* Framer-inspired animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.6s ease-out forwards;
+}
+
+/* Staggered animation delays for children */
+.stagger-children > * {
+  opacity: 0;
+}
+
+.stagger-children > *:nth-child(1) { animation: fade-up 0.5s 0.1s ease-out forwards; }
+.stagger-children > *:nth-child(2) { animation: fade-up 0.5s 0.2s ease-out forwards; }
+.stagger-children > *:nth-child(3) { animation: fade-up 0.5s 0.3s ease-out forwards; }
+.stagger-children > *:nth-child(4) { animation: fade-up 0.5s 0.4s ease-out forwards; }
+.stagger-children > *:nth-child(5) { animation: fade-up 0.5s 0.5s ease-out forwards; }
+.stagger-children > *:nth-child(6) { animation: fade-up 0.5s 0.6s ease-out forwards; }
+.stagger-children > *:nth-child(7) { animation: fade-up 0.5s 0.7s ease-out forwards; }
+.stagger-children > *:nth-child(8) { animation: fade-up 0.5s 0.8s ease-out forwards; }
+
+/* Subtle hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+
+/* Framer-like border animation */
+.border-animate {
+  position: relative;
+}
+
+.border-animate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to right, #00AC7E, #4ade80);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.border-animate:hover::after {
+  opacity: 1;
+}
+

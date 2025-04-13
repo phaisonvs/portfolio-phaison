@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ScrollAnimator } from "@/components/ScrollAnimator";
-import { Download, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Download, Github, Linkedin, Mail, Twitter, ArrowRight, CheckCircle2, ExternalLink, PlayCircle, FileText, CreditCard, Scan } from "lucide-react";
 import { projects } from "@/data/projects";
 import { experiences } from "@/data/experience";
 import { testimonials } from "@/data/testimonials";
@@ -15,6 +15,9 @@ import { Tiles } from "@/components/ui/tiles";
 import ActionButton from "@/components/ui/action-button";
 import { TypeAnimationEnhanced } from "@/components/ui/TypeAnimationEnhanced";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const heroVariants = {
@@ -136,7 +139,7 @@ const Index = () => {
                   pauseDuration={4000} // 4 seconds pause when text is complete
                   repeat={Infinity}
                   cursor={true}
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-balance leading-tight"
+                  className="text-4xl md:text-5xl lg:text-6xl font-medium text-balance leading-tight"
                 />
               </motion.div>
               
@@ -184,8 +187,231 @@ const Index = () => {
         </div>
       </motion.section>
       
+      {/* Framer-Inspired Features Grid Section */}
+      <section className="py-24 bg-white dark:bg-gray-950 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <ScrollAnimator>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Serviços Personalizados</h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                Soluções de desenvolvimento adaptadas às necessidades específicas do seu negócio
+              </p>
+            </div>
+          </ScrollAnimator>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <FileText className="h-10 w-10 mb-5 text-emerald-600" />,
+                title: "Desenvolvimento Web",
+                description: "Criação de sites e aplicações web com foco em experiência do usuário e performance."
+              },
+              {
+                icon: <PlayCircle className="h-10 w-10 mb-5 text-emerald-600" />,
+                title: "Aplicações Interativas",
+                description: "Desenvolvimento de aplicações dinâmicas e responsivas utilizando tecnologias modernas."
+              },
+              {
+                icon: <CreditCard className="h-10 w-10 mb-5 text-emerald-600" />,
+                title: "E-commerce",
+                description: "Implementação de lojas virtuais com integração de métodos de pagamento e gestão de produtos."
+              },
+            ].map((service, index) => (
+              <ScrollAnimator key={index} delay={index * 100}>
+                <div className="flex flex-col h-full p-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 hover:border-emerald-200 dark:hover:border-emerald-800/40 transition-all">
+                  {service.icon}
+                  <h3 className="text-xl font-medium mb-3">{service.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-5">{service.description}</p>
+                  <div className="mt-auto">
+                    <Link 
+                      to="/contact" 
+                      className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-medium hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+                    >
+                      Saiba mais
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </ScrollAnimator>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enterprise Infrastructure Section (Framer-inspired) */}
+      <section className="py-24 bg-gray-50 dark:bg-gray-900/30 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <div className="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-20">
+            <ScrollAnimator className="w-full md:w-1/2">
+              <div className="aspect-video bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                <img 
+                  src="https://placehold.co/800x450/png" 
+                  alt="Infrastructure diagram"
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+            </ScrollAnimator>
+
+            <ScrollAnimator className="w-full md:w-1/2" delay={200}>
+              <div className="space-y-6">
+                <h2 className="text-3xl md:text-4xl font-medium tracking-tight">Arquitetura Escalável</h2>
+                <p className="text-gray-600 dark:text-gray-400 text-lg">
+                  Desenvolvemos soluções robustas que crescem junto com o seu negócio, com foco em performance e segurança.
+                </p>
+                
+                <div className="space-y-4 pt-4">
+                  {[
+                    "Infraestrutura Cloud-native",
+                    "Segurança em todas as camadas",
+                    "Otimização de performance",
+                    "Backups e recuperação de dados"
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-emerald-600 mt-0.5 mr-3 shrink-0" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="pt-4">
+                  <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                    Conheça nossa metodologia
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </ScrollAnimator>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section (Framer-inspired) */}
+      <section className="py-24 bg-white dark:bg-gray-950 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <ScrollAnimator>
+              <div className="space-y-8">
+                <div>
+                  <p className="text-emerald-600 dark:text-emerald-400 font-medium mb-2">Vamos trabalhar juntos</p>
+                  <h2 className="text-3xl md:text-4xl font-medium tracking-tight mb-4">Entre em contato</h2>
+                  <p className="text-gray-600 dark:text-gray-400 text-lg">
+                    Estou disponível para novos projetos, consultoria ou simplesmente para trocar ideias sobre tecnologia.
+                  </p>
+                </div>
+                
+                <div className="space-y-5">
+                  {[
+                    { 
+                      icon: <Mail className="h-5 w-5" />, 
+                      title: "Email", 
+                      value: "contato@exemplo.com", 
+                      link: "mailto:contato@exemplo.com" 
+                    },
+                    { 
+                      icon: <Linkedin className="h-5 w-5" />, 
+                      title: "LinkedIn", 
+                      value: "linkedin.com/in/miltonivan", 
+                      link: "https://linkedin.com" 
+                    },
+                    { 
+                      icon: <Github className="h-5 w-5" />, 
+                      title: "Github", 
+                      value: "github.com/miltonivan", 
+                      link: "https://github.com" 
+                    },
+                  ].map((contact, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-800">
+                        {contact.icon}
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{contact.title}</p>
+                        <a 
+                          href={contact.link}
+                          target="_blank"
+                          rel="noopener noreferrer" 
+                          className="font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        >
+                          {contact.value}
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4">
+                  <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                    Agendar uma reunião
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </ScrollAnimator>
+
+            <ScrollAnimator delay={200}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden">
+                  <img 
+                    src="https://placehold.co/600x800/png" 
+                    alt="Office photo 1"
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="grid grid-rows-2 gap-4">
+                  <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <img 
+                      src="https://placehold.co/400x300/png" 
+                      alt="Office photo 2"
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                  <div className="bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <img 
+                      src="https://placehold.co/400x300/png" 
+                      alt="Office photo 3"
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimator>
+          </div>
+        </div>
+      </section>
+
+      {/* Tools & Technologies Section (Framer-inspired) */}
+      <section className="py-24 bg-gray-50 dark:bg-gray-900/30 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <ScrollAnimator>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Tecnologias & Ferramentas</h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                Utilizando o melhor stack tecnológico para entregar soluções modernas e eficientes
+              </p>
+            </div>
+          </ScrollAnimator>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <ScrollAnimator key={index} delay={index * 50}>
+                <div className="flex flex-col items-center justify-center p-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 hover:border-emerald-200 dark:hover:border-emerald-800/40 transition-all text-center">
+                  <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                    <img 
+                      src={`https://placehold.co/64x64/png?text=Tech${index+1}`}
+                      alt={`Technology ${index+1}`}
+                      className="max-w-full max-h-full" 
+                    />
+                  </div>
+                  <p className="font-medium">Technology {index+1}</p>
+                </div>
+              </ScrollAnimator>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Projects Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
+      <section className="py-16 bg-white dark:bg-gray-950 relative overflow-hidden">
         <div className="container px-6 md:px-6 relative z-10">
           <div className="flex justify-between items-center mb-8">
             <ScrollAnimator>
@@ -226,11 +452,11 @@ const Index = () => {
       </section>
       
       {/* Need a Document Section */}
-      <section className="py-16 relative overflow-hidden">
+      <section className="py-16 relative overflow-hidden bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-6 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12">
             <ScrollAnimator className="w-full md:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Precisa de um documento impresso?</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Precisa de um documento impresso?</h2>
               <div className="mt-4">
                 <ActionButton 
                   onClick={handleDownload} 
@@ -258,7 +484,7 @@ const Index = () => {
       </section>
       
       {/* Experience Section */}
-      <section id="experience" className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
+      <section id="experience" className="py-16 bg-white dark:bg-gray-950 relative overflow-hidden">
         {/* Tiles in the background of the experience section */}
         <div className="absolute inset-0 z-0">
           <div className="tiles-container">
@@ -316,7 +542,7 @@ const Index = () => {
       </section>
       
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 relative overflow-hidden">
+      <section id="testimonials" className="py-16 relative overflow-hidden bg-gray-50 dark:bg-gray-900/30">
         <div className="container px-6 md:px-6 relative z-10">
           <ScrollAnimator>
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -356,8 +582,155 @@ const Index = () => {
         </div>
       </section>
       
+      {/* Pricing Section (Framer-inspired) */}
+      <section className="py-24 bg-white dark:bg-gray-950 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <ScrollAnimator>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Planos & Investimentos</h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                Escolha o plano que melhor se adapta às necessidades do seu projeto
+              </p>
+            </div>
+          </ScrollAnimator>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Básico",
+                price: "R$ 2.500",
+                description: "Ideal para pequenos negócios que estão começando sua presença online.",
+                features: [
+                  "Site responsivo",
+                  "Até 5 páginas",
+                  "Formulário de contato",
+                  "SEO básico",
+                  "Suporte por 30 dias"
+                ]
+              },
+              {
+                name: "Profissional",
+                price: "R$ 5.000",
+                description: "Para empresas que precisam de uma solução mais robusta e personalizada.",
+                features: [
+                  "Tudo do plano Básico",
+                  "Até 12 páginas",
+                  "Design personalizado",
+                  "Blog integrado",
+                  "Painel administrativo",
+                  "Suporte por 90 dias"
+                ],
+                highlighted: true
+              },
+              {
+                name: "Enterprise",
+                price: "Sob consulta",
+                description: "Soluções totalmente personalizadas para grandes empresas.",
+                features: [
+                  "Tudo do plano Profissional",
+                  "Páginas ilimitadas",
+                  "Integrações personalizadas",
+                  "Desenvolvimento sob medida",
+                  "Consultoria estratégica",
+                  "Suporte prioritário"
+                ]
+              }
+            ].map((plan, index) => (
+              <ScrollAnimator key={index} delay={index * 100}>
+                <div className={cn(
+                  "flex flex-col h-full p-8 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 transition-all",
+                  plan.highlighted ? "ring-1 ring-emerald-500 dark:ring-emerald-400" : ""
+                )}>
+                  {plan.highlighted && (
+                    <div className="py-1 px-3 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 text-xs font-medium rounded-full w-fit mb-4">
+                      Popular
+                    </div>
+                  )}
+                  <h3 className="text-xl font-medium mb-2">{plan.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold">{plan.price}</span>
+                    {plan.name !== "Enterprise" && <span className="text-gray-500 dark:text-gray-400"> / projeto</span>}
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6">{plan.description}</p>
+                  
+                  <Separator className="my-6" />
+                  
+                  <div className="space-y-3 mb-8 flex-grow">
+                    {plan.features.map((feature, i) => (
+                      <div key={i} className="flex items-start">
+                        <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-500 mt-0.5 mr-3 shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-auto">
+                    <Button 
+                      className={cn(
+                        "w-full", 
+                        plan.highlighted 
+                          ? "bg-emerald-600 hover:bg-emerald-700 text-white" 
+                          : "bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                      )}
+                    >
+                      {plan.name === "Enterprise" ? "Solicitar orçamento" : "Contratar agora"}
+                    </Button>
+                  </div>
+                </div>
+              </ScrollAnimator>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section (Framer-inspired) */}
+      <section className="py-24 bg-gray-50 dark:bg-gray-900/30 relative">
+        <div className="container px-6 max-w-7xl mx-auto">
+          <ScrollAnimator>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Perguntas Frequentes</h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                Tire suas dúvidas sobre o processo de desenvolvimento
+              </p>
+            </div>
+          </ScrollAnimator>
+
+          <div className="max-w-3xl mx-auto space-y-6">
+            {[
+              {
+                question: "Qual é o prazo médio para desenvolvimento de um site?",
+                answer: "O prazo varia de acordo com a complexidade do projeto. Um site institucional simples pode levar de 2 a 4 semanas, enquanto projetos mais complexos podem levar de 2 a 3 meses."
+              },
+              {
+                question: "Como funciona o processo de desenvolvimento?",
+                answer: "O processo começa com uma reunião de briefing para entender suas necessidades. Em seguida, desenvolvemos wireframes e protótipos para aprovação. Após a aprovação do design, iniciamos a implementação, seguida por testes e ajustes finais antes do lançamento."
+              },
+              {
+                question: "Vocês oferecem serviços de manutenção após o lançamento?",
+                answer: "Sim, oferecemos pacotes de manutenção mensal que incluem atualizações de segurança, pequenas modificações de conteúdo e suporte técnico. Os detalhes podem ser discutidos após a conclusão do projeto."
+              },
+              {
+                question: "O site será responsivo para dispositivos móveis?",
+                answer: "Sim, todos os nossos projetos são desenvolvidos com design responsivo, garantindo uma experiência otimizada em desktops, tablets e smartphones."
+              },
+              {
+                question: "Quais tecnologias vocês utilizam?",
+                answer: "Utilizamos as tecnologias mais modernas e eficientes do mercado, incluindo React, Next.js, Tailwind CSS para o frontend, e Node.js, Python ou PHP para o backend, dependendo das necessidades específicas do projeto."
+              }
+            ].map((faq, index) => (
+              <ScrollAnimator key={index} delay={index * 100}>
+                <div className="p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+                  <h3 className="text-lg font-medium mb-3">{faq.question}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{faq.answer}</p>
+                </div>
+              </ScrollAnimator>
+            ))}
+          </div>
+        </div>
+      </section>
+      
       {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-50 dark:bg-gray-900/30 relative overflow-hidden">
+      <section id="contact" className="py-16 bg-white dark:bg-gray-950 relative overflow-hidden">
         {/* Tiles in the background of the contact section */}
         <div className="absolute inset-0 z-0">
           <div className="tiles-container">
@@ -374,7 +747,7 @@ const Index = () => {
         <div className="container px-6 md:px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <ScrollAnimator>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Vamos conversar sobre seu projeto?</h2>
+              <h2 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight">Vamos conversar sobre seu projeto?</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-8">
                 Envie um email ou me encontre nas redes sociais
               </p>
