@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
@@ -14,17 +14,40 @@ import ProjectSingle from "./pages/ProjectSingle";
 
 const queryClient = new QueryClient();
 
-const App = () => {
+// Wrapper component to handle route transitions with loading screen
+const RouteTransition = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Show loading screen for 2 seconds on route change
+    setIsLoading(true);
+    
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+  
+  if (isLoading) {
+    return <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />;
+  }
+  
+  return <>{children}</>;
+};
+
+const App = () => {
+  const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
-    // Always show loading screen for 5 seconds
+    // Always show loading screen for 5 seconds on initial load
     // Set dark mode by default
     document.documentElement.classList.add('dark');
   }, []);
 
-  if (isLoading) {
-    return <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />;
+  if (initialLoading) {
+    return <LoadingScreen onLoadingComplete={() => setInitialLoading(false)} />;
   }
 
   return (
@@ -35,10 +58,21 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/:id" element={<ProjectDetail />} />
-            {/* New modern project route */}
-            <Route path="/project/:id" element={<ProjectSingle />} />
+            <Route path="/projects" element={
+              <RouteTransition>
+                <Projects />
+              </RouteTransition>
+            } />
+            <Route path="/projects/:id" element={
+              <RouteTransition>
+                <ProjectDetail />
+              </RouteTransition>
+            } />
+            <Route path="/project/:id" element={
+              <RouteTransition>
+                <ProjectSingle />
+              </RouteTransition>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

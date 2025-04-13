@@ -1,9 +1,8 @@
-
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
-import { Menu, Shield, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -37,10 +36,8 @@ export function Navbar() {
   }, []);
 
   React.useEffect(() => {
-    // Close mobile menu when route changes
     setIsMenuOpen(false);
     
-    // Reset scroll position when navigating to a new page (not an anchor)
     if (!location.hash) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -87,19 +84,16 @@ export function Navbar() {
   const handleAnchorClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     
-    // Extract the anchor ID from the href
     const id = href.split('#')[1];
     const element = document.getElementById(id);
     
     if (element) {
-      // If we're on a different page, navigate to the home page first
       if (location.pathname !== '/') {
         window.location.href = href;
         return;
       }
       
-      // Calculate offset for fixed header
-      const headerOffset = 100; // Approximate height of header with padding
+      const headerOffset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       
@@ -108,7 +102,6 @@ export function Navbar() {
         behavior: "smooth"
       });
       
-      // Close the mobile menu
       setIsMenuOpen(false);
     }
   };
@@ -183,13 +176,6 @@ export function Navbar() {
                       )}
                     </div>
                   ))}
-                  <Link
-                    to="/admin"
-                    className="text-base font-medium px-3 py-2 rounded-md text-gray-300 hover:text-white transition-colors flex items-center gap-2 tracking-wider"
-                  >
-                    <Shield className="w-4 h-4" />
-                    <span>Admin</span>
-                  </Link>
                 </div>
               </motion.div>
             )}
@@ -232,13 +218,6 @@ export function Navbar() {
                 )}
               </motion.div>
             ))}
-            <Link
-              to="/admin"
-              className="text-base font-medium transition-colors text-gray-300 hover:text-white flex items-center gap-1 tracking-wider"
-            >
-              <Shield className="w-4 h-4" />
-              <span>Admin</span>
-            </Link>
             <ThemeToggle />
           </div>
         )}

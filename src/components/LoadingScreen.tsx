@@ -15,8 +15,8 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     let startTime: number;
     let frameId: number;
     
-    // Fixed loading time in milliseconds (5 seconds)
-    const targetTime = 5000;
+    // Loading time in milliseconds (use 2000ms for navigation, 5000ms for initial load)
+    const targetTime = 2000;
     
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;

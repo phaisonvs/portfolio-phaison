@@ -85,7 +85,7 @@ export const TypeAnimationEnhanced: React.FC<TypeAnimationEnhancedProps> = ({
   }, [displayText, currentIndex, phase, sequence, speed, deletionSpeed, pauseDuration, repeat]);
   
   return (
-    <WrapperComponent className={`${className} ${cursor ? 'cursor' : ''}`}>
+    <WrapperComponent className={`${className} ${cursor ? 'cursor' : ''} font-normal`}>
       {displayText}
     </WrapperComponent>
   );
