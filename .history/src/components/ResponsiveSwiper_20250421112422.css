@@ -1,0 +1,530 @@
+/* src/components/ResponsiveSwiper.css */
+
+.responsive-swiper-container {
+  width: 100%;
+  padding: 20px 0 40px 0;
+  /* Espaçamento vertical */
+  position: relative;
+  overflow: hidden;
+  /* Garante que nada extrapole */
+}
+
+.responsive-swiper {
+  padding-bottom: 50px;
+  /* Espaço para a paginação */
+  overflow: visible !important;
+  /* Permite que sombras ou elementos maiores apareçam */
+}
+
+.responsive-swiper .swiper-slide {
+  height: auto;
+  /* Altura ajusta ao conteúdo */
+  display: flex;
+  /* Garante que o card preencha o slide */
+  align-items: stretch;
+  /* Estica o card verticalmente */
+  box-sizing: border-box;
+  padding: 0 2px;
+  /* Pequeno espaço lateral para evitar colagem visual */
+}
+
+.responsive-swiper .swiper-slide>div {
+  width: 100%;
+  /* O card ocupa toda a largura do slide */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.responsive-swiper .swiper-slide:hover>div {
+  transform: translateY(-5px);
+  /* Leve efeito de levantar no hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para Navegação (Setas) */
+.responsive-swiper .swiper-button-next,
+.responsive-swiper .swiper-button-prev {
+  color: #6366f1;
+  /* Cor índigo */
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  top: 50%;
+  /* Centraliza verticalmente */
+  transform: translateY(-50%);
+  /* Ajuste fino vertical */
+}
+
+.responsive-swiper .swiper-button-next:hover,
+.responsive-swiper .swiper-button-prev:hover {
+  background-color: white;
+}
+
+.responsive-swiper .swiper-button-next::after,
+.responsive-swiper .swiper-button-prev::after {
+  font-size: 1.1rem;
+  /* Tamanho do ícone da seta */
+  font-weight: bold;
+}
+
+.responsive-swiper .swiper-button-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Ajuste de posição das setas */
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+/* Estilos para Paginação (Bullets) */
+.responsive-swiper .swiper-pagination {
+  bottom: 10px !important;
+  /* Posição da paginação */
+}
+
+.responsive-swiper .swiper-pagination-bullet {
+  background-color: #a5b4fc;
+  /* Cor índigo mais clara */
+  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.responsive-swiper .swiper-pagination-bullet-active {
+  background-color: #6366f1;
+  /* Cor índigo */
+  opacity: 1;
+  width: 25px;
+  /* Bullet ativo mais largo */
+  border-radius: 5px;
+}
+
+/* Ajustes finos para telas menores */
+@media (max-width: 639px) {
+
+  .responsive-swiper .swiper-button-next,
+  .responsive-swiper .swiper-button-prev {
+    width: 36px;
+    height: 36px;
+  }
+
+  .responsive-swiper .swiper-button-next::after,
+  .responsive-swiper .swiper-button-prev::after {
+    font-size: 0.9rem;
+  }
+
+  .swiper-button-prev {
+    left: 5px;
+  }
+
+  .swiper-button-next {
+    right: 5px;
+  }
+}
+
+/* Caso não haja itens */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  /* Cinza */
+  font-style: italic;
+}
+
+/* Estilos para o novo carrossel com efeito coverflow */
+
+.responsive-swiper-wrapper {
+  width: 100%;
+  padding: 2rem 0;
+  position: relative;
+  overflow: hidden;
+  color: #f8fafc;
+  /* Cor de texto padrão - cinza bem claro */
+}
+
+.responsive-swiper-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.responsive-swiper-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(to right, #10b981, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.responsive-swiper-subtitle {
+  font-size: 1.125rem;
+  color: #94a3b8;
+  /* slate-400 */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.responsive-swiper-container {
+  padding: 2rem 0;
+  position: relative;
+}
+
+/* Estilo para o Swiper em si */
+.responsive-swiper {
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  position: relative;
+  /* Importante para posicionamento das setas */
+}
+
+/* Slides */
+.responsive-swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  /* Largura original restaurada */
+  height: 100px;
+  /* Altura reduzida conforme solicitado */
+  transition: all 0.3s ease;
+}
+
+/* Cards de projeto modernos */
+.project-card-modern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.6);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  /* slate-500 com transparência */
+  display: flex;
+  /* Ajusta para layout horizontal devido à altura reduzida */
+}
+
+.project-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-color: rgba(56, 189, 148, 0.3);
+  /* emerald-500 com transparência */
+}
+
+/* Container da imagem */
+.project-card-image-container {
+  position: relative;
+  width: 40%;
+  /* Reduzido para layout horizontal */
+  height: 100%;
+  overflow: hidden;
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.project-card-modern:hover .project-card-image {
+  transform: scale(1.05);
+}
+
+/* Overlay para elementos sobre a imagem */
+.project-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to left,
+      rgba(15, 23, 42, 0.9) 0%,
+      rgba(15, 23, 42, 0) 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Tags do projeto */
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.project-tag {
+  background: rgba(51, 65, 85, 0.8);
+  /* slate-700 com transparência */
+  backdrop-filter: blur(4px);
+  color: #e2e8f0;
+  /* slate-200 */
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.project-tag:hover {
+  background: rgba(71, 85, 105, 0.9);
+  /* slate-600 com mais opacidade */
+}
+
+.project-tag-more {
+  background: rgba(99, 102, 241, 0.7);
+  /* indigo-500 com transparência */
+}
+
+/* Ações que aparecem no hover */
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  margin-top: auto;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.project-card-actions.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.7rem;
+}
+
+.project-card-action-btn.primary {
+  background: #10b981;
+  /* emerald-500 */
+  color: white;
+}
+
+.project-card-action-btn.primary:hover {
+  background: #059669;
+  /* emerald-600 */
+  transform: translateY(-2px);
+}
+
+.project-card-action-btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.project-card-action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* Conteúdo do card */
+.project-card-content {
+  padding: 0.75rem;
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.project-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.project-card-description {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  /* slate-300 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+}
+
+/* Container para navegação (dots e setas) */
+.responsive-swiper .swiper-pagination {
+  bottom: 20px !important;
+}
+
+/* Paginação personalizada */
+.responsive-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(203, 213, 225, 0.5);
+  /* slate-300 com transparência */
+  transition: all 0.3s ease;
+}
+
+.responsive-swiper .swiper-pagination-bullet-active {
+  background: #10b981;
+  /* emerald-500 */
+  width: 24px;
+  border-radius: 5px;
+}
+
+/* Container personalizado para as setas de navegação */
+.responsive-swiper::after {
+  content: "";
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  width: auto;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+/* Reposicionamento das setas para ficarem à direita em uma div com gap */
+.responsive-swiper .swiper-button-next,
+.responsive-swiper .swiper-button-prev {
+  position: static;
+  margin: 0;
+  display: inline-flex;
+  color: white;
+  background: rgba(30, 41, 59, 0.8);
+  /* slate-800 com transparência */
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  transform: none;
+}
+
+/* Esconder os botões padrão e usar nosso container personalizado */
+.responsive-swiper .swiper-button-prev {
+  position: absolute;
+  right: 52px;
+  bottom: 15px;
+  top: auto;
+  left: auto;
+}
+
+.responsive-swiper .swiper-button-next {
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  top: auto;
+  left: auto;
+}
+
+.responsive-swiper .swiper-button-next:hover,
+.responsive-swiper .swiper-button-prev:hover {
+  background: rgba(51, 65, 85, 0.9);
+  /* slate-700 com mais opacidade */
+  transform: scale(1.1);
+}
+
+.responsive-swiper .swiper-button-next::after,
+.responsive-swiper .swiper-button-prev::after {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Efeito de slide ativo */
+.swiper-slide-active .project-card-modern {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border-color: rgba(16, 185, 129, 0.4);
+  /* emerald-500 com transparência */
+}
+
+/* Responsividade para diferentes tamanhos de tela */
+@media (max-width: 640px) {
+  .responsive-swiper-slide {
+    width: 260px;
+    height: 90px;
+  }
+
+  .responsive-swiper-title {
+    font-size: 1.75rem;
+  }
+
+  .responsive-swiper-subtitle {
+    font-size: 1rem;
+  }
+
+  .responsive-swiper .swiper-button-next,
+  .responsive-swiper .swiper-button-prev {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .responsive-swiper .swiper-button-prev {
+    right: 42px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-swiper-slide {
+    width: 280px;
+    height: 100px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-swiper-container {
+    padding: 3rem 0;
+  }
+
+  .responsive-swiper-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mensagem quando não há projetos */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  /* slate-400 */
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem;
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  /* slate-500 com transparência */
+}

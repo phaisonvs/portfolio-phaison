@@ -1,0 +1,140 @@
+/* src/components/ResponsiveSwiper.css */
+
+.responsive-swiper-container {
+  width: 100%;
+  padding: 20px 0 40px 0;
+  /* Espaçamento vertical */
+  position: relative;
+  overflow: hidden;
+  /* Garante que nada extrapole */
+}
+
+.responsive-swiper {
+  padding-bottom: 50px;
+  /* Espaço para a paginação */
+  overflow: visible !important;
+  /* Permite que sombras ou elementos maiores apareçam */
+}
+
+.responsive-swiper .swiper-slide {
+  height: auto;
+  /* Altura ajusta ao conteúdo */
+  display: flex;
+  /* Garante que o card preencha o slide */
+  align-items: stretch;
+  /* Estica o card verticalmente */
+  box-sizing: border-box;
+  padding: 0 2px;
+  /* Pequeno espaço lateral para evitar colagem visual */
+}
+
+.responsive-swiper .swiper-slide>div {
+  width: 100%;
+  /* O card ocupa toda a largura do slide */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.responsive-swiper .swiper-slide:hover>div {
+  transform: translateY(-5px);
+  /* Leve efeito de levantar no hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para Navegação (Setas) */
+.responsive-swiper .swiper-button-next,
+.responsive-swiper .swiper-button-prev {
+  color: #6366f1;
+  /* Cor índigo */
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  top: 50%;
+  /* Centraliza verticalmente */
+  transform: translateY(-50%);
+  /* Ajuste fino vertical */
+}
+
+.responsive-swiper .swiper-button-next:hover,
+.responsive-swiper .swiper-button-prev:hover {
+  background-color: white;
+}
+
+.responsive-swiper .swiper-button-next::after,
+.responsive-swiper .swiper-button-prev::after {
+  font-size: 1.1rem;
+  /* Tamanho do ícone da seta */
+  font-weight: bold;
+}
+
+.responsive-swiper .swiper-button-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Ajuste de posição das setas */
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+/* Estilos para Paginação (Bullets) */
+.responsive-swiper .swiper-pagination {
+  bottom: 10px !important;
+  /* Posição da paginação */
+}
+
+.responsive-swiper .swiper-pagination-bullet {
+  background-color: #a5b4fc;
+  /* Cor índigo mais clara */
+  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.responsive-swiper .swiper-pagination-bullet-active {
+  background-color: #6366f1;
+  /* Cor índigo */
+  opacity: 1;
+  width: 25px;
+  /* Bullet ativo mais largo */
+  border-radius: 5px;
+}
+
+/* Ajustes finos para telas menores */
+@media (max-width: 639px) {
+
+  .responsive-swiper .swiper-button-next,
+  .responsive-swiper .swiper-button-prev {
+    width: 36px;
+    height: 36px;
+  }
+
+  .responsive-swiper .swiper-button-next::after,
+  .responsive-swiper .swiper-button-prev::after {
+    font-size: 0.9rem;
+  }
+
+  .swiper-button-prev {
+    left: 5px;
+  }
+
+  .swiper-button-next {
+    right: 5px;
+  }
+}
+
+/* Caso não haja itens */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  /* Cinza */
+  font-style: italic;
+}

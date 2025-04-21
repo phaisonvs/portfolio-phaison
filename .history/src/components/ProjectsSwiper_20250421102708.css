@@ -1,0 +1,92 @@
+/* Personalização do Swiper para o carrossel de projetos */
+
+.projects-swiper {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 40px;
+  position: relative;
+}
+
+/* Estilização das bullets de paginação */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 50%;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  width: 24px;
+  background-color: #10b981;
+  border-radius: 10px;
+}
+
+/* Esconde os botões nativos de navegação do Swiper */
+.projects-swiper .swiper-button-next,
+.projects-swiper .swiper-button-prev {
+  display: none;
+}
+
+/* Estilização para desabilitar botões quando necessário */
+.swiper-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Efeito de transição suave entre slides */
+.swiper-slide {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.8;
+  height: auto;
+  /* Garante que os slides tenham altura automática */
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Adiciona um sutil efeito de gradiente nos lados do carrossel */
+.projects-swiper::before,
+.projects-swiper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: calc(100% - 40px);
+  width: 5%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.projects-swiper::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(3, 7, 18, 0.3), transparent);
+}
+
+.projects-swiper::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(3, 7, 18, 0.3), transparent);
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 640px) {
+  .projects-swiper {
+    padding-bottom: 30px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 20px;
+  }
+
+  .projects-swiper::before,
+  .projects-swiper::after {
+    width: 3%;
+  }
+}

@@ -1,0 +1,162 @@
+/* CSS básico para o carrossel de projetos */
+
+/* Container principal */
+.projects-swiper-container {
+  position: relative;
+  padding: 1rem 0;
+  margin: 0 -1rem;
+}
+
+/* O carrossel em si */
+.projects-swiper {
+  padding: 1rem;
+}
+
+/* Wrapper dos slides - Garante que os slides não extrapolem */
+.swiper-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Cards de projeto */
+.project-card {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Controle de tamanho dos slides */
+.project-slide {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Customizações dos botões de navegação do Swiper */
+.projects-swiper .swiper-button-prev,
+.projects-swiper .swiper-button-next {
+  color: #10b981;
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(8px);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.projects-swiper .swiper-button-prev:hover,
+.projects-swiper .swiper-button-next:hover {
+  background: rgba(17, 24, 39, 0.9);
+  color: #34d399;
+}
+
+.projects-swiper .swiper-button-prev:after,
+.projects-swiper .swiper-button-next:after {
+  font-size: 1rem;
+}
+
+/* Personalização das paginações */
+.projects-swiper .swiper-pagination {
+  bottom: -0.5rem !important;
+}
+
+.projects-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.projects-swiper .swiper-pagination-bullet-active {
+  background: #10b981;
+}
+
+/* Efeito de transição suave entre slides */
+.swiper-slide {
+  text-align: center;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.swiper-slide>div {
+  height: 100%;
+  min-height: 300px;
+  max-height: 450px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+/* Adiciona sombra no slide ativo para destaque */
+.swiper-slide-active>div {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 640px) {
+  .projects-swiper-container {
+    margin: 0 -0.5rem;
+  }
+
+  .projects-swiper {
+    padding: 0.5rem;
+  }
+
+  .projects-swiper .swiper-button-prev,
+  .projects-swiper .swiper-button-next {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .projects-swiper .swiper-button-prev:after,
+  .projects-swiper .swiper-button-next:after {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .projects-swiper .swiper-button-next {
+    right: -5px;
+  }
+
+  .projects-swiper .swiper-button-prev {
+    left: -5px;
+  }
+}
+
+/* Estilo para tablets */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .swiper-slide>div {
+    min-height: 300px;
+    max-height: 380px;
+  }
+
+  .swiper-slide {
+    padding: 0 6px;
+  }
+}
+
+/* Estilo para desktop */
+@media (min-width: 1024px) {
+  .swiper-slide>div {
+    min-height: 320px;
+    max-height: 420px;
+  }
+}

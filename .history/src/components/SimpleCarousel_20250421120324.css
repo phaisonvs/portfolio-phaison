@@ -1,0 +1,269 @@
+/* src/components/SimpleCarousel.css */
+
+/* Estilo moderno para o carrossel de projetos */
+.modern-carousel-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.modern-carousel-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.modern-carousel-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #1ccc5b, #10553c);
+  border-radius: 4px;
+}
+
+.modern-carousel-empty {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+.modern-carousel {
+  padding: 30px 0 60px;
+  overflow: hidden;
+}
+
+.modern-carousel-slide {
+  transition: transform 0.4s ease;
+  display: flex;
+  justify-content: center;
+}
+
+.modern-project-card {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  border: 2px solid #1ccc5b;
+}
+
+.modern-card-image-container {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.modern-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.modern-project-card:hover .modern-card-image {
+  transform: scale(1.1);
+}
+
+.modern-project-card:hover .modern-card-overlay {
+  opacity: 1;
+}
+
+.view-project-btn {
+  padding: 10px 20px;
+  background: #1ccc5b;
+  color: white;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  transform: translateY(20px);
+}
+
+.modern-project-card:hover .view-project-btn {
+  transform: translateY(0);
+}
+
+.view-project-btn:hover {
+  background: #10553c;
+  box-shadow: 0 5px 15px rgba(28, 204, 91, 0.4);
+}
+
+.modern-card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.modern-project-card:hover .modern-card-title {
+  color: #1ccc5b;
+}
+
+.modern-card-description {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.modern-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.modern-tag {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background-color: #f0f8f4;
+  color: #1ccc5b;
+  transition: all 0.3s ease;
+}
+
+.modern-project-card:hover .modern-tag {
+  background-color: #e0f3e9;
+}
+
+.modern-carousel .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #ddd;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.modern-carousel .swiper-pagination-bullet-active {
+  width: 30px;
+  border-radius: 5px;
+  background: #1ccc5b;
+}
+
+.modern-carousel .swiper-button-next,
+.modern-carousel .swiper-button-prev {
+  color: #1ccc5b;
+  background: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.modern-carousel .swiper-button-next:hover,
+.modern-carousel .swiper-button-prev:hover {
+  background: #1ccc5b;
+  color: white;
+}
+
+.modern-carousel .swiper-button-next::after,
+.modern-carousel .swiper-button-prev::after {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.swiper-slide-active .modern-project-card {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .modern-carousel-title {
+    font-size: 2rem;
+  }
+
+  .modern-card-title {
+    font-size: 1.2rem;
+  }
+
+  .modern-card-description {
+    font-size: 0.9rem;
+  }
+
+  .modern-project-card {
+    max-width: 300px;
+  }
+
+  .modern-carousel .swiper-button-next,
+  .modern-carousel .swiper-button-prev {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-carousel-title {
+    font-size: 1.75rem;
+  }
+
+  .modern-card-title {
+    font-size: 1.1rem;
+  }
+
+  .modern-card-description {
+    font-size: 0.85rem;
+  }
+
+  .modern-project-card {
+    max-width: 100%;
+  }
+
+  .modern-card-image-container {
+    height: 180px;
+  }
+
+  .modern-carousel .swiper-button-next,
+  .modern-carousel .swiper-button-prev {
+    display: none;
+  }
+
+  .modern-carousel-container {
+    margin: 2rem auto;
+  }
+}

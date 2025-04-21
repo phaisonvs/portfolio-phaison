@@ -1,0 +1,255 @@
+/* CSS básico para o carrossel de projetos */
+
+/* Reset para garantir que não haja excesso de largura */
+.projects-swiper-container,
+.projects-swiper,
+.swiper-wrapper {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+/* Container principal - Garante que ele respeite a largura máxima e paddings do pai */
+.projects-swiper-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden !important;
+}
+
+/* O carrossel em si - Também deve respeitar os limites */
+.projects-swiper {
+  width: 100%;
+  padding-bottom: 50px;
+  /* Espaço para paginação */
+}
+
+/* Ajuste para largura automática dos slides */
+.swiper-slide {
+  width: auto !important;
+  /* Permite largura automática */
+  height: auto !important;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Cards de projeto - Fluido sem largura fixa */
+.project-card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Customizações dos botões de navegação do Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #10b981 !important;
+  background: rgba(17, 24, 39, 0.7);
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  /* Posiciona os botões dentro do container */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Ajuste fino da posição dos botões */
+.swiper-button-prev {
+  left: 10px !important;
+}
+
+.swiper-button-next {
+  right: 10px !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+/* Personalização das paginações */
+.swiper-pagination {
+  bottom: 10px !important;
+  /* Ajusta a posição da paginação */
+}
+
+.swiper-pagination-bullet {
+  background: rgba(156, 163, 175, 0.5);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #10b981;
+  width: 24px;
+  border-radius: 10px;
+}
+
+/* Ajustes específicos para breakpoints */
+@media (max-width: 450px) {
+
+  /* Ajustes para 1 card */
+  .swiper-slide {
+    width: 100% !important;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    font-size: 16px !important;
+  }
+
+  .swiper-button-prev {
+    left: 5px !important;
+  }
+
+  .swiper-button-next {
+    right: 5px !important;
+  }
+}
+
+@media (min-width: 451px) and (max-width: 600px) {
+
+  /* Ajustes para 2 cards */
+  .swiper-slide {
+    width: calc(50% - 6px) !important;
+  }
+}
+
+@media (min-width: 601px) {
+
+  /* Ajustes para 3 cards */
+  .swiper-slide {
+    width: calc(33.333% - 11px) !important;
+  }
+}
+
+/* Correção para evitar que o swiper extrapole o container */
+.swiper-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* Controle de tamanho dos slides para evitar cards gigantes */
+.project-slide {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilização para desabilitar botões quando necessário */
+.swiper-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Efeito de transição suave entre slides */
+.swiper-slide {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.85;
+  height: auto;
+  /* Garante que os slides tenham altura automática */
+  transform: scale(0.98);
+  box-sizing: border-box;
+}
+
+/* Garante que cada card tenha tamanho adequado */
+.swiper-slide>div {
+  height: 100%;
+  min-height: 300px;
+  max-height: 450px;
+  box-sizing: border-box;
+  /* Inclui padding e borda na largura/altura */
+  margin: 0 auto;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+/* Adiciona sombra no slide ativo para destaque */
+.swiper-slide-active>div {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Remove os gradientes laterais que podem afetar o layout */
+.projects-swiper::before,
+.projects-swiper::after {
+  display: none;
+}
+
+/* Efeito de transição suave na troca de slides */
+.swiper-container-horizontal>.swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0) !important;
+}
+
+/* Estilo responsivo para telas menores */
+@media (max-width: 640px) {
+  .projects-swiper {
+    padding-bottom: 30px;
+  }
+
+  .swiper-slide {
+    max-width: 50%;
+    /* Garante que cada slide ocupe exatamente metade da largura em mobile */
+    padding: 0 4px;
+    /* Pequeno padding para evitar colar nas bordas */
+  }
+
+  .swiper-slide>div {
+    min-height: 280px;
+    max-height: 350px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+  }
+
+  .swiper-pagination-bullet-active {
+    width: 20px;
+  }
+}
+
+/* Estilo para tablets */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .swiper-slide>div {
+    min-height: 300px;
+    max-height: 380px;
+  }
+
+  .swiper-slide {
+    padding: 0 6px;
+    /* Pequeno padding para evitar colar nas bordas */
+  }
+}
+
+/* Estilo para desktop */
+@media (min-width: 1024px) {
+  .swiper-slide>div {
+    min-height: 320px;
+    max-height: 420px;
+  }
+
+  .swiper-slide {
+    padding: 0 8px;
+    /* Pequeno padding para evitar colar nas bordas */
+  }
+}

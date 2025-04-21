@@ -1,0 +1,168 @@
+/* src/components/SimpleCarousel.css */
+
+.simple-carousel-container {
+  width: 100%;
+  position: relative;
+  /* O padding lateral será controlado pelo container pai na página Index.tsx */
+  /* ou por regras específicas do Swiper abaixo */
+  padding: 1rem 0 3rem 0;
+  /* Espaço vertical e para paginação */
+}
+
+.simple-carousel {
+  width: 100%;
+  padding-bottom: 40px;
+  /* Espaço extra para os bullets dinâmicos */
+  overflow: hidden;
+  /* Evita overflow se o Swiper calcular errado */
+}
+
+/* Ajuste do Swiper para respeitar paddings externos */
+.simple-carousel .swiper-wrapper {
+  /* Mantém o wrapper visível para não cortar sombras ou bordas */
+  overflow: visible;
+}
+
+/* Garante que os slides não causem overflow horizontal na versão mobile */
+@media (max-width: 499px) {
+  .simple-carousel {
+    /* Adiciona padding interno no Swiper para mobile, alinhado com os 24px da página */
+    padding-left: 24px;
+    padding-right: 24px;
+    /* Box-sizing garante que o padding não aumente a largura total */
+    box-sizing: border-box;
+  }
+
+  /* Para garantir que o slide único centralize corretamente com padding */
+  .simple-carousel .swiper-slide {
+    width: 100% !important;
+    /* Força a largura total dentro do padding */
+    box-sizing: border-box;
+  }
+}
+
+.simple-carousel-slide {
+  height: auto;
+  /* Altura se ajusta ao conteúdo */
+  display: flex;
+  align-items: stretch;
+  /* Faz o card preencher a altura */
+  box-sizing: border-box;
+}
+
+.simple-project-card {
+  width: 100%;
+  height: 100%;
+  /* Ocupa toda a altura do slide */
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(30, 41, 59, 0.7);
+  /* Cor de fundo com transparência (slate-800) */
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  /* Bordas arredondadas */
+  overflow: hidden;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  /* Borda sutil (slate-700) */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.simple-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.simple-card-image-container {
+  width: 100%;
+  height: 180px;
+  /* Altura fixa para a imagem */
+  overflow: hidden;
+}
+
+.simple-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Garante que a imagem cubra a área */
+  transition: transform 0.3s ease;
+}
+
+.simple-project-card:hover .simple-card-image {
+  transform: scale(1.05);
+  /* Efeito de zoom no hover */
+}
+
+.simple-card-content {
+  padding: 1rem;
+  color: #e2e8f0;
+  /* Cor de texto clara (slate-200) */
+  flex-grow: 1;
+  /* Faz o conteúdo ocupar o espaço restante */
+  display: flex;
+  flex-direction: column;
+}
+
+.simple-card-title {
+  font-size: 1.125rem;
+  /* 18px */
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #f8fafc;
+  /* Branco (slate-50) */
+}
+
+.simple-card-description {
+  font-size: 0.875rem;
+  /* 14px */
+  color: #cbd5e1;
+  /* slate-300 */
+  line-height: 1.5;
+  flex-grow: 1;
+  /* Ocupa espaço disponível */
+  margin-bottom: 0;
+  /* Remove margem inferior padrão */
+}
+
+/* Estilos para Paginação (Bullets) */
+.simple-carousel .swiper-pagination {
+  bottom: 10px !important;
+  /* Posição dos bullets */
+  text-align: center;
+}
+
+.simple-carousel .swiper-pagination-bullet {
+  background-color: #64748b;
+  /* Cor dos bullets inativos (slate-500) */
+  opacity: 0.5;
+  width: 8px;
+  height: 8px;
+  transition: background-color 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  margin: 0 5px !important;
+  /* Espaçamento entre bullets */
+}
+
+.simple-carousel .swiper-pagination-bullet-active {
+  background-color: #10b981;
+  /* Cor dos bullets ativos (emerald-500) */
+  opacity: 1;
+  width: 20px;
+  /* Bullet ativo mais largo */
+  border-radius: 4px;
+}
+
+/* Mensagem quando não há projetos */
+.simple-carousel-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  /* Cinza */
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem 24px;
+  /* Respeita padding lateral */
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  /* slate-500 com transparência */
+}
