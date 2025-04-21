@@ -26,6 +26,13 @@
   box-sizing: border-box;
   padding: 0 2px;
   /* Pequeno espaço lateral para evitar colagem visual */
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.responsive-swiper .swiper-slide-active {
+  opacity: 1;
+  z-index: 2;
 }
 
 .responsive-swiper .swiper-slide>div {
@@ -180,8 +187,8 @@
 .responsive-swiper {
   width: 100%;
   padding-top: 3rem;
-  padding-bottom: 10rem;
-  /* Aumentado ainda mais para dar bastante espaço */
+  padding-bottom: 14rem;
+  /* Aumentado para dar mais espaço abaixo (+40px) */
   position: relative;
   /* Importante para posicionamento das setas */
   overflow: hidden;
@@ -286,12 +293,12 @@
   transition: all 0.3s ease;
 }
 
-/* Tags do projeto */
+/* Tags do projeto agora no topo do conteúdo */
 .project-card-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.6rem;
   z-index: 5;
 }
 
@@ -323,21 +330,46 @@
   background: rgba(99, 102, 241, 0.85);
 }
 
-/* Ações que aparecem no hover */
-.project-card-actions {
+/* Conteúdo do card */
+.project-card-content {
+  padding: 0.75rem;
+  height: 100%;
+  width: 60%;
   display: flex;
-  gap: 0.5rem;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  margin-top: auto;
-  align-items: center;
+  flex-direction: column;
   justify-content: flex-start;
 }
 
-.project-card-actions.active {
-  opacity: 1;
-  transform: translateY(0);
+/* Título do projeto */
+.project-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+/* Descrição do projeto */
+.project-card-description {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  /* slate-300 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+/* Ações sempre visíveis */
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .project-card-action-btn {
@@ -380,38 +412,9 @@
   height: 0.8rem;
 }
 
-/* Conteúdo do card */
-.project-card-content {
-  padding: 0.75rem;
-  height: 100%;
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.project-card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: white;
-}
-
-.project-card-description {
-  font-size: 0.875rem;
-  color: #cbd5e1;
-  /* slate-300 */
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  line-height: 1.4;
-}
-
 /* Container para navegação (dots e setas) - mais espaço */
 .responsive-swiper .swiper-pagination {
-  bottom: 70px !important;
-  /* Movido mais para baixo ainda */
+  bottom: 110px !important;
 }
 
 /* Paginação personalizada */
@@ -430,24 +433,11 @@
   opacity: 1;
 }
 
-/* Container personalizado para as setas de navegação */
-.responsive-swiper::after {
-  content: "";
-  position: absolute;
-  bottom: 15px;
-  right: 20px;
-  width: auto;
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
 /* Reposicionamento das setas para ficarem mais abaixo */
 .responsive-swiper .swiper-button-prev,
 .responsive-swiper .swiper-button-next {
   position: absolute;
-  bottom: 30px;
-  /* Movido mais para baixo */
+  bottom: 70px;
   top: auto;
   margin: 0;
   color: white;
@@ -467,8 +457,7 @@
 .responsive-swiper .swiper-button-prev {
   position: absolute;
   right: 52px;
-  bottom: 30px;
-  /* Movido mais para baixo */
+  bottom: 70px;
   top: auto;
   left: auto;
 }
@@ -476,8 +465,7 @@
 .responsive-swiper .swiper-button-next {
   position: absolute;
   right: 20px;
-  bottom: 30px;
-  /* Movido mais para baixo */
+  bottom: 70px;
   top: auto;
   left: auto;
 }
@@ -531,12 +519,41 @@
   .responsive-swiper .swiper-button-prev {
     right: 42px;
   }
+
+  /* Visualização aprimorada para o slide central em mobile */
+  .swiper-slide-active {
+    z-index: 10;
+    transform: scale(1.05);
+  }
+
+  .swiper-slide-active .project-card-modern {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 641px) and (max-width: 991px) {
+
+  /* Configurações específicas para visualização em tablets */
   .responsive-swiper-slide {
     width: 280px;
     height: 180px;
+  }
+
+  /* Visualização aprimorada para o slide central em tablets */
+  .swiper-slide-active {
+    z-index: 10;
+    transform: scale(1.05);
+  }
+
+  .swiper-slide-active .project-card-modern {
+    border-color: rgba(16, 185, 129, 0.6);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Melhor visibilidade para slides vizinhos */
+  .swiper-slide-prev,
+  .swiper-slide-next {
+    opacity: 0.9;
   }
 }
 
@@ -565,4 +582,189 @@
   margin: 1rem;
   border: 1px dashed rgba(100, 116, 139, 0.3);
   /* slate-500 com transparência */
+}
+
+/* Embla Carousel */
+.embla-carousel-container {
+  width: 100%;
+  padding: 20px 0 40px 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.embla {
+  position: relative;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  align-items: stretch;
+  height: auto;
+}
+
+.embla__slide {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 10px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 300px;
+  /* Largura similar aos slides anteriores */
+}
+
+.embla__slide.is-selected {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Efeito para slide atual */
+.embla__slide.is-selected {
+  z-index: 10;
+  transform: scale(1.05);
+}
+
+.embla__slide.is-selected .project-card-modern {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border-color: rgba(16, 185, 129, 0.4);
+  /* emerald-500 com transparência */
+}
+
+/* Navegação com botões */
+.embla-buttons {
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+}
+
+.embla-button {
+  background: rgba(30, 41, 59, 0.8);
+  color: white;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.embla-button:hover {
+  background: rgba(51, 65, 85, 0.9);
+  transform: scale(1.1);
+}
+
+.embla-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Paginação com pontos */
+.embla-dots {
+  position: absolute;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.embla-dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(203, 213, 225, 0.5);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.embla-dot--selected {
+  background: #10b981;
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* Mensagem quando não há projetos */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  /* slate-400 */
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem;
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  /* slate-500 com transparência */
+}
+
+/* Responsividade para diferentes tamanhos de tela */
+@media (max-width: 640px) {
+  .embla__slide {
+    width: 260px;
+  }
+
+  .responsive-swiper-title {
+    font-size: 1.75rem;
+  }
+
+  .responsive-swiper-subtitle {
+    font-size: 1rem;
+  }
+
+  .embla-button {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .embla-button-prev {
+    right: 42px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 991px) {
+
+  /* Configurações específicas para visualização em tablets */
+  .embla__slide {
+    width: 280px;
+  }
+
+  /* Melhor visibilidade para slides vizinhos */
+  .embla__slide.embla__slide--prev,
+  .embla__slide.embla__slide--next {
+    opacity: 0.9;
+  }
+}
+
+@media (min-width: 992px) {
+  .embla__slide {
+    width: 300px;
+  }
+
+  .embla-carousel-container {
+    padding: 3rem 0;
+  }
+
+  .responsive-swiper-title {
+    font-size: 2.5rem;
+  }
 }

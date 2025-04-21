@@ -1,0 +1,230 @@
+/* CSS para o carrossel de projetos */
+
+/* Estilos para a seção de projetos */
+.projects-section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #6c757d;
+}
+
+.projects-carousel {
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+
+/* Estilos para o Swiper */
+.mySwiper {
+  padding: 30px 10px 60px;
+}
+
+/* Estilo para os slides */
+.swiper-slide {
+  height: auto;
+  transition: transform 0.3s;
+}
+
+.swiper-slide-active {
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+/* Estilos para os cards de projeto */
+.project-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.project-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.1);
+}
+
+.project-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.project-description {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tech-tag {
+  background-color: #f0f0f0;
+  color: #555;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.project-links {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.demo-link {
+  background-color: #007bff;
+  color: white;
+}
+
+.demo-link:hover {
+  background-color: #0069d9;
+}
+
+.source-link {
+  background-color: #6c757d;
+  color: white;
+}
+
+.source-link:hover {
+  background-color: #5a6268;
+}
+
+/* Estilos para os bullets de paginação */
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #007bff;
+  opacity: 1;
+}
+
+/* Estilos para os botões de navegação */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #007bff;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 25px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.swiper-button-disabled {
+  opacity: 0.35;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  .project-image {
+    height: 180px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .projects-section {
+    padding: 60px 0;
+  }
+
+  .project-image {
+    height: 160px;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}

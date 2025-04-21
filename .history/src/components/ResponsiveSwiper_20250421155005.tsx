@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
@@ -6,6 +6,7 @@ import {
   EffectCoverflow,
   Autoplay,
 } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import "./ResponsiveSwiper.css";
 
 // Importar estilos base do Swiper
@@ -13,7 +14,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 // Interface para os projetos
 interface Project {
@@ -33,12 +34,8 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
   items,
 }) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-
-  if (!items || items.length === 0) {
-    return (
-      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
-    );
-  }
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const paginationRef = useRef<HTMLDivElement>(null);
 
   // Função para truncar a descrição de forma mais inteligente
   const truncateDescription = (text: string, maxLength: number) => {
@@ -47,6 +44,23 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
     const truncated = text.substring(0, maxLength);
     return truncated.substring(0, truncated.lastIndexOf(" ")) + "...";
   };
+
+  // Movendo a páginação para nosso container personalizado
+  useEffect(() => {
+    if (swiperInstance && paginationRef.current) {
+      // Mover os bullets de paginação para nosso container
+      const bullets = document.querySelector(".swiper-pagination");
+      if (bullets && paginationRef.current) {
+        paginationRef.current.appendChild(bullets);
+      }
+    }
+  }, [swiperInstance]);
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
+    );
+  }
 
   return (
     <div className="responsive-swiper-wrapper">
@@ -65,27 +79,29 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
           centeredSlides={true}
           slidesPerView="auto"
           coverflowEffect={{
-            rotate: 5, // Reduzido para um efeito mais sutil em cards horizontais
+            rotate: 5,
             stretch: 0,
-            depth: 50, // Reduzido para cards com altura menor
+            depth: 50,
             modifier: 1,
-            slideShadows: false, // Desligado para evitar problemas de layout
+            slideShadows: false,
           }}
-          loop={false} // Evita duplicação de slides que pode causar problemas de largura
+          loop={false}
           autoplay={{
             delay: 5000,
             disableOnInteraction: true,
             pauseOnMouseEnter: true,
           }}
-          navigation
+          // Removemos os controles padrão para adicionar os nossos customizados
+          navigation={false}
           pagination={{
             clickable: true,
             dynamicBullets: true,
+            // Especifica um elemento customizado
+            el: ".swiper-pagination",
           }}
           className="responsive-swiper"
-          watchOverflow={true} // Monitora e ajusta para overflow
+          watchOverflow={true}
           breakpoints={{
-            // Garante comportamento adequado em diferentes tamanhos de tela
             320: {
               slidesPerView: 1.2,
               spaceBetween: 20,
@@ -95,6 +111,7 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
               spaceBetween: 20,
             },
           }}
+          onSwiper={setSwiperInstance}
         >
           {items.map((project, index) => (
             <SwiperSlide
@@ -163,6 +180,57 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Container para navegação customizada */}
+        <div className="swiper-nav-container">
+          {/* Container para paginação customizada */}
+          <div className="swiper-pagination-container" ref={paginationRef}>
+            {/* A paginação do Swiper será movida para cá via JavaScript */}
+            <div className="swiper-pagination"></div>
+          </div>
+
+          {/* Container para botões de navegação customizados */}
+          <div className="swiper-nav-buttons">
+            <button
+              className="swiper-button-prev"
+              onClick={() => swiperInstance?.slidePrev()}
+              aria-label="Slide anterior"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              className="swiper-button-next"
+              onClick={() => swiperInstance?.slideNext()}
+              aria-label="Próximo slide"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

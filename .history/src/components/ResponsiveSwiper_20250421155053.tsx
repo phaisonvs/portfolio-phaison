@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
@@ -6,6 +6,7 @@ import {
   EffectCoverflow,
   Autoplay,
 } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 import "./ResponsiveSwiper.css";
 
 // Importar estilos base do Swiper
@@ -13,7 +14,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 // Interface para os projetos
 interface Project {
@@ -33,12 +34,9 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
   items,
 }) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-
-  if (!items || items.length === 0) {
-    return (
-      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
-    );
-  }
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
+  const paginationRef = useRef<HTMLDivElement>(null);
+  const [slidesPerView, setSlidesPerView] = useState(3);
 
   // Função para truncar a descrição de forma mais inteligente
   const truncateDescription = (text: string, maxLength: number) => {
@@ -48,8 +46,41 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
     return truncated.substring(0, truncated.lastIndexOf(" ")) + "...";
   };
 
+  // Movendo a páginação para nosso container personalizado
+  useEffect(() => {
+    if (swiperInstance && paginationRef.current) {
+      // Mover os bullets de paginação para nosso container
+      const bullets = document.querySelector(".swiper-pagination");
+      if (bullets && paginationRef.current) {
+        paginationRef.current.appendChild(bullets);
+      }
+    }
+  }, [swiperInstance]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSlidesPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setSlidesPerView(2);
+      } else {
+        setSlidesPerView(3);
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
+    );
+  }
+
   return (
-    <div className="responsive-swiper-wrapper">
+    <div className="responsive-swiper">
       <div className="responsive-swiper-header">
         <h2 className="responsive-swiper-title">Projetos em Destaque</h2>
         <p className="responsive-swiper-subtitle">
@@ -63,29 +94,32 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
           effect="coverflow"
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView="auto"
+          slidesPerView={slidesPerView}
           coverflowEffect={{
-            rotate: 5, // Reduzido para um efeito mais sutil em cards horizontais
+            rotate: 0,
             stretch: 0,
-            depth: 50, // Reduzido para cards com altura menor
-            modifier: 1,
-            slideShadows: false, // Desligado para evitar problemas de layout
+            depth: 100,
+            modifier: 2.5,
+            slideShadows: false,
           }}
-          loop={false} // Evita duplicação de slides que pode causar problemas de largura
+          loop={false}
           autoplay={{
             delay: 5000,
             disableOnInteraction: true,
             pauseOnMouseEnter: true,
           }}
-          navigation
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          }}
           pagination={{
             clickable: true,
             dynamicBullets: true,
+            el: ".swiper-pagination",
           }}
           className="responsive-swiper"
-          watchOverflow={true} // Monitora e ajusta para overflow
+          watchOverflow={true}
           breakpoints={{
-            // Garante comportamento adequado em diferentes tamanhos de tela
             320: {
               slidesPerView: 1.2,
               spaceBetween: 20,
@@ -95,6 +129,7 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
               spaceBetween: 20,
             },
           }}
+          onSwiper={setSwiperInstance}
         >
           {items.map((project, index) => (
             <SwiperSlide
@@ -163,6 +198,44 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
             </SwiperSlide>
           ))}
         </Swiper>
+
+        <div className="swiper-nav-container">
+          <div className="swiper-nav-buttons">
+            <div className="swiper-button-prev">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+                <path d="M11 12h9" opacity="0.5" />
+              </svg>
+            </div>
+            <div className="swiper-button-next">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 6l6 6-6 6" />
+                <path d="M4 12h9" opacity="0.5" />
+              </svg>
+            </div>
+          </div>
+          <div className="swiper-pagination"></div>
+        </div>
       </div>
     </div>
   );

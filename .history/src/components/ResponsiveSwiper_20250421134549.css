@@ -1,0 +1,1100 @@
+/* src/components/ResponsiveSwiper.css */
+
+.responsive-swiper-container {
+  width: 100%;
+  padding: 20px 0 40px 0;
+  /* Espaçamento vertical */
+  position: relative;
+  overflow: hidden;
+  /* Garante que nada extrapole */
+}
+
+.responsive-swiper {
+  padding-bottom: 50px;
+  /* Espaço para a paginação */
+  overflow: visible !important;
+  /* Permite que sombras ou elementos maiores apareçam */
+}
+
+.responsive-swiper .swiper-slide {
+  height: auto;
+  /* Altura ajusta ao conteúdo */
+  display: flex;
+  /* Garante que o card preencha o slide */
+  align-items: stretch;
+  /* Estica o card verticalmente */
+  box-sizing: border-box;
+  padding: 0 2px;
+  /* Pequeno espaço lateral para evitar colagem visual */
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.responsive-swiper .swiper-slide-active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.responsive-swiper .swiper-slide>div {
+  width: 100%;
+  /* O card ocupa toda a largura do slide */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.responsive-swiper .swiper-slide:hover>div {
+  transform: translateY(-5px);
+  /* Leve efeito de levantar no hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para Navegação (Setas) */
+.responsive-swiper .swiper-button-next,
+.responsive-swiper .swiper-button-prev {
+  color: #6366f1;
+  /* Cor índigo */
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  top: 50%;
+  /* Centraliza verticalmente */
+  transform: translateY(-50%);
+  /* Ajuste fino vertical */
+}
+
+.responsive-swiper .swiper-button-next:hover,
+.responsive-swiper .swiper-button-prev:hover {
+  background-color: white;
+}
+
+.responsive-swiper .swiper-button-next::after,
+.responsive-swiper .swiper-button-prev::after {
+  font-size: 1.1rem;
+  /* Tamanho do ícone da seta */
+  font-weight: bold;
+}
+
+.responsive-swiper .swiper-button-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Ajuste de posição das setas */
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+/* Estilos para Paginação (Bullets) */
+.responsive-swiper .swiper-pagination {
+  bottom: 10px !important;
+  /* Posição da paginação */
+}
+
+.responsive-swiper .swiper-pagination-bullet {
+  background-color: #a5b4fc;
+  /* Cor índigo mais clara */
+  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.responsive-swiper .swiper-pagination-bullet-active {
+  background-color: #6366f1;
+  /* Cor índigo */
+  opacity: 1;
+  width: 25px;
+  /* Bullet ativo mais largo */
+  border-radius: 5px;
+}
+
+/* Ajustes finos para telas menores */
+@media (max-width: 639px) {
+
+  .responsive-swiper .swiper-button-next,
+  .responsive-swiper .swiper-button-prev {
+    width: 36px;
+    height: 36px;
+  }
+
+  .responsive-swiper .swiper-button-next::after,
+  .responsive-swiper .swiper-button-prev::after {
+    font-size: 0.9rem;
+  }
+
+  .swiper-button-prev {
+    left: 5px;
+  }
+
+  .swiper-button-next {
+    right: 5px;
+  }
+}
+
+/* Caso não haja itens */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  /* Cinza */
+  font-style: italic;
+}
+
+/* Estilos para o novo carrossel com efeito coverflow */
+
+.responsive-swiper-wrapper {
+  width: 100%;
+  max-width: 100vw;
+  padding: 2rem 0;
+  overflow-x: hidden;
+  color: #f8fafc;
+}
+
+.responsive-swiper-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.responsive-swiper-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(to right, #10b981, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.responsive-swiper-subtitle {
+  font-size: 1.125rem;
+  color: #94a3b8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Estilo para o Swiper em si */
+.responsive-swiper {
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 14rem;
+  /* Aumentado para dar mais espaço abaixo (+40px) */
+  position: relative;
+  /* Importante para posicionamento das setas */
+  overflow: hidden;
+  /* Containment adicional */
+}
+
+/* Container do Swiper */
+.responsive-swiper-container {
+  padding: 2rem 0;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Previne overflow horizontal */
+  max-width: 100%;
+}
+
+/* Regra global para garantir que a largura seja respeitada */
+.swiper-wrapper {
+  max-width: 100%;
+  overflow: visible;
+  /* Permitir que os slides sejam visíveis fora do container */
+}
+
+/* Correção para o efeito coverflow que pode causar overflow */
+.swiper-slide-shadow-left,
+.swiper-slide-shadow-right {
+  max-width: 100%;
+}
+
+/* Slides */
+.responsive-swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  /* Largura original restaurada */
+  height: 180px;
+  /* Altura ajustada conforme solicitado */
+  transition: all 0.3s ease;
+  max-width: 100%;
+  /* Garante que não exceda a largura do container */
+}
+
+/* Cards de projeto modernos */
+.project-card-modern {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.6);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  /* slate-500 com transparência */
+  display: flex;
+  /* Ajusta para layout horizontal devido à altura reduzida */
+}
+
+.project-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-color: rgba(56, 189, 148, 0.3);
+  /* emerald-500 com transparência */
+}
+
+/* Container da imagem */
+.project-card-image-container {
+  position: relative;
+  width: 40%;
+  /* Reduzido para layout horizontal */
+  height: 100%;
+  overflow: hidden;
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.project-card-modern:hover .project-card-image {
+  transform: scale(1.05);
+}
+
+/* Overlay para elementos sobre a imagem */
+.project-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to left,
+      rgba(15, 23, 42, 0.9) 0%,
+      rgba(15, 23, 42, 0) 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Tags do projeto agora no topo do conteúdo */
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+  z-index: 5;
+}
+
+.project-tag {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(4px);
+  color: #f1f5f9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.project-tag:hover {
+  background: rgba(51, 65, 85, 0.95);
+  transform: translateY(-1px);
+}
+
+.project-tag-more {
+  background: rgba(79, 70, 229, 0.75);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.project-tag-more:hover {
+  background: rgba(99, 102, 241, 0.85);
+}
+
+/* Conteúdo do card */
+.project-card-content {
+  padding: 0.75rem;
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Título do projeto */
+.project-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+/* Descrição do projeto */
+.project-card-description {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  /* slate-300 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+/* Ações sempre visíveis */
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  align-items: center;
+  justify-content: flex-start;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.project-card-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.7rem;
+}
+
+.project-card-action-btn.primary {
+  background: #10b981;
+  /* emerald-500 */
+  color: white;
+}
+
+.project-card-action-btn.primary:hover {
+  background: #059669;
+  /* emerald-600 */
+  transform: translateY(-2px);
+}
+
+.project-card-action-btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.project-card-action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* Container para navegação (dots e setas) - mais espaço */
+.responsive-swiper .swiper-pagination {
+  bottom: 110px !important;
+}
+
+/* Paginação personalizada */
+.responsive-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: rgba(203, 213, 225, 0.5);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.responsive-swiper .swiper-pagination-bullet-active {
+  background: #10b981;
+  width: 28px;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+/* Reposicionamento das setas para ficarem mais abaixo */
+.responsive-swiper .swiper-button-prev,
+.responsive-swiper .swiper-button-next {
+  position: absolute;
+  bottom: 70px;
+  top: auto;
+  margin: 0;
+  color: white;
+  background: rgba(30, 41, 59, 0.8);
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  transform: none;
+}
+
+/* Esconder os botões padrão e usar nosso container personalizado */
+.responsive-swiper .swiper-button-prev {
+  position: absolute;
+  right: 52px;
+  bottom: 70px;
+  top: auto;
+  left: auto;
+}
+
+.responsive-swiper .swiper-button-next {
+  position: absolute;
+  right: 20px;
+  bottom: 70px;
+  top: auto;
+  left: auto;
+}
+
+.responsive-swiper .swiper-button-next:hover,
+.responsive-swiper .swiper-button-prev:hover {
+  background: rgba(51, 65, 85, 0.9);
+  transform: scale(1.1);
+}
+
+.responsive-swiper .swiper-button-next::after,
+.responsive-swiper .swiper-button-prev::after {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Efeito de slide ativo */
+.swiper-slide-active .project-card-modern {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border-color: rgba(16, 185, 129, 0.4);
+  /* emerald-500 com transparência */
+}
+
+/* Destacar as tags quando o slide estiver ativo */
+.swiper-slide-active .project-tag {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsividade para diferentes tamanhos de tela */
+@media (max-width: 640px) {
+  .responsive-swiper-slide {
+    width: 260px;
+    height: 160px;
+  }
+
+  .responsive-swiper-title {
+    font-size: 1.75rem;
+  }
+
+  .responsive-swiper-subtitle {
+    font-size: 1rem;
+  }
+
+  .responsive-swiper .swiper-button-next,
+  .responsive-swiper .swiper-button-prev {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .responsive-swiper .swiper-button-prev {
+    right: 42px;
+  }
+
+  /* Visualização aprimorada para o slide central em mobile */
+  .swiper-slide-active {
+    z-index: 10;
+    transform: scale(1.05);
+  }
+
+  .swiper-slide-active .project-card-modern {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 991px) {
+
+  /* Configurações específicas para visualização em tablets */
+  .responsive-swiper-slide {
+    width: 280px;
+    height: 180px;
+  }
+
+  /* Visualização aprimorada para o slide central em tablets */
+  .swiper-slide-active {
+    z-index: 10;
+    transform: scale(1.05);
+  }
+
+  .swiper-slide-active .project-card-modern {
+    border-color: rgba(16, 185, 129, 0.6);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Melhor visibilidade para slides vizinhos */
+  .swiper-slide-prev,
+  .swiper-slide-next {
+    opacity: 0.9;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-swiper-container {
+    padding: 3rem 0;
+  }
+
+  .responsive-swiper-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mensagem quando não há projetos */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  /* slate-400 */
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem;
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  /* slate-500 com transparência */
+}
+
+/* Embla Carousel */
+.embla-carousel-container {
+  width: 100%;
+  padding: 20px 0 40px 0;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.embla {
+  position: relative;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  align-items: stretch;
+  height: auto;
+}
+
+.embla__slide {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 10px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 300px;
+  /* Largura similar aos slides anteriores */
+}
+
+.embla__slide.is-selected {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Efeito para slide atual */
+.embla__slide.is-selected {
+  z-index: 10;
+  transform: scale(1.05);
+}
+
+.embla__slide.is-selected .project-card-modern {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border-color: rgba(16, 185, 129, 0.4);
+  /* emerald-500 com transparência */
+}
+
+/* Navegação com botões */
+.embla-buttons {
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+}
+
+.embla-button {
+  background: rgba(30, 41, 59, 0.8);
+  color: white;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.embla-button:hover {
+  background: rgba(51, 65, 85, 0.9);
+  transform: scale(1.1);
+}
+
+.embla-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Paginação com pontos */
+.embla-dots {
+  position: absolute;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.embla-dot {
+  width: 10px;
+  height: 10px;
+  background: rgba(203, 213, 225, 0.5);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.embla-dot--selected {
+  background: #10b981;
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* Mensagem quando não há projetos */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  /* slate-400 */
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  /* slate-900 com transparência */
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem;
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+  /* slate-500 com transparência */
+}
+
+/* Responsividade para diferentes tamanhos de tela */
+@media (max-width: 640px) {
+  .embla__slide {
+    width: 260px;
+  }
+
+  .responsive-swiper-title {
+    font-size: 1.75rem;
+  }
+
+  .responsive-swiper-subtitle {
+    font-size: 1rem;
+  }
+
+  .embla-button {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .embla-button-prev {
+    right: 42px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 991px) {
+
+  /* Configurações específicas para visualização em tablets */
+  .embla__slide {
+    width: 280px;
+  }
+
+  /* Melhor visibilidade para slides vizinhos */
+  .embla__slide.embla__slide--prev,
+  .embla__slide.embla__slide--next {
+    opacity: 0.9;
+  }
+}
+
+@media (min-width: 992px) {
+  .embla__slide {
+    width: 300px;
+  }
+
+  .embla-carousel-container {
+    padding: 3rem 0;
+  }
+
+  .responsive-swiper-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Container do Swiper */
+.swiper-container-wrapper {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Visão Desktop */
+.desktop-swiper-view {
+  display: none;
+}
+
+/* Visão Mobile */
+.mobile-swiper-view {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Layout dos cards */
+.project-card-modern-horizontal,
+.project-card-modern-vertical {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+/* Layout horizontal para desktop */
+.project-card-modern-horizontal {
+  display: flex;
+  flex-direction: row;
+  height: 180px;
+}
+
+/* Layout vertical para mobile */
+.project-card-modern-vertical {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+/* Imagem do card */
+.project-card-image-container {
+  overflow: hidden;
+}
+
+.project-card-modern-horizontal .project-card-image-container {
+  width: 40%;
+  height: 100%;
+}
+
+.project-card-modern-vertical .project-card-image-container {
+  width: 100%;
+  height: 140px;
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.project-card-modern-horizontal:hover .project-card-image,
+.project-card-modern-vertical:hover .project-card-image {
+  transform: scale(1.05);
+}
+
+/* Conteúdo do card */
+.project-card-content {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card-modern-horizontal .project-card-content {
+  width: 60%;
+  height: 100%;
+}
+
+.project-card-modern-vertical .project-card-content {
+  width: 100%;
+  flex: 1;
+}
+
+/* Tags do projeto */
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+  z-index: 1;
+}
+
+.project-tag {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(4px);
+  color: #f1f5f9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.project-tag:hover {
+  background: rgba(51, 65, 85, 0.95);
+  transform: translateY(-1px);
+}
+
+.project-tag-more {
+  background: rgba(79, 70, 229, 0.75);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.project-tag-more:hover {
+  background: rgba(99, 102, 241, 0.85);
+}
+
+/* Título do projeto */
+.project-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+/* Descrição do projeto */
+.project-card-description {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+/* Botões de ação */
+.project-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  align-items: center;
+}
+
+.project-card-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.7rem;
+}
+
+.project-card-action-btn.primary {
+  background: #10b981;
+  color: white;
+}
+
+.project-card-action-btn.primary:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+.project-card-action-btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.project-card-action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* Estilos especiais para o modo cards mobile */
+.cards-view {
+  padding: 50px 0;
+  width: 85%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.responsive-swiper-slide-mobile {
+  height: auto;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Controles personalizados */
+.swiper-controls-container {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.swiper-navigation {
+  display: flex;
+  gap: 1rem;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba(30, 41, 59, 0.8);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: rgba(51, 65, 85, 0.9);
+  transform: scale(1.05);
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Paginação */
+.swiper-pagination,
+.swiper-pagination-mobile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: rgba(203, 213, 225, 0.5);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.swiper-pagination-bullet-active {
+  background: #10b981;
+  width: 28px;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+/* Mensagem de vazio */
+.responsive-swiper-vazio {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  font-style: italic;
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  margin: 1rem;
+  border: 1px dashed rgba(100, 116, 139, 0.3);
+}
+
+/* Responsividade */
+@media (min-width: 640px) {
+  .mobile-swiper-view {
+    display: none;
+  }
+
+  .desktop-swiper-view {
+    display: block;
+  }
+
+  .responsive-swiper-slide {
+    height: 180px;
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-swiper-title {
+    font-size: 2.5rem;
+  }
+
+  .responsive-swiper-slide {
+    height: 200px;
+  }
+
+  .swiper-controls-container {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+
+  .swiper-pagination {
+    margin-top: 0;
+  }
+}
+
+/* Modo alternativo: cards 3D (EffectCards) */
+.swiper-cards {
+  overflow: visible;
+}
+
+.swiper-cards .swiper-slide {
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}

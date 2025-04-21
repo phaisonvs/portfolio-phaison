@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
@@ -13,7 +13,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 // Interface para os projetos
 interface Project {
@@ -32,13 +32,8 @@ interface ResponsiveSwiperProps {
 export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
   items,
 }) => {
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-
-  if (!items || items.length === 0) {
-    return (
-      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
-    );
-  }
+  // Limita o número de itens para 6 conforme solicitado
+  const limitedItems = items.slice(0, 6);
 
   // Função para truncar a descrição de forma mais inteligente
   const truncateDescription = (text: string, maxLength: number) => {
@@ -47,6 +42,12 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
     const truncated = text.substring(0, maxLength);
     return truncated.substring(0, truncated.lastIndexOf(" ")) + "...";
   };
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="responsive-swiper-vazio">Nenhum projeto para exibir.</div>
+    );
+  }
 
   return (
     <div className="responsive-swiper-wrapper">
@@ -62,47 +63,57 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
           modules={[Navigation, Pagination, EffectCoverflow, Autoplay]}
           effect="coverflow"
           grabCursor={true}
-          centeredSlides={true}
-          slidesPerView="auto"
-          coverflowEffect={{
-            rotate: 5, // Reduzido para um efeito mais sutil em cards horizontais
-            stretch: 0,
-            depth: 50, // Reduzido para cards com altura menor
-            modifier: 1,
-            slideShadows: false, // Desligado para evitar problemas de layout
-          }}
-          loop={false} // Evita duplicação de slides que pode causar problemas de largura
+          centeredSlides={true} // Centralizado por padrão para telas pequenas
+          slidesPerView={1}
+          spaceBetween={20}
           autoplay={{
-            delay: 5000,
-            disableOnInteraction: true,
-            pauseOnMouseEnter: true,
+            delay: 2000, // 2 segundos por slide conforme solicitado
+            disableOnInteraction: false, // Continuar mesmo após interação do usuário
+            pauseOnMouseEnter: true, // Pausa ao passar o mouse
           }}
           navigation
           pagination={{
             clickable: true,
             dynamicBullets: true,
           }}
+          loop={true} // Ativar loop para melhor experiência de navegação
+          watchOverflow={true}
           className="responsive-swiper"
-          watchOverflow={true} // Monitora e ajusta para overflow
           breakpoints={{
-            // Garante comportamento adequado em diferentes tamanhos de tela
+            // Quando a largura da viewport for >= 320px
             320: {
               slidesPerView: 1.2,
-              spaceBetween: 20,
+              spaceBetween: 10,
+              centeredSlides: true,
             },
+            // Quando a largura da viewport for >= 480px
+            480: {
+              slidesPerView: 1.5,
+              spaceBetween: 15,
+              centeredSlides: true,
+            },
+            // Quando a largura da viewport for >= 640px
             640: {
-              slidesPerView: "auto",
+              slidesPerView: 2.2,
               spaceBetween: 20,
+              centeredSlides: true,
+            },
+            // Quando a largura da viewport for >= 768px
+            768: {
+              slidesPerView: 2.5,
+              spaceBetween: 20,
+              centeredSlides: true,
+            },
+            // Quando a largura da viewport for >= 992px (desktop)
+            992: {
+              slidesPerView: 3, // 3 cards por vez em desktop conforme solicitado
+              spaceBetween: 25,
+              centeredSlides: false, // Sem centralização em desktop
             },
           }}
         >
-          {items.map((project, index) => (
-            <SwiperSlide
-              key={project.id}
-              className="responsive-swiper-slide"
-              onMouseEnter={() => setHoverIndex(index)}
-              onMouseLeave={() => setHoverIndex(null)}
-            >
+          {limitedItems.map((project, index) => (
+            <SwiperSlide key={project.id} className="responsive-swiper-slide">
               <div className="project-card-modern">
                 <div className="project-card-image-container">
                   <img
@@ -110,35 +121,30 @@ export const ResponsiveSwiper: React.FC<ResponsiveSwiperProps> = ({
                     alt={project.title}
                     className="project-card-image"
                   />
-                  <div className="project-card-overlay">
-                    {/* Badges/tags com mais visibilidade */}
-                    <div className="project-card-tags">
-                      {project.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="project-tag">
-                          {tag}
-                        </span>
-                      ))}
-                      {project.tags.length > 3 && (
-                        <span className="project-tag project-tag-more">
-                          +{project.tags.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  </div>
                 </div>
 
                 <div className="project-card-content">
+                  {/* Tags movidas acima do título conforme solicitado */}
+                  <div className="project-card-tags">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className="project-tag">
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 3 && (
+                      <span className="project-tag project-tag-more">
+                        +{project.tags.length - 3}
+                      </span>
+                    )}
+                  </div>
+
                   <h3 className="project-card-title">{project.title}</h3>
                   <p className="project-card-description">
                     {truncateDescription(project.description, 60)}
                   </p>
 
-                  {/* Ações movidas para o conteúdo para melhor visualização */}
-                  <div
-                    className={`project-card-actions ${
-                      hoverIndex === index ? "active" : ""
-                    }`}
-                  >
+                  {/* Ações sempre visíveis (não dependem do hover) */}
+                  <div className="project-card-actions active">
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}

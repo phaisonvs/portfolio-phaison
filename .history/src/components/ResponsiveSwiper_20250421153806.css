@@ -180,15 +180,15 @@
 .responsive-swiper {
   width: 100%;
   padding-top: 3rem;
-  padding-bottom: 10rem;
-  /* Aumentado ainda mais para dar bastante espaço */
+  padding-bottom: 2rem;
+  /* Reduzido - não precisamos mais para compensar posição absoluta */
   position: relative;
   /* Importante para posicionamento das setas */
   overflow: hidden;
   /* Containment adicional */
 }
 
-/* Container do Swiper */
+/* Layout vertical para conteúdo do swiper */
 .responsive-swiper-container {
   padding: 2rem 0;
   position: relative;
@@ -196,6 +196,8 @@
   overflow: hidden;
   /* Previne overflow horizontal */
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Regra global para garantir que a largura seja respeitada */
@@ -410,8 +412,11 @@
 
 /* Container para navegação (dots e setas) - mais espaço */
 .responsive-swiper .swiper-pagination {
-  bottom: 70px !important;
-  /* Movido mais para baixo ainda */
+  position: static !important;
+  bottom: auto !important;
+  display: flex;
+  justify-content: center;
+  width: 100% !important;
 }
 
 /* Paginação personalizada */
@@ -421,6 +426,7 @@
   background: rgba(203, 213, 225, 0.5);
   opacity: 0.7;
   transition: all 0.3s ease;
+  margin: 0 5px;
 }
 
 .responsive-swiper .swiper-pagination-bullet-active {
@@ -430,25 +436,36 @@
   opacity: 1;
 }
 
-/* Container personalizado para as setas de navegação */
-.responsive-swiper::after {
-  content: "";
-  position: absolute;
-  bottom: 15px;
-  right: 20px;
-  width: auto;
+/* Container personalizado para navegação */
+.swiper-nav-container {
   display: flex;
-  gap: 12px;
-  z-index: 10;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  width: 100%;
 }
 
-/* Reposicionamento das setas para ficarem mais abaixo */
+/* Container para paginação */
+.swiper-pagination-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* Container para botões de navegação */
+.swiper-nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Reposicionamento das setas sem posição absoluta */
 .responsive-swiper .swiper-button-prev,
 .responsive-swiper .swiper-button-next {
-  position: absolute;
-  bottom: 30px;
-  /* Movido mais para baixo */
-  top: auto;
+  position: static;
   margin: 0;
   color: white;
   background: rgba(30, 41, 59, 0.8);
@@ -461,25 +478,10 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
   transform: none;
-}
-
-/* Esconder os botões padrão e usar nosso container personalizado */
-.responsive-swiper .swiper-button-prev {
-  position: absolute;
-  right: 52px;
-  bottom: 30px;
-  /* Movido mais para baixo */
   top: auto;
+  bottom: auto;
   left: auto;
-}
-
-.responsive-swiper .swiper-button-next {
-  position: absolute;
-  right: 20px;
-  bottom: 30px;
-  /* Movido mais para baixo */
-  top: auto;
-  left: auto;
+  right: auto;
 }
 
 .responsive-swiper .swiper-button-next:hover,

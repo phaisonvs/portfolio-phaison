@@ -1,0 +1,235 @@
+/* CSS para o carrossel de projetos */
+
+/* Estilos para a seção de projetos */
+.projects-section {
+  padding: 60px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Estilos básicos do carrossel de projetos */
+.projects-carousel {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Estilo do container do Swiper */
+.mySwiper {
+  padding: 20px 10px 50px !important;
+  overflow: visible !important;
+}
+
+/* Estilo dos slides */
+.swiper-slide {
+  transition: transform 0.3s ease;
+  height: auto;
+}
+
+/* Estilo dos cartões de projeto */
+.project-card {
+  background-color: #2a2a2a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo da imagem do projeto */
+.project-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+/* Estilo do conteúdo do projeto */
+.project-content {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo do título do projeto */
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+/* Estilo da descrição do projeto */
+.project-description {
+  font-size: 0.9rem;
+  color: #adadad;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* Estilo das tags de tecnologia */
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tech-tag {
+  font-size: 0.7rem;
+  background-color: #444444;
+  color: #16e9d7;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Estilo dos links do projeto */
+.project-links {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.project-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.demo-link {
+  background-color: #16e9d7;
+  color: #1a1a1a;
+}
+
+.demo-link:hover {
+  background-color: #13c9b9;
+}
+
+.source-link {
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+
+.source-link:hover {
+  background-color: #4a4a4a;
+}
+
+/* Estilo dos botões de navegação */
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: #16e9d7;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  color: #000 !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 1.2rem !important;
+  font-weight: bold;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #13c9b9;
+}
+
+/* Estilo dos bullets de paginação */
+.swiper-pagination-bullet {
+  background-color: #555555;
+  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #16e9d7;
+  opacity: 1;
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 768px) {
+  .project-image {
+    height: 160px;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+  }
+
+  .tech-tag {
+    font-size: 0.65rem;
+  }
+
+  .project-link {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}
+
+/* Responsividade para telas muito pequenas */
+@media (max-width: 480px) {
+  .project-image {
+    height: 140px;
+  }
+
+  .project-title {
+    font-size: 1rem;
+  }
+
+  .project-description {
+    font-size: 0.8rem;
+  }
+}

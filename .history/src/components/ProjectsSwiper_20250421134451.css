@@ -1,0 +1,175 @@
+/* CSS para o carrossel de projetos */
+
+/* Container principal */
+.projects-swiper-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 16px 0 32px 0;
+  box-sizing: border-box;
+}
+
+/* O carrossel em si */
+.projects-swiper {
+  width: 100%;
+  padding-bottom: 50px;
+  overflow: visible !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Slide individual */
+.projects-swiper .swiper-slide {
+  width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+  opacity: 0.85;
+  transform: scale(0.98);
+  box-sizing: border-box;
+}
+
+/* Cards de projeto */
+.project-card {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slide ativo */
+.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+/* Adiciona sombra no slide ativo para destaque */
+.swiper-slide-active>div {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo para bullets de paginação */
+.projects-swiper .swiper-pagination {
+  bottom: -25px !important;
+}
+
+.projects-swiper .swiper-pagination-bullet {
+  background-color: #ccc;
+  opacity: 0.5;
+}
+
+.projects-swiper .swiper-pagination-bullet-active {
+  background-color: #6366f1;
+  opacity: 1;
+  width: 24px;
+  border-radius: 10px;
+}
+
+/* Estilo para botões de navegação */
+.projects-swiper .swiper-button-next,
+.projects-swiper .swiper-button-prev {
+  color: #6366f1;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Ajuste fino da posição dos botões */
+.swiper-button-prev {
+  left: 10px !important;
+}
+
+.swiper-button-next {
+  right: 10px !important;
+}
+
+.projects-swiper .swiper-button-next::after,
+.projects-swiper .swiper-button-prev::after {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.projects-swiper .swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Efeito de transição suave na troca de slides */
+.swiper-container-horizontal>.swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0) !important;
+}
+
+/* Estilos responsivos usando media queries */
+@media (max-width: 450px) {
+  .projects-swiper .swiper-slide {
+    width: 100% !important;
+  }
+
+  .projects-swiper .swiper-button-next,
+  .projects-swiper .swiper-button-prev {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .projects-swiper .swiper-button-next::after,
+  .projects-swiper .swiper-button-prev::after {
+    font-size: 16px !important;
+  }
+
+  .swiper-button-prev {
+    left: 5px !important;
+  }
+
+  .swiper-button-next {
+    right: 5px !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .projects-swiper .swiper-slide {
+    width: calc(50% - 10px);
+  }
+}
+
+@media (min-width: 768px) {
+  .projects-swiper .swiper-slide {
+    width: calc(33.333% - 12px);
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .projects-swiper .swiper-slide {
+    width: calc(33.333% - 12px);
+  }
+
+  .projects-swiper .swiper-button-next,
+  .projects-swiper .swiper-button-prev {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .projects-swiper:hover .swiper-button-next,
+  .projects-swiper:hover .swiper-button-prev {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .projects-swiper .swiper-slide {
+    width: calc(25% - 16px);
+  }
+}

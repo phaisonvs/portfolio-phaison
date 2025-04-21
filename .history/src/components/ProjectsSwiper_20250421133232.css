@@ -1,0 +1,245 @@
+/* CSS para o carrossel de projetos */
+
+/* Estilos para a seção de projetos */
+.projects-section {
+  padding: 60px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Estilo básico do carrossel de projetos */
+.projects-carousel {
+  width: 100%;
+  padding: 20px 0;
+  position: relative;
+}
+
+/* Estilo dos cards de projeto */
+.project-card {
+  background-color: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para a imagem do projeto */
+.project-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+/* Estilo do conteúdo do projeto */
+.project-content {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-title {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.project-description {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+/* Estilo para as tags de tecnologia */
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.tech-tag {
+  background-color: #334155;
+  color: #94a3b8;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Estilo para os links do projeto */
+.project-links {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.demo-link {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.demo-link:hover {
+  background-color: #2563eb;
+}
+
+.source-link {
+  background-color: #475569;
+  color: white;
+}
+
+.source-link:hover {
+  background-color: #334155;
+}
+
+/* Estilo para a navegação e paginação do Swiper */
+.mySwiper {
+  padding-bottom: 40px !important;
+}
+
+/* Estilo para as balas de paginação */
+.swiper-pagination-bullet {
+  background-color: #64748b !important;
+  opacity: 0.5 !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #3b82f6 !important;
+  opacity: 1 !important;
+}
+
+/* Estilo para os botões de navegação */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #3b82f6 !important;
+  background-color: rgba(30, 41, 59, 0.7);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 1.2rem !important;
+  font-weight: bold;
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+  .project-image {
+    height: 160px;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-image {
+    height: 140px;
+  }
+
+  .project-content {
+    padding: 12px;
+  }
+
+  .project-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .project-description {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .tech-tag {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .project-link {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}
